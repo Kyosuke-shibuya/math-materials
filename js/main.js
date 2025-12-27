@@ -1,55 +1,158 @@
-// ▼▼▼ データ定義 ▼▼▼
+// main.js
+// 2025 Curriculum Manager
+
+// ▼▼▼ データ定義 (全科目ボタンモード化) ▼▼▼
 const subjectData = {
     "数学 I": {
-        // 通常のリストモード
-        prints: [
-            { title: "第1回：数と式 (基礎)", url: "#" },
-            { title: "第2回：数と式 (応用)", url: "#" },
-            { title: "第3回：集合と論証", url: "#" },
-            { title: "第4回：2次関数とグラフ", url: "#" }
-        ],
-        materials: [
-            { title: "演習問題集 Vol.1", url: "#" },
-            { title: "公式確認シート", url: "#" }
+        isMenu: true,
+        units: [
+            { 
+                title: "数と式・集合と論証", 
+                subtitle: "Numbers, Sets & Logic", 
+                url: "#", 
+                icon: "fa-solid fa-calculator" 
+            },
+            { 
+                title: "2次関数", 
+                subtitle: "Quadratic Functions", 
+                url: "#", 
+                icon: "fa-solid fa-chart-line" 
+            },
+            { 
+                title: "図形と計量", 
+                subtitle: "Figures & Trigonometry", 
+                url: "#", 
+                icon: "fa-solid fa-draw-polygon" 
+            },
+            { 
+                title: "データの分析", 
+                subtitle: "Data Analysis", 
+                url: "#", 
+                icon: "fa-solid fa-chart-bar" 
+            }
+        ]
+    },
+    "数学 A": {
+        isMenu: true,
+        units: [
+            { 
+                title: "場合の数と確率", 
+                subtitle: "Cases & Probability", 
+                url: "#", 
+                icon: "fa-solid fa-dice" 
+            },
+            { 
+                title: "図形の性質", 
+                subtitle: "Properties of Figures", 
+                url: "#", 
+                icon: "fa-solid fa-shapes" 
+            },
+            { 
+                title: "数学と人間の活動", 
+                subtitle: "Math & Human Activities", 
+                url: "#", 
+                icon: "fa-solid fa-users" 
+            }
         ]
     },
     "数学 II": {
-        // ★単元選択モード (isMenu: true)
         isMenu: true,
         units: [
-             { 
-                title: "式と証明・複素数と方程式", 
-                subtitle: "Equation & Complex Number", 
-                url: "math2_equation_comp.html", // 次に作るファイル
-                icon: "fa-solid fa-chart-area"
-            },
             { 
                 title: "微分・積分法", 
                 subtitle: "Differential & Integral", 
-                url: "math2_calculus.html", // 次に作るファイル
-                icon: "fa-solid fa-chart-area"
+                url: "math2_calculus.html", // 完成済み
+                icon: "fa-solid fa-chart-area" 
+            },
+            { 
+                title: "式と証明・複素数", 
+                subtitle: "Equations & Proofs", 
+                url: "math2_equation_comp.html", // 完成済み
+                icon: "fa-solid fa-superscript" 
             },
             { 
                 title: "図形と方程式", 
                 subtitle: "Figures & Equations", 
-                url: "#", // 準備中
-                icon: "fa-solid fa-shapes"
+                url: "#", 
+                icon: "fa-solid fa-circle-nodes" 
             },
             { 
                 title: "三角関数", 
                 subtitle: "Trigonometric Functions", 
-                url: "#", // 準備中
-                icon: "fa-solid fa-wave-square"
+                url: "#", 
+                icon: "fa-solid fa-wave-square" 
             },
             { 
                 title: "指数・対数関数", 
                 subtitle: "Exp & Log Functions", 
-                url: "#", // 準備中
-                icon: "fa-solid fa-arrow-up-right-dots"
+                url: "#", 
+                icon: "fa-solid fa-arrow-up-right-dots" 
             }
         ]
     },
-    // 他の科目...
+    "数学 B": {
+        isMenu: true,
+        units: [
+            { 
+                title: "数列", 
+                subtitle: "Sequences", 
+                url: "#", 
+                icon: "fa-solid fa-arrow-down-1-9" 
+            },
+            { 
+                title: "統計的な推測", 
+                subtitle: "Statistical Inference", 
+                url: "#", 
+                icon: "fa-solid fa-chart-pie" 
+            }
+        ]
+    },
+    "数学 III": {
+        isMenu: true,
+        units: [
+            { 
+                title: "極限", 
+                subtitle: "Limits", 
+                url: "#", 
+                icon: "fa-solid fa-infinity" 
+            },
+            { 
+                title: "微分法", 
+                subtitle: "Differentiation", 
+                url: "#", 
+                icon: "fa-solid fa-microscope" 
+            },
+            { 
+                title: "積分法", 
+                subtitle: "Integration", 
+                url: "#", 
+                icon: "fa-solid fa-layer-group" 
+            }
+        ]
+    },
+    "数学 C": {
+        isMenu: true,
+        units: [
+            { 
+                title: "ベクトル", 
+                subtitle: "Vectors", 
+                url: "#", 
+                icon: "fa-solid fa-location-arrow" 
+            },
+            { 
+                title: "複素数平面", 
+                subtitle: "Complex Plane", 
+                url: "#", 
+                icon: "fa-solid fa-globe" 
+            },
+            { 
+                title: "式と曲線", 
+                subtitle: "Curves", 
+                url: "#", 
+                icon: "fa-solid fa-bezier-curve" 
+            }
+        ]
+    }
 };
 // ▲▲▲ データ定義終わり ▲▲▲
 
@@ -63,9 +166,7 @@ const navOverlay = document.getElementById('nav-overlay');
 // 2つの表示エリア
 const unitMenu = document.getElementById('unit-menu');     // 単元ボタンエリア
 const unitGrid = document.getElementById('unit-grid');     // ボタンを入れる場所
-const contentList = document.getElementById('content-list'); // 通常リストエリア
-
-// リストの入れ物
+const contentList = document.getElementById('content-list'); // 通常リストエリア（今回は使いませんが残します）
 const printList = document.getElementById('print-list');
 const materialList = document.getElementById('material-list');
 
@@ -104,18 +205,20 @@ function showSubject(name) {
     const data = subjectData[name] || {};
 
     // 3. 表示モードの切り替え
+    // 今回はすべてのデータに isMenu: true をつけたので、常にこちらの分岐に入ります
     if (data.isMenu) {
-        // --- A. 単元選択モード (Math IIなど) ---
-        contentList.classList.add('hidden'); // リストを隠す
-        unitMenu.classList.remove('hidden'); // ボタンを表示
+        // --- A. 単元選択モード ---
+        contentList.classList.add('hidden'); 
+        unitMenu.classList.remove('hidden'); 
         
         // ボタンを生成
         unitGrid.innerHTML = '';
         data.units.forEach(unit => {
             const btn = document.createElement('a');
             btn.href = unit.url;
-            // 別ファイルへのリンクなので target="_self" (デフォルト) または "_blank"
-            // ここではページ移動として扱うため _self ですが、今はファイルがないので404になります
+            // 遷移先のURLが "#" ならクリック無効っぽい見た目にする、などの処理も可能ですが
+            // 今回は統一されたデザインで出力します
+            
             btn.className = "group bg-white border border-gray-200 p-8 hover:bg-gray-800 hover:text-white transition duration-300 flex items-center shadow-sm hover:shadow-lg rounded-sm";
             btn.innerHTML = `
                 <div class="text-3xl text-gray-300 group-hover:text-white mr-6 transition">
@@ -133,16 +236,14 @@ function showSubject(name) {
         });
 
     } else {
-        // --- B. 通常リストモード (Math Iなど) ---
-        unitMenu.classList.add('hidden');    // ボタンを隠す
-        contentList.classList.remove('hidden'); // リストを表示
+        // --- B. 通常リストモード (念のためのバックアップ) ---
+        unitMenu.classList.add('hidden');
+        contentList.classList.remove('hidden');
 
-        // データがない場合のデフォルト
         const prints = data.prints || [];
         const materials = data.materials || [];
-
-        // リスト生成関数
-        const renderList = (items, element, iconClass) => {
+        //リスト生成関数
+        function renderList(items, element, iconClass) {
             element.innerHTML = '';
             if (items.length === 0) {
                 element.innerHTML = '<li class="text-xs text-gray-400 p-2">準備中です</li>';
@@ -159,7 +260,7 @@ function showSubject(name) {
                 `;
                 element.appendChild(li);
             });
-        };
+        }
 
         renderList(prints, printList, "fa-solid fa-file-pdf");
         renderList(materials, materialList, "fa-solid fa-arrow-up-right-from-square");
