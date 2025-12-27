@@ -146,10 +146,6 @@
                             <span class="text-gray-500 font-mono text-xs">2024.12.20</span>
                             <span class="flex-1">数学C「ベクトル」授業プリントNo.4を更新しました。</span>
                         </li>
-                        <li class="flex flex-col sm:flex-row sm:items-baseline gap-2">
-                            <span class="text-gray-500 font-mono text-xs">2024.12.15</span>
-                            <span class="flex-1">冬期講習の副読本リストを公開しました。</span>
-                        </li>
                     </ul>
                 </div>
             </section>
@@ -173,32 +169,16 @@
                     </div>
             </div>
 
-            <div id="content-list" class="flex-grow flex flex-col md:flex-row max-w-5xl mx-auto w-full">
-                
-                <section class="flex-1 bg-gray-100 p-8 m-4 md:m-8 flex flex-col shadow-sm">
-                    <h3 class="text-sm font-bold text-gray-500 tracking-widest mb-6 border-b border-gray-300 pb-2 flex items-center gap-2">
-                        <i class="fa-regular fa-file-lines"></i> 授業プリント
-                    </h3>
-                    <ul id="print-list" class="space-y-3 text-sm text-gray-700 flex-grow h-96 overflow-y-auto pr-2">
-                    </ul>
-                </section>
-
-                <section class="flex-1 bg-gray-100 p-8 m-4 md:m-8 md:ml-0 flex flex-col shadow-sm">
-                    <h3 class="text-sm font-bold text-gray-500 tracking-widest mb-6 border-b border-gray-300 pb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-book"></i> 副読本・資料
-                    </h3>
-                    <ul id="material-list" class="space-y-3 text-sm text-gray-700 flex-grow">
-                    </ul>
-                </section>
-
-            </div>
+            <div id="content-list" class="hidden"></div>
 
             <div class="py-8 bg-white flex justify-center items-center opacity-30 mt-auto">
-                <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 50 H110" stroke="#374151" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M20 50 Q 60 0 100 50" stroke="#374151" stroke-width="1.5" fill="none"/>
-                    <circle cx="60" cy="25" r="2" fill="#374151"/>
-                    <text x="65" y="25" font-family="serif" font-size="8" fill="#374151">y=f(x)</text>
+                <svg width="160" height="80" viewBox="0 0 160 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="10" y1="70" x2="150" y2="70" stroke="#374151" stroke-width="1" stroke-linecap="round"/>
+                    <path d="M20 70 C 50 10, 100 20, 140 60" stroke="#374151" stroke-width="1.5" fill="none"/>
+                    <path d="M40 70 V 45 C 60 25, 90 30, 110 45 V 70 Z" fill="#374151" fill-opacity="0.1"/>
+                    <line x1="40" y1="70" x2="40" y2="45" stroke="#374151" stroke-width="0.5" stroke-dasharray="2 2"/>
+                    <line x1="110" y1="70" x2="110" y2="45" stroke="#374151" stroke-width="0.5" stroke-dasharray="2 2"/>
+                    <text x="100" y="30" font-family="serif" font-size="10" fill="#374151" class="italic">S = ∫ f(x)dx</text>
                 </svg>
             </div>
         </div>
