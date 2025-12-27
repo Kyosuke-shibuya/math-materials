@@ -1,0 +1,370 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{wrapfig}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定（白黒印刷対応・ハイコントラスト）
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺（例題・解説）
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ（練習・重要）
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑（全体課題）
+\definecolor{gridColor}{gray}{0.75}          % 解答欄の方眼
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+% 各種ボックス環境定義
+\newenvironment{overall}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printTeal,
+    coltitle=white,
+    title=\textbf{全体課題 #1},
+    boxed title style={colback=printTeal},
+]}
+{\end{tcolorbox}}
+
+\newenvironment{any}[1]{
+    \begin{tcolorbox}[
+        enhanced,
+        colframe=black,
+        colback=white,
+        coltitle=white,
+        title=\textbf{#1},
+        fonttitle=\sffamily,
+        attach boxed title to top left={xshift=3mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=black, sharp corners, rounded corners=northeast, arc=3pt},
+        boxrule=1pt,
+        arc=2pt,
+        top=1em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        segmentation style={draw=black!60, dashed}
+    ]}
+{ \end{tcolorbox}}
+
+\newenvironment{eg}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{prac}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{answer}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Memo / Answer},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        enlarge left by=2mm, 
+        enlarge right by=2mm, 
+        height fill,
+        segmentation style={draw=black!20, solid},
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        }, 
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+\newenvironment{proofbox}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Proof},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        width=\linewidth,
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        },
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第2章 複素数と方程式 $>$ 第3回--\textbf{複素数の導入}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 複素数の定義
+%===========================================================
+
+{\large \textbf{1. 数の拡張：New Game!}}
+
+\begin{any}{虚数単位 $i$ の定義}
+実数の世界では $x^2=-1$ となる $x$ は存在しない(実数は2乗すると必ず0以上になるから).
+そこで, \textbf{2乗して $-1$ になる新しい数} を考え, \textbf{虚数単位 $i$} で表す.
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    \centering
+    $\ds \Large i^2 = -1 $
+\end{tcolorbox}
+\end{center}
+\end{any}
+
+\begin{any}{複素数 $a+bi$}
+実数 $a, b$ と虚数単位 $i$ を用いて, $\boldsymbol{a+bi}$ の形で表される数を\textbf{複素数}という.
+\begin{itemize}
+    \item $a$ を\textbf{実部}, $b$ を\textbf{虚部}という.
+    \item $b \neq 0$ のとき, その複素数を\textbf{虚数}という.
+    \item 特に $a=0$ かつ $b \neq 0$ のとき($bi$の形), \textbf{純虚数}という.
+\end{itemize}
+\end{any}
+
+\begin{eg}{1（複素数の分類）}
+次の複素数の実部と虚部をいえ. また, 虚数, 純虚数であるものを選べ.
+\[ 3-2i, \quad -5i, \quad \sqrt{3}, \quad \frac{1+i}{2} \]
+\end{eg}
+
+\begin{answer}
+\vspace{4cm}
+\end{answer}
+
+{\large \textbf{2. 複素数の相等}}
+
+\begin{any}{複素数が等しいとは？}
+$a, b, c, d$ が実数のとき, 
+\begin{itemize}
+    \item $\boldsymbol{a+bi = c+di \iff a=c \text{ かつ } b=d}$
+    \item $\boldsymbol{a+bi = 0 \quad\quad \iff a=0 \text{ かつ } b=0}$
+\end{itemize}
+つまり, \textbf{実部同士・虚部同士をそれぞれ比較}すればよい.
+\end{any}
+
+\begin{eg}{2（恒等式のように解く）}
+等式 $(2x+1) + (y-3)i = 5 + 2i$ を満たす実数 $x, y$ の値を求めよ.
+\end{eg}
+
+\begin{answer}
+% メモ
+% 実部比較: 2x+1 = 5
+% 虚部比較: y-3 = 2
+\vspace{3cm}
+\end{answer}
+
+
+\columnbreak
+
+%===========================================================
+% 右カラム: 計算と負の平方根
+%===========================================================
+
+{\large \textbf{3. 複素数の計算}}
+
+\begin{any}{文字式と同じルール＋α}
+複素数の四則演算は, $i$ を文字 $x$ と同じように扱って計算する.
+ただし, \textbf{$\boldsymbol{i^2}$ が出てきたら $\boldsymbol{-1}$ に置き換える}こと.
+
+\begin{itemize}
+    \item \textbf{加法・減法}: 実部同士, 虚部同士を計算する.
+    \[ (a+bi) \pm (c+di) = (a\pm c) + (b\pm d)i \]
+    \item \textbf{乗法}: 分配法則で展開し, $i^2=-1$ を利用して整理する.
+    \[ (a+bi)(c+di) = (ac-bd) + (ad+bc)i \]
+\end{itemize}
+\end{any}
+
+\begin{eg}{3（計算の基本）}
+次の計算をせよ.
+\begin{enumerate}
+    \item $(4+2i) + (3-5i)$
+    \item $(2+i)(3-2i)$
+\end{enumerate}
+\end{eg}
+
+\begin{answer}
+% 解説用スペース
+% (2) = 6 -4i +3i -2i^2 = 6 -i -2(-1) = 8-i
+\vspace{5cm}
+\end{answer}
+
+{\large \textbf{4. 負の数の平方根}}
+
+\begin{any}{ルートの中がマイナスになったら}
+$a>0$ のとき, $\sqrt{-a}$ は「2乗して $-a$ になる数」であるから,
+\[ \sqrt{-a} = \sqrt{a}i \]
+と表す.
+\begin{itemize}
+    \item 例: $\sqrt{-4} = \sqrt{4}i = 2i$
+    \item \textbf{注意:} 計算するときは, \textbf{最初に $i$ の形に直してから}計算すること.
+    \item \textcolor{red}{\textbf{誤答例:}} $\sqrt{-2}\times\sqrt{-3} = \sqrt{(-2)\times(-3)} = \sqrt{6}$ \quad ($\leftarrow$ ダメ！！)
+\end{itemize}
+\end{any}
+
+\begin{eg}{4（負の数の平方根）}
+次の数を $i$ を用いて表せ. また, 計算せよ.
+\begin{enumerate}
+    \item $\sqrt{-12}$
+    \item $\sqrt{-2} \times \sqrt{-6}$
+\end{enumerate}
+\end{eg}
+
+\begin{answer}
+\end{answer}
+
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 裏面: 演習問題
+%===========================================================
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A1（基本の確認）}
+(1) 次の複素数の実部と虚部をいえ.
+\[ 5-i, \quad -3i, \quad 7 \]
+
+(2) 次の等式を満たす実数 $x, y$ の値を求めよ.
+\[ (x-2) + (x+y)i = 0 \]
+\end{prac}
+
+\begin{prac}{A2（複素数の計算）}
+次の計算をせよ.
+\begin{enumerate}
+    \item $(2-4i) - (1-3i)$
+    \item $(3+2i)(1-4i)$
+    \item $(2+3i)^2$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B1（負の数の平方根）}
+次の計算をせよ. \textbf{注意: 必ず先に $i$ を外に出すこと.}
+\begin{enumerate}
+    \item $\sqrt{-3} \times \sqrt{-12}$
+    \item $\ds \frac{\sqrt{-16}}{\sqrt{2}}$
+    \item $\ds \frac{\sqrt{27}}{\sqrt{-3}}$
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{B2（式の値）}
+$x = 2+i$ のとき, 次の式の値を求めよ.
+\[ x^2 - 4x + 5 \]
+(ヒント: そのまま代入するか, $x-2=i$ として両辺を2乗して関係式を作る)
+\end{prac}
+
+\begin{answer}
+\end{answer}
+
+\end{multicols*}
+
+\end{document}

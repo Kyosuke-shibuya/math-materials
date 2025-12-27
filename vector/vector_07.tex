@@ -1,0 +1,578 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% TikZライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections,
+    angles,
+    quotes
+}
+
+% tcolorboxライブラリ
+\tcbuselibrary{skins, breakable, theorems}
+
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+%--- 各種ボックス環境定義 ---
+
+% セクション・枠組み用 (any)
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+% 例題 (eg)
+\newtcolorbox{eg}[1]{
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+}
+
+% 練習 (prac)
+\newtcolorbox{prac}[1]{
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+}
+
+% 定理 (thm)
+\newtcolorbox{thm}[1]{
+    chartbox,
+    colframe=printTeal,
+    coltitle=white,
+    title=\textbf{#1},
+    boxed title style={colback=printTeal}
+}
+
+% 解答欄 (answer)
+\newtcolorbox{answer}[1][height fill]{
+    enhanced,
+    title={Memo / Answer},
+    colframe=black!80,
+    colback=white,
+    coltitle=black!60,
+    fonttitle=\sffamily\bfseries,
+    attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+    boxed title style={frame hidden, colback=white},
+    boxrule=1pt,
+    arc=1pt,
+    nobeforeafter,
+    enlarge left by=-2mm, 
+    enlarge right by=-2mm, 
+    height fill,
+    segmentation style={draw=black!20, solid},
+    underlay={
+        \begin{tcbclipinterior}
+            \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+        \end{tcbclipinterior}
+    }, 
+    #1
+}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学C $>$ 第1章--平面ベクトル $>$ 第7回 \textbf{位置ベクトルと分点・重心}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+%=============================================================================
+% 1枚目：位置ベクトルと分点の公式
+%=============================================================================
+\begin{multicols}{2}
+
+%-----------------------------------------------------------------------------
+% 左カラム：位置ベクトルとは
+%-----------------------------------------------------------------------------
+\begin{any}{1. 位置ベクトル ＝ 「点の住所」}
+    「点A」と「点B」を足すことはできないが, ベクトルなら計算ができる.
+    そこで, 平面上の\textbf{すべての点にベクトルを対応させて}, 点の場所を計算で扱えるようにしたい.
+    
+    \begin{thm}{位置ベクトルの考え方}
+        平面上のどこかに, 基準となる点 O（原点）を1つ決める.
+        すると, どんな点 A に対しても, O から A への矢印 $\overrightarrow{\text{OA}}$ がただ1つ決まる.
+        
+        この $\overrightarrow{\text{OA}}$ を \textbf{点 A の位置ベクトル} といい,  $A(\vec{a})$ で表す.
+        \[ \text{点 A} \longleftrightarrow \text{ベクトル } \vec{a} \quad (\text{Oを基準とした A の住所}) \]
+    \end{thm}
+    
+    \textbf{視覚的イメージ:}
+    \begin{center}
+    \begin{tikzpicture}[scale=1.0, >=stealth]
+        \coordinate (O) at (0,0);
+        \coordinate (A) at (3,1);
+        \coordinate (B) at (1,2.5);
+        
+        % 基準点
+        \fill (O) circle (2pt) node[below left] {O (基準)};
+        
+        % 位置ベクトル a
+        \draw[->, very thick, printBlue] (O) -- (A) node[midway, below right] {$\vec{a}$};
+        \fill (A) circle (2pt) node[right] {A (目的地)};
+        
+        % 位置ベクトル b
+        \draw[->, very thick, printRed] (O) -- (B) node[midway, left] {$\vec{b}$};
+        \fill (B) circle (2pt) node[above] {B};
+        
+        % ABベクトル
+        \draw[->, very thick, printTeal] (A) -- (B) node[midway, above right] {$\vec{b}-\vec{a}$};
+        
+        % 解説吹き出し
+        \node[align=left, scale=0.8, draw=gray, rounded corners, fill=white, opacity=0.9] at (1.5, -1) {
+            Oから矢印を伸ばして\\
+            「Aはあそこだ！」と指差す.\\
+            それが位置ベクトル $\vec{a}$.
+        };
+    \end{tikzpicture}
+    \end{center}
+
+    \begin{tcolorbox}[colback=yellow!10, frame hidden, title={重要：2点間のベクトル}]
+        「AからBへ行く」という移動 $\overrightarrow{\text{AB}}$ は, 位置ベクトルを使うと
+        \[ \overrightarrow{\text{AB}} = \text{終点} - \text{始点} = \vec{b} - \vec{a} \]
+        と表せる. (\textbf{あと} $-$ \textbf{まえ})
+        これは「Bの場所($\vec{b}$)」から「Aの場所($\vec{a}$)」を引くことで, 2点間の相対的な位置関係を求めていることになる.
+    \end{tcolorbox}
+\end{any}
+
+%-----------------------------------------------------------------------------
+% 右カラム：重心と例題
+%-----------------------------------------------------------------------------
+\columnbreak
+
+\begin{any}{2. 三角形の重心}
+    \begin{thm}{重心の公式}
+        3点 A($\vec{a}$), B($\vec{b}$), C($\vec{c}$) を頂点とする $\triangle$ABC の重心 G($\vec{g}$) は:
+        \[ \vec{g} = \frac{\vec{a} + \vec{b} + \vec{c}}{3} \]
+        これも座標の公式（平均）と同じ形である.
+    \end{thm}
+
+    \begin{eg}{1 (分点の計算)}
+        2点 A($\vec{a}$), B($\vec{b}$) について, 次の点の位置ベクトルを $\vec{a}, \vec{b}$ で表せ.
+        \begin{enumerate}
+            \item 線分ABを $3:2$ に内分する点 P($\vec{p}$)
+            \item 線分ABを $3:1$ に外分する点 Q($\vec{q}$)
+            \item 線分ABの中点 M($\vec{m}$)
+        \end{enumerate}
+        \tcblower
+        \vspace{3cm}
+    \end{eg}
+
+    \begin{eg}{2 (重心の利用)}
+        $\triangle$ABC の重心を G とするとき, 次の等式が成り立つことを示せ.
+        \[ \overrightarrow{\text{GA}} + \overrightarrow{\text{GB}} + \overrightarrow{\text{GC}} = \vec{0} \]
+        \tcblower
+        \textbf{方針:} 始点を任意の点O（原点）にそろえて計算する.
+        $\overrightarrow{\text{GA}} = \vec{a} - \vec{g}$ と変形できる.
+        \vspace{4cm}
+    \end{eg}
+\end{any}
+
+\end{multicols}
+
+%=============================================================================
+% 2枚目：ベクトル方程式の読解
+%=============================================================================
+\newpage
+\begin{multicols}{2}
+
+%-----------------------------------------------------------------------------
+% 左カラム：ベクトルの等式と点の位置
+%-----------------------------------------------------------------------------
+\begin{any}{3. ベクトル等式を「図形」に翻訳する}
+    「$3\overrightarrow{\text{PA}} + 4\overrightarrow{\text{PB}} = \vec{0}$」のような式を見たとき, 点Pがどこにあるか瞬時にわかるだろうか？
+    式変形により, これを\textbf{内分の公式の形}に帰着させるのがコツである.
+
+    \begin{eg}{3 (等式を満たす点の位置)}
+        2点 A, B と点 P があり, $3\overrightarrow{\text{AP}} + \overrightarrow{\text{PB}} = \vec{0}$ が成り立っている.
+        点 P はどのような位置にあるか.
+        \tcblower
+        \textbf{解法1 (始点変更):} すべて始点をAに書き換える.
+        \[ 3\overrightarrow{\text{AP}} + (\overrightarrow{\text{AB}} - \overrightarrow{\text{AP}}) = \vec{0} \]
+        \vspace{4cm}
+        
+        \textbf{解法2 (視覚的解釈):}
+        $3\overrightarrow{\text{AP}} = -\overrightarrow{\text{PB}} = \overrightarrow{\text{BP}}$.
+        つまり A$\to$P の3倍が B$\to$P と等しい（逆向き）.
+        \vspace{2cm}
+    \end{eg}
+\end{any}
+
+%-----------------------------------------------------------------------------
+% 右カラム：応用問題
+%-----------------------------------------------------------------------------
+\columnbreak
+
+\begin{eg}{4 (三角形と点)}
+    $\triangle$ABC と点 P に対し, 次の等式が成り立つとき, 点 P はどのような位置にあるか.
+    \[ \overrightarrow{\text{PA}} + 2\overrightarrow{\text{PB}} + 3\overrightarrow{\text{PC}} = \vec{0} \]
+    
+    \tcblower
+    \textbf{ヒント:} 
+    1. 始点を A にそろえて $\overrightarrow{\text{AP}}$ を求める.
+    2. 求まった式を「内分の公式」の形に無理やり変形して解釈する.
+    
+    (途中式)
+    $\vec{a}=\vec{0}$ (Aを原点) と考えると計算が楽.
+    $-\vec{p} + 2(\vec{b}-\vec{p}) + 3(\vec{c}-\vec{p}) = \vec{0}$
+    \vspace{8cm}
+\end{eg}
+
+\end{multicols}
+
+\newpage 
+
+%=============================================================================
+% 3枚目：コラム・証明
+%=============================================================================
+\begin{multicols}{2}
+
+%-----------------------------------------------------------------------------
+% 左カラム：数学的証明
+%-----------------------------------------------------------------------------
+\begin{any}{C1. 重心公式の数学的証明}
+    三角形の重心は, \textbf{「中線を $2:1$ に内分する点」}として定義される.
+    これと分点の公式を用いて, 重心の位置ベクトル $\vec{g}$ を導く.
+
+    \begin{thm}{証明の流れ}
+        \begin{enumerate}
+            \item 辺BCの中点 M の位置ベクトル $\vec{m}$ を求める.
+            \item 重心 G は線分 AM を $2:1$ に内分する点である.
+            \item 内分点の公式を用いて $\vec{g}$ を計算する.
+        \end{enumerate}
+    \end{thm}
+
+    \textbf{【証明】} \\
+    基準点$O$を任意にとり，
+    3点位置ベクトルをそれぞれ A($\vec{a}$), B($\vec{b}$), C($\vec{c}$) とする.
+    
+    まず, 辺BCの中点 M($\vec{m}$) は, 中点の公式より
+    \[ \vec{m} = \frac{\vec{b} + \vec{c}}{2} \quad \cdots \text{(1)} \]
+    である.
+    
+\begin{center}
+    \begin{tikzpicture}[scale=1.1, >=stealth]
+        % 任意の基準点O
+        \coordinate (O) at (0, -0.5);
+
+        % 三角形の頂点
+        \coordinate (A) at (1.5, 3.5);
+        \coordinate (B) at (4, 1.5);
+        \coordinate (C) at (1, 1);
+
+        % 計算点
+        \coordinate (M) at ($(B)!0.5!(C)$); % BCの中点
+        \coordinate (G) at ($(A)!2/3!(M)$); % 重心 (AMを2:1)
+
+        % 位置ベクトル (Oからの矢印：点線に変更)
+        \draw[->, thick, printBlue, dashed] (O) -- (A) node[midway, left, xshift=-2pt] {$\vec{a}$};
+        \draw[->, thick, printRed, dashed] (O) -- (B) node[midway, below right] {$\vec{b}$};
+        \draw[->, thick, printRed, dashed] (O) -- (C) node[midway, left, xshift=-2pt] {$\vec{c}$};
+        
+        % 中点Mへのベクトル (少し細かくして区別、またはそのままでも可)
+        \draw[->, dashed, printTeal, opacity=0.7] (O) -- (M) node[midway, right, scale=0.8] {$\vec{m}$};
+        
+        % 重心Gへのベクトル (太実線で強調)
+        \draw[->, very thick, printTeal] (O) -- (G) node[midway, right, xshift=2pt] {$\vec{g}$};
+
+        % 三角形の描画
+        \draw[thick] (A) -- (B) -- (C) -- cycle;
+        \draw[thick, printTeal] (A) -- (M); % 中線
+
+        % 点の描画
+        \fill (O) circle (2pt) node[below left] {O(基準)};
+        \fill (A) circle (2pt) node[above] {A};
+        \fill (B) circle (2pt) node[right] {B};
+        \fill (C) circle (2pt) node[left] {C};
+        \fill (M) circle (1.5pt) node[below right] {M};
+        \fill (G) circle (2.5pt) node[above right] {G};
+
+        % 比 2:1 の表示
+        \node[right, scale=0.8, printTeal] at ($(A)!0.5!(G)$) {2};
+        \node[right, scale=0.8, printTeal] at ($(G)!0.5!(M)$) {1};
+    \end{tikzpicture}
+    \end{center}
+    
+    次に, 重心 G($\vec{g}$) は中線 AM を $2:1$ に内分する点であるから, 内分の公式より
+    \[ \vec{g} = \frac{1\vec{a} + 2\vec{m}}{2+1} = \frac{\vec{a} + 2\vec{m}}{3} \]
+    ここで (1) を代入すると,
+    \[ \vec{g} = \frac{\vec{a} + 2 \cdot \left( \frac{\vec{b}+\vec{c}}{2} \right)}{3} \]
+    2 が約分されて消えるので,
+    \[ \vec{g} = \frac{\vec{a} + (\vec{b} + \vec{c})}{3} = \frac{\vec{a} + \vec{b} + \vec{c}}{3} \quad \text{(証明終)} \]
+\end{any}
+
+%-----------------------------------------------------------------------------
+% 右カラム：物理的意味と補足
+%-----------------------------------------------------------------------------
+\columnbreak
+
+\begin{any}{C2. 「足して3で割る」の直感的意味}
+    なぜ重心は $\displaystyle \frac{\vec{a}+\vec{b}+\vec{c}}{3}$ という「平均」の形になるのか？
+    物理的な\textbf{「おもりのつり合い」}で考えると納得しやすい.
+    
+    \begin{itemize}
+        \item 頂点 A, B, C にそれぞれ \textbf{$1\text{g}$} のおもりを置く.
+        \item この3点をつり合わせる点（バランスポイント）が重心 G である.
+    \end{itemize}
+
+    \begin{center}
+    \begin{tikzpicture}[scale=1.0, >=stealth]
+        \coordinate (M) at (0,0);
+        \coordinate (B) at (-1.5, -0.5);
+        \coordinate (C) at (1.5, -0.5);
+        \coordinate (A) at (0, 2.5);
+        \coordinate (G) at (0, 0.83);
+        
+        % Balance BC
+        \draw[thick] (B) -- (C);
+        \fill (B) circle (2pt) node[below] {1g};
+        \fill (C) circle (2pt) node[below] {1g};
+        \fill[printTeal] (M) circle (2.5pt) node[below, yshift=-3mm] {M (2g)};
+        \node[above, scale=0.8, printTeal] at (M) {BとCの重心};
+        
+        % Balance AM
+        \draw[thick] (A) -- (M);
+        \fill (A) circle (2pt) node[above] {A (1g)};
+        \fill[printRed] (G) circle (3pt) node[right] {G (3g)};
+        
+        % Lever principle visualization
+        \draw[<->, dashed] (-0.3, 0) -- (-0.3, 0.83) node[midway, left] {1};
+        \draw[<->, dashed] (-0.3, 0.83) -- (-0.3, 2.5) node[midway, left] {2};
+        
+        \node[draw, fill=white, rounded corners, align=left, scale=0.8] at (2, 1.5) {
+            \textbf{てこの原理}\\
+            A(1g) $\times$ 2 \\
+             $=$ M(2g) $\times$ 1 \\
+            \vspace{0.2em}
+            重さの逆比 $2:1$ \\
+            でつり合う.
+        };
+    \end{tikzpicture}
+    \end{center}
+    
+    \begin{enumerate}
+        \item B(1g) と C(1g) の重心は, ど真ん中の M にあり, ここに合計 \textbf{$2\text{g}$} の重さがかかるとみなせる.
+        \item 次に, A(1g) と M(2g) のつり合いを考える.
+        \item てこの原理より, 支点 G は「重さの逆比」つまり \textbf{$2:1$} の位置にくる.
+    \end{enumerate}
+    
+    これが, 重心が中線を $2:1$ に内分する理由であり, 結果として3つの点の「平均位置」になる理由である.
+\end{any}
+
+\begin{tcolorbox}[colback=white, colframe=black!80, title={発展：4面体の重心}]
+    この考え方を拡張すると, 空間図形における四面体 ABCD の重心 G も推測できる.
+    4つの頂点の「平均」をとればよいので,
+    \[ \vec{g} = \frac{\vec{a} + \vec{b} + \vec{c} + \vec{d}}{4} \]
+    となる. （これも入試で使える知識である）
+\end{tcolorbox}
+
+\end{multicols}
+
+%=============================================================================
+% 3枚目：確認テスト（問題）
+%=============================================================================
+\newpage
+\fancyhead[L]{\small \textcolor{black!90}{数学C $>$ 第1章--平面ベクトル $>$ 第7回--\textbf{確認テスト}}}
+\begin{multicols}{2}
+
+\begin{any}{確認テスト (A: 基本)}
+    \begin{prac}{A1 (分点公式)}
+        2点 A($\vec{a}$), B($\vec{b}$) に対し, 次の点を $\vec{a}, \vec{b}$ で表せ.
+        \begin{enumerate}
+            \item 線分ABを $1:2$ に内分する点 D($\vec{d}$)
+            \item 線分ABを $3:2$ に外分する点 E($\vec{e}$)
+            \item 線分ABの中点 M($\vec{m}$)
+        \end{enumerate}
+    \end{prac}
+    \begin{answer}[height=5cm]
+    \end{answer}
+
+    \begin{prac}{A2 (重心)}
+        3点 A($\vec{a}$), B($\vec{b}$), C($\vec{c}$) を頂点とする $\triangle$ABC の重心を G とする.
+        辺 BC の中点を M とするとき, 線分 AM を $2:1$ に内分する点の位置ベクトルを求め, それが G と一致することを確認せよ.
+    \end{prac}
+    \begin{answer}[height=6cm]
+    \end{answer}
+\end{any}
+
+\columnbreak
+
+\begin{any}{確認テスト (B: 標準)}
+    \begin{prac}{B1 (等式の読み取り)}
+        一直線上の3点 A, B, P について,
+        \[ 2\overrightarrow{\text{PA}} + 3\overrightarrow{\text{PB}} = \vec{0} \]
+        が成り立つとき, 点 P は線分 AB をどのように分ける点か答えよ.
+    \end{prac}
+    \begin{answer}[height=5cm]
+    \end{answer}
+
+    \begin{prac}{B2 (三角形の内部の点)}
+        $\triangle$ABC において, 
+        \[ 2\overrightarrow{\text{PA}} + \overrightarrow{\text{PB}} + \overrightarrow{\text{PC}} = \vec{0} \]
+        を満たす点 P はどのような位置にあるか. 「辺BCの中点Mを用いて」説明せよ.
+    \end{prac}
+    \begin{answer}[height=7cm]
+    \end{answer}
+\end{any}
+
+\end{multicols}
+
+%=============================================================================
+% 4枚目：確認テスト（解答）
+%=============================================================================
+\newpage
+\fancyhead[L]{\small \textcolor{black!90}{数学C $>$ 第1章--平面ベクトル $>$ 第7回 \textbf{【解答解説】}}}
+
+\begin{multicols}{2}
+
+\begin{any}{解答 (A: 基本)}
+    \begin{prac}{A1 (分点公式)}
+        (1) $\vec{d} = \frac{2\vec{a} + 1\vec{b}}{1+2} = \boldsymbol{\frac{2\vec{a}+\vec{b}}{3}}$
+        
+        (2) $\vec{e} = \frac{-2\vec{a} + 3\vec{b}}{3-2} = \boldsymbol{-2\vec{a} + 3\vec{b}}$
+        
+        (3) $\vec{m} = \boldsymbol{\frac{\vec{a}+\vec{b}}{2}}$
+    \end{prac}
+
+    \begin{answer}[height=8cm]
+    \color{printRed}
+    \textbf{A2 解答:} \\
+    辺BCの中点Mの位置ベクトル $\vec{m}$ は,
+    \[ \vec{m} = \frac{\vec{b}+\vec{c}}{2} \]
+    線分AMを $2:1$ に内分する点 P($\vec{p}$) は,
+    \[ \vec{p} = \frac{1\vec{a} + 2\vec{m}}{2+1} = \frac{\vec{a} + 2 \cdot \frac{\vec{b}+\vec{c}}{2}}{3} \]
+    \[ = \frac{\vec{a} + (\vec{b}+\vec{c})}{3} = \frac{\vec{a}+\vec{b}+\vec{c}}{3} \]
+    これは重心 G の公式と一致する.
+    よって, 重心は中線を $2:1$ に内分する点である.
+    \end{answer}
+\end{any}
+
+\columnbreak
+
+\begin{any}{解答 (B: 標準)}
+    \begin{answer}[height=8cm]
+    \color{printRed}
+    \textbf{B1 解答:} \\
+    始点を原点 O にして位置ベクトルで考える. $\overrightarrow{\text{OP}}=\vec{p}$ などとする.
+    \begin{align*}
+        2(\vec{a}-\vec{p}) + 3(\vec{b}-\vec{p}) &= \vec{0} \\
+        2\vec{a} - 2\vec{p} + 3\vec{b} - 3\vec{p} &= \vec{0} \\
+        5\vec{p} &= 2\vec{a} + 3\vec{b} \\
+        \vec{p} &= \frac{2\vec{a} + 3\vec{b}}{5} = \frac{2\vec{a} + 3\vec{b}}{3+2}
+    \end{align*}
+    この式は, 線分ABを \textbf{$3:2$ に内分する点} を表している.
+    
+    \textbf{別解:} $\overrightarrow{\text{AP}}$ の比を求める.
+    $2\overrightarrow{\text{PA}} = -3\overrightarrow{\text{PB}} = 3\overrightarrow{\text{BP}}$.
+    向きが同じなので $2|\text{PA}| = 3|\text{PB}| \implies \text{PA}:\text{PB} = 3:2$.
+    \end{answer}
+
+    \begin{answer}[height=8cm]
+    \color{printRed}
+    \textbf{B2 解答:} \\
+    始点をAにそろえる. ($A$を原点扱い: $\vec{a}=\vec{0}$)
+    \[ 2(-\vec{p}) + (\vec{b}-\vec{p}) + (\vec{c}-\vec{p}) = \vec{0} \]
+    \[ -4\vec{p} + \vec{b} + \vec{c} = \vec{0} \implies 4\vec{p} = \vec{b} + \vec{c} \]
+    \[ \vec{p} = \frac{\vec{b} + \vec{c}}{4} \]
+    
+    ここで, 辺BCの中点Mは $\vec{m} = \frac{\vec{b}+\vec{c}}{2}$ なので, $\vec{b}+\vec{c} = 2\vec{m}$.
+    これを代入すると:
+    \[ \vec{p} = \frac{2\vec{m}}{4} = \frac{1}{2}\vec{m} \]
+    これは $\overrightarrow{\text{AP}} = \frac{1}{2}\overrightarrow{\text{AM}}$ を意味する.
+    
+    \textbf{答え:} 点Pは, \textbf{線分AMの中点} である.
+    \end{answer}
+\end{any}
+
+\end{multicols}
+\end{document}

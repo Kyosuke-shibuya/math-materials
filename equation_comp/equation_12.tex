@@ -1,0 +1,328 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+% 各種ボックス環境定義
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+\newenvironment{eg}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{prac}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{answer}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Memo / Answer},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        enlarge left by=2mm, 
+        enlarge right by=2mm, 
+        height fill,
+        segmentation style={draw=black!20, solid},
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        }, 
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+\newenvironment{proofbox}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Proof},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        width=\linewidth,
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        },
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第3章 式と証明 $>$ 第12
+回--\textbf{不等式の証明(1)}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 実数の大小関係
+%===========================================================
+
+{\large \textbf{1. 実数だけの特権：大小関係}}
+
+\begin{any}{虚数に大小はない！}
+私たちはこれまで複素数 ($a+bi$) を学んできたが, 実は\textbf{虚数には大小関係（不等号）が存在しない}.
+もし $i > 0$ だと仮定すると, 両辺に $i$ を掛けて $i^2 > 0$ となり, $-1 > 0$ という矛盾が生じる. ($i < 0$ としても同様)
+
+\vspace{0.5em}
+\textbf{結論：} 不等式の問題が出たら, それは\textbf{「実数の世界の話ですよ」}という合図である.
+\end{any}
+
+\begin{any}{不等式証明の基本原理}
+$A$ が $B$ より大きいことを証明するには, \textbf{「引いたらプラスになる」}ことを言えばよい.
+
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    \centering
+    $\ds A > B \iff A - B > 0 $
+\end{tcolorbox}
+\end{center}
+\textbf{手順：}
+\begin{enumerate}
+    \item 左辺 $-$ 右辺 ($A-B$) を計算する.
+    \item 式変形（因数分解や平方完成）をする.
+    \item その式が「正である」といえる根拠を示す.
+\end{enumerate}
+\end{any}
+
+\begin{eg}{1（基本的な不等式の証明）}
+$a>b$ かつ $x>y$ のとき, 次の不等式を証明せよ.
+\[ ax + by > ay + bx \]
+\end{eg}
+
+\begin{proofbox}
+% $(\text{左辺}) - (\text{右辺}) = ax + by - ay - bx$ \\
+% $\phantom{(\text{左辺}) - (\text{右辺})} = a(x-y) - b(x-y)$ \\
+% $\phantom{(\text{左辺}) - (\text{右辺})} = (a-b)(x-y)$
+
+% ここで, 仮定より $a>b, \ x>y$ であるから,
+% \[ a-b>0, \quad x-y>0 \]
+% よって, 正の数同士の積は正であるから
+% \[ (a-b)(x-y) > 0 \]
+% したがって, $(\text{左辺}) - (\text{右辺}) > 0$ より
+% \[ ax + by > ay + bx \quad \qed \]
+\end{proofbox}
+
+\columnbreak
+
+%===========================================================
+% 右カラム: 因数分解を利用する証明
+%===========================================================
+
+{\large \textbf{2. 条件を利用する証明}}
+
+\begin{any}{「1より大きい」条件の使い方}
+「$a>1$」という条件は, 「$a-1>0$」という形で使うことが多い.
+式変形して $\boldsymbol{(\text{正}) \times (\text{正})}$ の形を作り出すのが目標となる.
+\end{any}
+
+\begin{eg}{2（条件付き不等式）}
+$a>1, \ b>1$ のとき, 次の不等式を証明せよ.
+\[ ab + 1 > a + b \]
+\end{eg}
+
+\begin{proofbox}[height=11cm]
+% $(\text{左辺}) - (\text{右辺}) = ab + 1 - a - b$ \\
+% $\phantom{(\text{左辺}) - (\text{右辺})} = a(b-1) - (b-1)$ \\
+% $\phantom{(\text{左辺}) - (\text{右辺})} = (a-1)(b-1)$
+
+% ここで, $a>1, \ b>1$ より
+% \[ a-1>0, \quad b-1>0 \]
+% よって, $(a-1)(b-1) > 0$ である.
+
+% したがって, $(\text{左辺}) > (\text{右辺})$ より
+% \[ ab + 1 > a + b \quad \qed \]
+\end{proofbox}
+
+\begin{any}{Check}
+式変形の途中で「因数分解できそう」という感覚を持つことが大切.
+\begin{itemize}
+    \item $xy - x - y + 1 = (x-1)(y-1)$
+    \item $a^2 - a - b + ab = a(a-1) + b(a-1) = (a+b)(a-1)$
+\end{itemize}
+などの形に慣れておこう.
+\end{any}
+
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 裏面: 演習問題
+%===========================================================
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A1（基本証明）}
+$a>b$ のとき, 次の不等式を証明せよ.
+\[ 3a - 4b > 2a - 3b \]
+\end{prac}
+
+\begin{proofbox}
+\vspace{4cm}
+\end{proofbox}
+
+
+\begin{prac}{A2（因数分解の利用）}
+$x>3, \ y>3$ のとき, 次の不等式を証明せよ.
+\[ xy + 9 > 3x + 3y \]
+\end{prac}
+
+\begin{proofbox}
+\vspace{6cm}
+\end{proofbox}
+
+\columnbreak
+
+\begin{prac}{B1（大小比較）}
+$a>0, \ b>0$ のとき, $\ds \frac{a+b}{2}$ と $\ds \frac{2ab}{a+b}$ の大小を比較せよ.
+(ヒント: 引き算をして, 通分してみよう)
+\end{prac}
+
+\begin{proofbox}
+
+\end{proofbox}
+
+\begin{any}{振り返り}
+不等式の証明は, 「計算」ではなく「説明」である.
+\begin{itemize}
+    \item 「なぜプラスになるのか」の理由を書くこと.
+    \item ($a>2$ より $a-2>0$ など)
+\end{itemize}
+ここを省略せずに書く癖をつけよう.
+\end{any}
+
+\end{multicols*}
+
+\end{document}

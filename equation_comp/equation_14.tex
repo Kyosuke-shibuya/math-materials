@@ -1,0 +1,416 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+% 各種ボックス環境定義
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+
+\newenvironment{eg}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{prac}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{answer}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Memo / Answer},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        enlarge left by=2mm, 
+        enlarge right by=2mm, 
+        height fill,
+        segmentation style={draw=black!20, solid},
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        }, 
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+\newenvironment{proofbox}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Proof},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        width=\linewidth,
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        },
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第3章 式と証明 $>$ 第14回--\textbf{相加・相乗平均(1)}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 公式の導入
+%===========================================================
+
+{\large \textbf{1. 相加平均と相乗平均}}
+
+\begin{any}{足して2で割る vs 掛けてルート}
+2つの正の数 $a, b$ について,
+\begin{itemize}
+    \item \textbf{相加平均}: $\ds \frac{a+b}{2}$ \quad (いわゆる普通の平均)
+    \item \textbf{相乗平均}: $\ds \sqrt{ab}$ \quad (掛け算の平均)
+\end{itemize}
+この2つの間には, 常に「相加平均の方が大きい（か等しい）」という関係が成り立つ.
+\end{any}
+
+\begin{any}{相加・相乗平均の大小関係}
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    $\boldsymbol{a>0, \ b>0}$ のとき,
+    \[ \frac{a+b}{2} \geqq \sqrt{ab} \quad \iff \quad \boldsymbol{a+b \geqq 2\sqrt{ab}} \]
+    (等号成立は $\boldsymbol{a=b}$ のとき)
+\end{tcolorbox}
+\end{center}
+※この公式は, 必ず\textbf{「正の数」}のときしか使えない！
+\end{any}
+
+\begin{any}{図形的な意味（半径と半弦）}
+
+半円において, 半径は常に「弦への垂線」以上になる.
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+    % Coordinates
+    \coordinate (O) at (0,0);
+    \coordinate (L) at (-2,0);
+    \coordinate (R) at (2,0);
+    \coordinate (M) at (0.5,0); % Split point
+    
+    % Semicircle
+    \draw[thick] (R) arc (0:180:2);
+    \draw[thick] (L) -- (R);
+    
+    % Radius (Arithmetic Mean)
+    \draw[->, thick, printBlue] (O) -- (0,2) 
+    % node[midway, left] {$\frac{a+b}{2}$}
+    ;
+    
+    % Perpendicular (Geometric Mean)
+    \draw[dashed] (M) -- (M |- 0,1.936); % Intersection calc
+    \draw[->, thick, printRed] (M) -- (0.5, {sqrt(1.5*2.5)})
+    % node[midway, right] {$\sqrt{ab}$}
+    ;
+    
+    % Labels
+    \node[below] at (-0.75, 0) {$a$};
+    \node[below] at (1.25, 0) {$b$};
+    \node[below] at (O) {中心};
+    
+    % Note
+    \node[above] at (0, 2.2) {\textbf{相加平均 (半径)}};
+    \node[right] at (0.5, 2.0) {\textbf{相乗平均 (垂線)}};
+    
+\end{tikzpicture}
+\end{center}
+\end{any}
+
+\columnbreak
+
+%===========================================================
+% 右カラム: 使いどころ
+%===========================================================
+
+{\large \textbf{2. 逆数の和の最小値}}
+
+\begin{any}{文字を消去できる！}
+この不等式が最強の威力を発揮するのは, 積 $ab$ が定数（特に $ab=1$）になるときである.
+例えば $x$ と $\frac{1}{x}$ の和などは, 掛け算すると文字が消える.
+\end{any}
+
+\begin{eg}{1（基本的な利用）}
+$x>0$ のとき, 次の不等式を証明せよ.
+\[ x + \frac{4}{x} \geqq 4 \]
+\end{eg}
+
+\begin{proofbox}
+% $x>0$ より $\frac{4}{x} > 0$ であるから, 相加・相乗平均の大小関係より
+% \[ x + \frac{4}{x} \geqq 2\sqrt{x \cdot \frac{4}{x}} \]
+% 右辺を計算すると,
+% \[ 2\sqrt{4} = 2 \cdot 2 = 4 \]
+% よって, $x + \frac{4}{x} \geqq 4$. \qed
+\end{proofbox}
+
+\begin{any}{等号成立条件のチェック}
+「最小値は4である」と言い切るためには, 実際に $=4$ になる瞬間が存在することを確認する必要がある.
+等号が成立するのは $x = \frac{4}{x}$ のとき.
+\[ x^2 = 4 \iff x = 2 \quad (\because x>0) \]
+つまり, $x=2$ のとき最小値 $4$ をとる.
+\end{any}
+
+\begin{eg}{2（最小値を求める）}
+$x>0$ のとき, $x + \frac{1}{x}$ の最小値を求めよ.
+\end{eg}
+
+\begin{answer}
+% 解説
+% 相加相乗より x+1/x >= 2√(x*1/x) = 2
+% 等号成立は x=1/x -> x^2=1 -> x=1
+% 最小値 2 (x=1のとき)
+\vspace{4cm}
+\end{answer}
+
+{\large \textbf{3. 応用：分母を作り出す}}
+
+\begin{any}{約分できないときは？}
+相加・相乗平均の関係は「掛け算すると文字が消える」ときに最強の威力を発揮する.
+しかし, $\ds x + \frac{1}{x+1}$ のような式は, 単純に掛けても $\ds \frac{x}{x+1}$ となり, 文字が消えない.
+
+\vspace{0.5em}
+\textbf{Strategy:} \textbf{分母と同じ形を無理やり作る！}
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    \centering
+    $\ds x + \frac{k}{x+a} = (\boldsymbol{x+a}) + \frac{k}{x+a} \boldsymbol{- a}$
+\end{tcolorbox}
+\end{center}
+勝手に足した分を, 後ろで引いて帳尻を合わせればよい.
+\end{any}
+
+\begin{eg}{3（定数項の調整）}
+$x > -2$ のとき, $\ds x + \frac{9}{x+2}$ の最小値を求めよ.
+\end{eg}
+
+\begin{answer}
+    
+\end{answer}
+
+\columnbreak
+
+%===========================================================
+% 右カラム: 最大・最小問題
+%===========================================================
+
+{\large \textbf{4. 条件付きの最大・最小}}
+
+\begin{any}{和が一定なら積は最大}
+$a+b=const$（一定）のとき, $ab$ の最大値を求めるのにも使える.
+\[ a+b \geqq 2\sqrt{ab} \iff \frac{a+b}{2} \geqq \sqrt{ab} \]
+両辺を2乗すれば, $ab$ の上限が見えてくる.
+\end{any}
+
+\begin{eg}{4（積の最大値）}
+$x>0, \ y>0$ とする. $2x + 3y = 12$ のとき, $xy$ の最大値を求めよ.
+\end{eg}
+
+\begin{answer}
+    
+\end{answer}
+
+\begin{any}{等号成立時の $x, y$}
+等号成立は $2x = 3y$ のとき.
+これと $2x+3y=12$ を連立させると,
+$2x + 2x = 12 \to 4x=12 \to x=3$.
+$3y = 6 \to y=2$.
+つまり $(x, y) = (3, 2)$ のとき最大となる.
+\end{any}
+
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 裏面: 演習問題
+%===========================================================
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A1（基本証明）}
+$a>0, \ b>0$ のとき, 次の不等式を証明せよ.
+\[ a + b \geqq 2\sqrt{ab} \]
+を利用して, $2a + 3b \geqq 2\sqrt{6ab}$ を示せ.
+\end{prac}
+
+\begin{proofbox}
+$a>0, b>0$ より $2a>0, 3b>0$.
+相加・相乗平均の大小関係より
+\[ 2a + 3b \geqq 2\sqrt{2a \cdot 3b} = 2\sqrt{6ab} \]
+等号成立は $2a=3b$ のとき.
+\end{proofbox}
+
+
+\begin{prac}{A2（逆数の和）}
+$x>0$ のとき, 次の不等式を証明せよ. また, 等号成立条件を求めよ.
+\[ x + \frac{9}{x} \geqq 6 \]
+\end{prac}
+
+\begin{proofbox}
+\vspace{6cm}
+\end{proofbox}
+
+\columnbreak
+
+\begin{prac}{B1（展開してから使う）}
+$a>0, \ b>0$ のとき, 次の不等式を証明せよ.
+\[ \left( a + \frac{1}{b} \right) \left( b + \frac{1}{a} \right) \geqq 4 \]
+\end{prac}
+
+\begin{any}{Hint}
+まずは左辺を展開してみよう.
+$ab + 1 + 1 + \frac{1}{ab} = ab + \frac{1}{ab} + 2$
+この $ab + \frac{1}{ab}$ の部分に相加・相乗平均を使う.
+\end{any}
+
+\begin{proofbox}
+\vspace{6cm}
+\end{proofbox}
+
+\begin{prac}{B2（最小値）}
+$x > 0$ のとき, 関数 $y = 3x + \frac{12}{x} + 5$ の最小値を求めよ.
+\end{prac}
+
+\begin{answer}
+% 3x + 12/x >= 2√(36) = 12
+% 全体 >= 12+5 = 17
+% 等号 3x=12/x -> x^2=4 -> x=2
+% 最小値 17 (x=2)
+\end{answer}
+
+\end{multicols*}
+
+\end{document}

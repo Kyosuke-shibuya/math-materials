@@ -1,0 +1,610 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{wrapfig}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections,
+    patterns
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定・共通定義
+%===========================================================
+
+\definecolor{chartBlue}{RGB}{0, 65, 120}    % 青
+\definecolor{chartRed}{RGB}{160, 20, 20}    % 赤
+\definecolor{chartOrange}{RGB}{200, 100, 0} % オレンジ
+\definecolor{chartTeal}{RGB}{0, 100, 100}   % ティール
+
+\tcbset{
+    chartbox/.style={
+        enhanced, fonttitle=\sffamily\bfseries, boxrule=1pt, arc=3pt,
+        top=1.2em, nobeforeafter,
+        enlarge left by=-2mm, enlarge right by=-2mm,
+        drop fuzzy shadow,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=4pt}
+    }
+}
+
+% 解説用ボックス (黒/白)
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+% 定理 (thm) - ティール/重要
+\newenvironment{thm}[1]{
+\begin{tcolorbox}[
+    chartbox, colframe=chartTeal, colback=white, coltitle=white,
+    title=\textbf{定理：#1}, boxed title style={colback=chartTeal},
+    skin=bicolor, colbacklower=white,
+    segmentation style={draw=chartTeal, dashed, line width=1pt}
+]}{\end{tcolorbox}}
+
+% 例題 (eg) - 青
+\newenvironment{eg}[1]{
+\begin{tcolorbox}[
+    chartbox, colframe=chartBlue, colback=white, coltitle=white,
+    title=\textbf{例題 #1}, boxed title style={colback=chartBlue},
+    skin=bicolor, colbacklower=white!95!blue,
+    segmentation style={draw=chartBlue, line width=0pt}
+]}{\end{tcolorbox}}
+
+% 練習 (prac) - 赤
+\newenvironment{prac}[1]{
+\begin{tcolorbox}[
+    chartbox, colframe=chartRed, colback=white, coltitle=white,
+    title=\textbf{練習 #1}, boxed title style={colback=chartRed}
+]}{\end{tcolorbox}}
+
+% 解答欄 (answer)
+\newenvironment{answer}[1][height fill]{
+    \noindent
+    \begin{tcolorbox}[
+        enhanced, title={Memo / Answer},
+        colframe=black!80, colback=white, coltitle=black!80,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt, arc=1pt, nobeforeafter,
+        enlarge left by=-2mm, enlarge right by=-2mm,
+        width=\linewidth, #1,
+        underlay={ \begin{tcbclipinterior} \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east); \end{tcbclipinterior} }
+    ]}{\end{tcolorbox}}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=chartBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第2章 複素数と方程式 $>$ 第4回--\textbf{共役複素数と判別式}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 共役な複素数
+%===========================================================
+
+{\large \textbf{1. 共役(きょうやく)な複素数}}
+
+\begin{any}{虚部の符号を変えたペア}
+複素数 $z = a+bi$ に対して, 虚部の符号を変えた複素数 $a-bi$ を, $z$ の\textbf{共役な複素数}といい, 記号 $\boldsymbol{\bar{z}}$ で表す.
+\begin{center}
+\begin{tcolorbox}[colframe=chartRed, colback=white, boxrule=1.5pt, arc=0pt]
+    \centering
+    $z = a+bi$ のとき, $\quad \bar{z} = \boldsymbol{a-bi}$
+\end{tcolorbox}
+\end{center}
+\textbf{性質：和と積が実数になる}
+このペアは非常に仲が良く, 足しても掛けても $i$ が消える.
+\begin{itemize}
+    \item \textbf{和}: $(a+bi) + (a-bi) = 2a$ \quad (実数)
+    \item \textbf{積}: $(a+bi)(a-bi) = a^2 - (bi)^2 = a^2 - b^2(-1) = \boldsymbol{a^2+b^2}$ \quad (実数)
+\end{itemize}
+
+
+\begin{eg}{1（共役な複素数）}
+次の複素数の共役な複素数をいえ. また, もとの複素数との\textbf{積}を求めよ.
+\begin{enumerate}
+    \item $3+2i$
+    \item $5i$
+    \item $-4$
+\end{enumerate}
+\end{eg}
+
+\begin{answer}
+\vspace{8cm}
+\end{answer}
+\end{any}
+%===========================================================
+% 右カラム: 複素数の割り算
+%===========================================================
+
+\columnbreak
+
+{\large \textbf{2. 複素数の除法}}
+
+\begin{any}{分母の実数化}
+複素数の割り算（分数）は, \textbf{分母の共役な複素数}を分母・分子に掛けることで, 分母を実数にして計算する.
+これは平方根の「有理化」と同じ発想である.
+
+\[ \frac{c+di}{a+bi} = \frac{(c+di)\textcolor{chartRed}{(a-bi)}}{(a+bi)\textcolor{chartRed}{(a-bi)}} = \frac{(ac+bd)+(ad-bc)i}{a^2+b^2} \]
+(公式として覚えるのではなく, \textbf{「共役を掛ける」手順}を覚えること!)
+
+
+\begin{eg}{2（分母の実数化）}
+次の式を $a+bi$ の形で表せ.
+\begin{enumerate}
+    \item $\ds \frac{1+2i}{3+i}$
+    \item $\ds \frac{5}{2-i}$
+\end{enumerate}
+\end{eg}
+
+\begin{any}{計算のコツ}
+\begin{itemize}
+    \item 分母は $(a+bi)(a-bi) = a^2+b^2$ なので, 瞬時に計算できるようにしよう.
+    \item 約分を忘れないように注意.
+\end{itemize}
+\end{any}
+
+\begin{answer}
+% (1) 分母分子に 3-i を掛ける
+% 分母: 9+1=10
+% 分子: (1+2i)(3-i) = 3 -i +6i -2i^2 = 5+5i
+% よって 5+5i / 10 = 1/2 + 1/2 i
+\vspace{8cm}
+\end{answer}
+\end{any}
+
+
+\end{multicols*}
+
+
+%===========================================================
+% 表面：授業用スライド・板書用
+%===========================================================
+\begin{multicols*}{2}
+
+%--- 左カラム：講義内容 ---
+{\large\textbf{3. 解の公式再訪}}
+\begin{any}{虚数解の出現}
+2次方程式 $ax^2+bx+c=0$ の解の公式
+\[ x = \frac{-b \pm \sqrt{b^2-4ac}}{2a} \]
+において, ルートの中身 $b^2-4ac < 0$ となる場合, 負の数の平方根（虚数）を用いることで解を表すことができる.
+\begin{itemize}
+    \item これまでは $\to$ \textbf{「解なし」} (実数解をもたない)
+    \item これからは $\to$ \textbf{「異なる2つの虚数解」}
+\end{itemize}
+
+\begin{eg}{3（虚数解を持つ2次方程式）}
+次の2次方程式を解け.
+\begin{enumerate}
+    \item $x^2 + x + 1 = 0$
+    \item $2x^2 - 4x + 3 = 0$
+\end{enumerate}
+\end{eg}
+
+\begin{answer}[height=10cm]
+    
+\end{answer}
+\end{any}
+
+\columnbreak
+
+\begin{any}{判別式再訪}
+    
+
+\begin{thm}{判別式 $D$ (Discriminant)}
+2次方程式 $ax^2+bx+c=0$ の解の種類は, \textbf{判別式} $\boldsymbol{D = b^2 - 4ac}$ の符号で決まる.
+\end{thm}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.6, >=stealth]
+    % D>0
+    \begin{scope}[xshift=0cm]
+        \draw[->] (-1.5,0) -- (1.5,0) node[right] {$x$};
+        \draw[thick, chartBlue] plot[domain=-1.2:1.2] (\x, {\x*\x - 0.5});
+        \node[below, font=\footnotesize] at (0,-1) {$D>0$};
+        \node[below, font=\footnotesize] at (0,-1.6) {異なる2実数解};
+    \end{scope}
+    % D=0
+    \begin{scope}[xshift=4cm]
+        \draw[->] (-1.5,0) -- (1.5,0) node[right] {$x$};
+        \draw[thick, chartTeal] plot[domain=-1.2:1.2] (\x, {\x*\x});
+        \node[below, font=\footnotesize] at (0,-1) {$D=0$};
+        \node[below, font=\footnotesize] at (0,-1.6) {重解};
+    \end{scope}
+    % D<0
+    \begin{scope}[xshift=8cm]
+        \draw[->] (-1.5,0) -- (1.5,0) node[right] {$x$};
+        \draw[thick, chartRed] plot[domain=-1.2:1.2] (\x, {\x*\x + 0.5});
+        \node[below, font=\footnotesize] at (0,-1) {$D<0$};
+        \node[below, font=\footnotesize] at (0,-1.6) {異なる2虚数解};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+\begin{itemize}
+    \item $D > 0 \iff$ 異なる2つの実数解
+    \item $D = 0 \iff$ ただ1つの実数解 (重解)
+    \item $D < 0 \iff$ 異なる2つの虚数解
+\end{itemize}
+\textbf{※ 偶数公式}: $x$の係数が偶数($2b'$)の時は $\ds \frac{D}{4} = (b')^2 - ac$ を利用する.
+
+
+\begin{eg}{4（解の種類の判別）}
+次の2次方程式の解の種類を判別せよ.
+\begin{enumerate}
+    \item $x^2 - 3x - 5 = 0$
+    \item $4x^2 - 12x + 9 = 0$
+    \item $x^2 + 2x + 4 = 0$
+\end{enumerate}
+\end{eg}
+
+\begin{answer}[height=7cm]
+    
+\end{answer}
+
+\end{any}
+
+\end{multicols*}
+
+\newpage
+
+
+%===========================================================
+% 裏面：確認テスト（問題編）
+%===========================================================
+\begin{multicols*}{2}
+
+\begin{any}{確認テスト(問題)}
+
+\begin{prac}{A1（共役な複素数）}
+次の複素数の共役な複素数を答えよ.
+\begin{enumerate}
+    \item $1-i$
+    \item $\sqrt{3} + i$
+    \item $-3i$
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{A2（計算練習）}
+次の式を計算し, $a+bi$ の形で表せ.
+\begin{enumerate}
+    \item $\ds \frac{2-i}{1+i}$
+    \item $\ds \frac{1}{i}$
+    \item $\ds \frac{3+2i}{2-3i}$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+\vspace{9cm}
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B1（方程式への応用）}
+等式 $(1+i)x - (1-3i)y = -1+i$ を満たす実数 $x, y$ の値を求めよ.
+\end{prac}
+
+\begin{any}{Hint}
+左辺を計算して (実部)$+$(虚部)$i$ の形に整理し, 両辺の係数を比較する.
+あるいは, $x, y$ が混ざっているのが嫌なら連立方程式とみることもできる.
+\end{any}
+
+
+
+\begin{prac}{B2（式の値の工夫）}
+$x = \ds \frac{1+\sqrt{3}i}{2}$ のとき, $x^2-x+1$ の値を求めよ.
+\end{prac}
+
+\begin{answer}[height=12cm]
+\end{answer}
+\end{any}
+
+\end{multicols*}
+
+\begin{multicols*}{2}
+
+\begin{any}{確認テスト(問題)}
+    
+\begin{prac}{A3（基本：2次方程式の解法）}
+次の2次方程式を解け.
+\begin{enumerate}
+    \item $3x^2 + 5x - 2 = 0$
+    \item $x^2 - 2x + 5 = 0$
+    \item $2x^2 + 3x + 2 = 0$
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{A4（基本：解の判別）}
+次の2次方程式の解の種類を判別せよ.
+\begin{enumerate}
+    \item $2x^2 - x + 3 = 0$
+    \item $9x^2 + 6x + 1 = 0$
+    \item $x^2 - \sqrt{5}x + 1 = 0$
+\end{enumerate}
+\end{prac}
+
+% A問題用解答欄
+\begin{answer}[height=8cm]
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B3（標準：条件を満たす定数）}
+2次方程式 $x^2 - 4x + k = 0$ が次のような解を持つように, 定数 $k$ の値または範囲を定めよ.
+\begin{enumerate}
+    \item 異なる2つの実数解を持つ
+    \item 重解を持つ (また, そのときの重解を求めよ)
+    \item 異なる2つの虚数解を持つ
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{B4（発展：グラフとの融合）}
+2次方程式 $2x^2 - 4x + 3 = 0$ の解を求めよ.
+また, 2次関数 $y=2x^2-4x+3$ のグラフを書き, 頂点の座標を求めよ.
+($x$軸と共有点を持たないことを確認しよう)
+\end{prac}
+
+% B問題用解答欄
+\begin{answer}[height=12cm]
+\end{answer}
+\end{any}
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 別紙：確認テスト（解答編）
+%===========================================================
+
+\begin{multicols*}{2}
+
+\begin{any}{確認テスト(解答・解説)}
+
+\begin{prac}{A1（共役な複素数）}
+次の複素数の共役な複素数を答えよ.
+\begin{enumerate}
+    \item $1-i$
+    \item $\sqrt{3} + i$
+    \item $-3i$
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{A2（計算練習）}
+次の式を計算し, $a+bi$ の形で表せ.
+\begin{enumerate}
+    \item $\ds \frac{2-i}{1+i}$
+    \item $\ds \frac{1}{i}$
+    \item $\ds \frac{3+2i}{2-3i}$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+\color{chartRed}
+\textbf{A1}
+\begin{enumerate}
+    \item 虚部の符号を変えるので $\boldsymbol{1+i}$
+    \item $\boldsymbol{\sqrt{3}-i}$
+    \item $0-3i$ と考えると $\boldsymbol{3i}$
+\end{enumerate}
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\textbf{A2}
+\begin{enumerate}
+    \item $\ds \frac{(2-i)(1-i)}{(1+i)(1-i)} = \frac{2-2i-i+i^2}{1+1} = \frac{1-3i}{2} = \boldsymbol{\frac{1}{2} - \frac{3}{2}i}$
+    \item $\ds \frac{i}{i^2} = \frac{i}{-1} = \boldsymbol{-i}$
+    \item $\ds \frac{(3+2i)(2+3i)}{(2-3i)(2+3i)} = \frac{6+9i+4i+6i^2}{4+9} = \frac{13i}{13} = \boldsymbol{i}$
+\end{enumerate}
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B1（方程式への応用）}
+等式 $(1+i)x - (1-3i)y = -1+i$ を満たす実数 $x, y$ の値を求めよ.
+\end{prac}
+
+\begin{any}{Hint}
+左辺を計算して (実部)$+$(虚部)$i$ の形に整理し, 両辺の係数を比較する.
+あるいは, $x, y$ が混ざっているのが嫌なら連立方程式とみることもできる.
+\end{any}
+
+
+
+\begin{prac}{B2（式の値の工夫）}
+$x = \ds \frac{1+\sqrt{3}i}{2}$ のとき, $x^2-x+1$ の値を求めよ.
+\end{prac}
+
+\begin{answer}[height=12cm]
+\color{chartRed}
+\textbf{B1} \\
+左辺を整理すると,
+$(x-y) + (x+3y)i = -1+i$ \\
+$x, y$ は実数だから, 実部と虚部を比較して
+\[ \begin{cases} x-y = -1 \\ x+3y = 1 \end{cases} \]
+これを解いて, $\boldsymbol{x=-\frac{1}{2}, y=\frac{1}{2}}$
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\textbf{B2} \\
+与式より $2x = 1+\sqrt{3}i \iff 2x-1 = \sqrt{3}i$. \\
+両辺を2乗して, $(2x-1)^2 = -3$ \\
+$4x^2 - 4x + 1 = -3 \iff 4x^2 - 4x + 4 = 0$ \\
+全体を4で割ると $\boldsymbol{x^2 - x + 1 = 0}$. \\
+よって求める値は $\boldsymbol{0}$.
+\end{answer}
+\end{any}
+
+\end{multicols*}
+
+\begin{multicols*}{2}
+
+\begin{any}{確認テスト(解答・解説)}
+
+\begin{prac}{A3（基本：2次方程式の解法）}
+次の2次方程式を解け.
+\begin{enumerate}
+    \item $3x^2 + 5x - 2 = 0$
+    \item $x^2 - 2x + 5 = 0$
+    \item $2x^2 + 3x + 2 = 0$
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{A4（基本：解の判別）}
+次の2次方程式の解の種類を判別せよ.
+\begin{enumerate}
+    \item $2x^2 - x + 3 = 0$
+    \item $9x^2 + 6x + 1 = 0$
+    \item $x^2 - \sqrt{5}x + 1 = 0$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}[height fill]
+\color{chartRed}
+\textbf{A3}
+\begin{enumerate}
+    \item 因数分解できる. $(x+2)(3x-1)=0$ より $\ds \boldsymbol{x = -2, \frac{1}{3}}$
+    \item 解の公式より $\ds x = \frac{-(-2) \pm \sqrt{(-2)^2 - 4 \cdot 1 \cdot 5}}{2} = \frac{2 \pm \sqrt{-16}}{2} = \frac{2 \pm 4i}{2} = \boldsymbol{1 \pm 2i}$
+    \item 解の公式より $\ds x = \frac{-3 \pm \sqrt{3^2 - 4 \cdot 2 \cdot 2}}{2 \cdot 2} = \frac{-3 \pm \sqrt{9-16}}{4} = \boldsymbol{\frac{-3 \pm \sqrt{7}i}{4}}$
+\end{enumerate}
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\textbf{A4}
+\begin{enumerate}
+    \item $D = (-1)^2 - 4 \cdot 2 \cdot 3 = 1 - 24 = -23 < 0$. よって\textbf{異なる2つの虚数解}.
+    \item $D/4 = 3^2 - 9 \cdot 1 = 9 - 9 = 0$. よって\textbf{ただ1つの実数解（重解）}.
+    \item $D = (-\sqrt{5})^2 - 4 \cdot 1 \cdot 1 = 5 - 4 = 1 > 0$. よって\textbf{異なる2つの実数解}.
+\end{enumerate}
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B3（標準：条件を満たす定数）}
+2次方程式 $x^2 - 4x + k = 0$ が次のような解を持つように, 定数 $k$ の値または範囲を定めよ.
+\begin{enumerate}
+    \item 異なる2つの実数解を持つ
+    \item 重解を持つ (また, そのときの重解を求めよ)
+    \item 異なる2つの虚数解を持つ
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{B4（発展：グラフとの融合）}
+2次方程式 $2x^2 - 4x + 3 = 0$ の解を求めよ.
+また, 2次関数 $y=2x^2-4x+3$ のグラフを書き, 頂点の座標を求めよ.
+\end{prac}
+
+\begin{answer}[height fill]
+\color{chartRed}
+\textbf{B3} \\
+判別式を $D$ とすると, $\ds \frac{D}{4} = (-2)^2 - 1 \cdot k = 4 - k$.
+\begin{enumerate}
+    \item $D > 0$ より $4-k > 0 \iff \boldsymbol{k < 4}$
+    \item $D = 0$ より $4-k = 0 \iff \boldsymbol{k = 4}$. \\
+    このとき方程式は $x^2 - 4x + 4 = 0 \iff (x-2)^2=0$ より, 重解は $\boldsymbol{x=2}$.
+    \item $D < 0$ より $4-k < 0 \iff \boldsymbol{k > 4}$
+\end{enumerate}
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\textbf{B4} \\
+解の公式より
+\[ x = \frac{-(-2) \pm \sqrt{(-2)^2 - 2 \cdot 3}}{2} = \frac{2 \pm \sqrt{4-6}}{2} = \boldsymbol{\frac{2 \pm \sqrt{2}i}{2}} \]
+
+平方完成を行うと,
+\[ y = 2(x^2 - 2x) + 3 = 2\{(x-1)^2 - 1\} + 3 = 2(x-1)^2 + 1 \]
+よって, \textbf{頂点 (1, 1), 下に凸の放物線}.
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+    \draw[->] (-1,0) -- (3.5,0) node[right] {$x$};
+    \draw[->] (0,-0.5) -- (0,4) node[above] {$y$};
+    \draw[thick, chartBlue] plot[domain=0:2.2] (\x, {2*(\x-1)*(\x-1) + 1});
+    \draw[dashed] (1,0) node[below]{1} -- (1,1) -- (0,1) node[left]{1};
+    \node[right] at (0,3) {3};
+    \fill (0,3) circle (2pt);
+    \node[above] at (1,1) {頂点};
+\end{tikzpicture}
+\end{center}
+グラフが $x$ 軸より上にある（共有点なし） $\iff$ 虚数解を持つ.
+\end{answer}
+
+\end{any}
+
+\end{multicols*}
+
+\end{document}

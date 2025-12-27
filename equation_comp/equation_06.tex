@@ -1,0 +1,601 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{wrapfig}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+\definecolor{gridColor}{gray}{0.75}          % 解答欄の方眼
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+% 各種ボックス環境定義
+\newenvironment{overall}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printTeal,
+    coltitle=white,
+    title=\textbf{全体課題 #1},
+    boxed title style={colback=printTeal},
+]}
+{\end{tcolorbox}}
+
+% 解説用ボックス (黒/白) - 親コンテナとして使用
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+\newenvironment{eg}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{prac}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{answer}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Memo / Answer},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        enlarge left by=2mm, 
+        enlarge right by=2mm, 
+        height fill,
+        segmentation style={draw=black!20, solid},
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        }, 
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第2章 複素数と方程式 $>$ 第6回--\textbf{剰余の定理と因数定理}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 剰余の定理（基本）
+%===========================================================
+
+{\large \textbf{1. 割り算をせずに「余り」だけを知る}}
+
+\begin{any}{仕組み：恒等式の利用}
+整式 $P(x)$ を $x-k$ で割ったときの商を $Q(x)$, 余りを $R$ とする.
+余り $R$ は定数であり, 次の等式(恒等式)が成り立つ.
+\[ P(x) = (x-k)Q(x) + R \]
+この式の両辺に $\boldsymbol{x=k}$ を代入すると...
+\[ P(k) = \underbrace{(k-k)Q(k)}_{0} + R \quad \therefore R = P(k) \]
+つまり, \textbf{代入するだけで余りが求まる！}
+\end{any}
+
+\begin{any}{定理：剰余の定理}
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    整式 $P(x)$ を 1次式 $\boldsymbol{x-k}$ で割った余りは, $\boldsymbol{P(k)}$ に等しい.
+\end{tcolorbox}
+\end{center}
+\begin{itemize}
+    \item $x-1$ で割った余り $\to$ $x=1$ を代入 ($P(1)$)
+    \item $x+2$ で割った余り $\to$ $x=-2$ を代入 ($P(-2)$)
+\end{itemize}
+\end{any}
+
+\begin{eg}{1（剰余の定理の利用）}
+整式 $P(x) = x^3 - 3x^2 + 4x - 5$ を, 次の1次式で割った余りを求めよ.
+\begin{enumerate}
+    \item $x-2$
+    \item $x+1$
+\end{enumerate}
+\end{eg}
+
+\begin{answer}
+% 解説
+% (1) P(2) = 8 - 12 + 8 - 5 = -1
+% (2) P(-1) = -1 - 3 - 4 - 5 = -13
+\vspace{4cm}
+\end{answer}
+
+\columnbreak
+
+%===========================================================
+% 右カラム: 剰余の定理（拡張）
+%===========================================================
+
+{\large \textbf{2. 1次式 $\boldsymbol{ax+b}$ で割る場合}}
+
+\begin{any}{割る式が0になる値を代入せよ}
+$ax+b$ で割った余りを求めたい場合も, 同様に考える.
+商を $Q(x)$, 余りを $R$ とすると
+\[ P(x) = (ax+b)Q(x) + R \]
+右辺の $(ax+b)$ を $0$ にするためには, $\boldsymbol{x = -\frac{b}{a}}$ を代入すればよい.
+
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    整式 $P(x)$ を $\boldsymbol{ax+b}$ で割った余りは, $\ds \boldsymbol{P\left(-\frac{b}{a}\right)}$ に等しい.
+\end{tcolorbox}
+\end{center}
+\end{any}
+
+\begin{eg}{2（$ax+b$ で割る場合）}
+整式 $P(x) = 2x^3 - 3x^2 - x + 2$ を, 次の1次式で割った余りを求めよ.
+\begin{enumerate}
+    \item $2x-1$
+    \item $2x+3$
+\end{enumerate}
+\end{eg}
+
+\begin{answer}
+% 解説
+% (1) x=1/2を代入
+% P(1/2) = 2(1/8) - 3(1/4) - 1/2 + 2 
+%        = 1/4 - 3/4 - 2/4 + 8/4 = 4/4 = 1
+% (2) x=-3/2を代入
+\vspace{6cm}
+\end{answer}
+
+\end{multicols*}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 因数定理の導入
+%===========================================================
+
+{\large \textbf{3. 因数定理}}
+
+\begin{any}{「余りが0」の意味}
+剰余の定理 $P(k)=R$ において, 特に余り $R$ が $0$ になる場合を考える.
+\[ P(k)=0 \iff P(x) \text{ は } x-k \text{ で割り切れる} \]
+割り切れるということは, $P(x)=(x-k)Q(x)$ の形に変形できるということ.
+つまり, \textbf{因数分解できる！}ということである.
+\end{any}
+
+\begin{any}{因数定理}
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    整式 $P(x)$ について,
+    \begin{itemize}
+        \item $\boldsymbol{P(k)=0 \iff P(x) \text{ は } x-k \text{ を因数にもつ}}$
+    \end{itemize}
+\end{tcolorbox}
+\end{center}
+「代入して0になる値」を見つければ, それをヒントに因数分解ができる.
+\end{any}
+
+\begin{eg}{3（因数を見つける）}
+$P(x) = x^3 - 4x^2 + x + 6$ とする.
+\begin{enumerate}
+    \item $P(-1)$ の値を求めよ.
+    \item $P(x)$ が因数としてもつ1次式を答えよ.
+\end{enumerate}
+\end{eg}
+
+\begin{answer}
+% 解説
+% (1) P(-1) = -1 - 4 - 1 + 6 = 0
+% (2) よって P(x) は x-(-1), つまり x+1 を因数にもつ.
+\vspace{4cm}
+\end{answer}
+
+\columnbreak
+
+%===========================================================
+% 右カラム: 高次式の因数分解
+%===========================================================
+
+{\large \textbf{4. 因数定理を利用した因数分解}}
+
+\begin{any}{候補の探し方}
+$P(k)=0$ となる $k$ の候補は, 次の数の中から探すとよい.
+\[ \pm \frac{\text{定数項の約数}}{\text{最高次の係数の約数}} \]
+（基本的には $\pm 1, \pm 2, \pm 3$ など, \textbf{定数項の約数}を順に代入して探す）
+\end{any}
+
+\begin{eg}{4（3次式の因数分解）}
+$x^3 - 4x^2 + x + 6$ を因数分解せよ.
+\end{eg}
+
+\begin{any}{手順}
+\begin{enumerate}
+    \item $P(k)=0$ となる $k$ を見つける. $\to$ $x=-1$ で $0$ になった！
+    \item $P(x)$ を $(x+1)$ で割り算する（筆算 or 組立除法）.
+    \item $P(x) = (x+1)(\text{2次式})$ の形になる.
+    \item 後ろの2次式をさらに因数分解する.
+\end{enumerate}
+\end{any}
+
+\begin{answer}
+% 筆算スペース
+% (x^3 -4x^2 +x +6) ÷ (x+1) = x^2 -5x +6
+% よって (x+1)(x^2 -5x +6)
+% = (x+1)(x-2)(x-3)
+\vspace{6cm}
+\end{answer}
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 裏面: 演習問題
+%===========================================================
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A1（基本計算）}
+整式 $P(x) = x^3 + 2x^2 - 5x + 1$ を, 次の式で割った余りを求めよ.
+\begin{enumerate}
+    \item $x-1$
+    \item $x-3$
+    \item $x+2$
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{A2（$ax+b$ で割る）}
+整式 $P(x) = 4x^3 - 2x^2 + 3$ を, 次の式で割った余りを求めよ.
+\begin{enumerate}
+    \item $2x+1$
+    \item $2x-3$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B1（余りからの係数決定）}
+整式 $P(x) = x^3 + kx^2 - 3x + 2$ を $x-2$ で割った余りが $4$ であるとき, 定数 $k$ の値を求めよ.
+\end{prac}
+
+\begin{prac}{B2（2次式で割った余り）}
+整式 $P(x)$ を $x-1$ で割ると $3$ 余り, $x+2$ で割ると $-3$ 余る.
+このとき, $P(x)$ を $(x-1)(x+2)$ で割った余りを求めよ.
+\end{prac}
+
+\begin{any}{Hint}
+2次式で割った余りは「1次以下の式」になるので, $\boldsymbol{ax+b}$ とおける.
+\[ P(x) = (x-1)(x+2)Q(x) + ax+b \]
+この恒等式に $x=1$ と $x=-2$ を代入して, $a, b$ の連立方程式を作ろう.
+\end{any}
+
+\begin{answer}
+% P(1) = a+b = 3
+% P(-2) = -2a+b = -3
+% 引き算: 3a=6 -> a=2, b=1
+% 余り: 2x+1
+\end{answer}
+
+\end{multicols*}
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A1（基本計算）}
+整式 $P(x) = x^3 + 2x^2 - 5x + 1$ を, 次の式で割った余りを求めよ.
+\begin{enumerate}
+    \item $x-1$
+    \item $x-3$
+    \item $x+2$
+\end{enumerate}
+\end{prac}
+
+\begin{prac}{A2（$ax+b$ で割る）}
+整式 $P(x) = 4x^3 - 2x^2 + 3$ を, 次の式で割った余りを求めよ.
+\begin{enumerate}
+    \item $2x+1$
+    \item $2x-3$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+\color{printRed}
+\textbf{A1}
+\begin{enumerate}
+    \item $P(1) = 1^3 + 2(1)^2 - 5(1) + 1 = 1 + 2 - 5 + 1 = \boldsymbol{-1}$
+    \item $P(3) = 3^3 + 2(3)^2 - 5(3) + 1 = 27 + 18 - 15 + 1 = \boldsymbol{31}$
+    \item $P(-2) = (-2)^3 + 2(-2)^2 - 5(-2) + 1 = -8 + 8 + 10 + 1 = \boldsymbol{11}$
+\end{enumerate}
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\textbf{A2}
+\begin{enumerate}
+    \item $x=-\frac{1}{2}$ を代入. \\
+    $\ds P\left(-\frac{1}{2}\right) = 4\left(-\frac{1}{8}\right) - 2\left(\frac{1}{4}\right) + 3 = -\frac{1}{2} - \frac{1}{2} + 3 = \boldsymbol{2}$
+    \item $x=\frac{3}{2}$ を代入. \\
+    $\ds P\left(\frac{3}{2}\right) = 4\left(\frac{27}{8}\right) - 2\left(\frac{9}{4}\right) + 3 = \frac{27}{2} - \frac{9}{2} + 3 = 9 + 3 = \boldsymbol{12}$
+\end{enumerate}
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B1（余りからの係数決定）}
+整式 $P(x) = x^3 + kx^2 - 3x + 2$ を $x-2$ で割った余りが $4$ であるとき, 定数 $k$ の値を求めよ.
+\end{prac}
+
+\begin{prac}{B2（2次式で割った余り）}
+整式 $P(x)$ を $x-1$ で割ると $3$ 余り, $x+2$ で割ると $-3$ 余る.
+このとき, $P(x)$ を $(x-1)(x+2)$ で割った余りを求めよ.
+\end{prac}
+
+\begin{any}{Hint}
+2次式で割った余りは「1次以下の式」になるので, $\boldsymbol{ax+b}$ とおける.
+\[ P(x) = (x-1)(x+2)Q(x) + ax+b \]
+この恒等式に $x=1$ と $x=-2$ を代入して, $a, b$ の連立方程式を作ろう.
+\end{any}
+
+\begin{answer}
+\color{printRed}
+\textbf{B1} \\
+剰余の定理より $P(2)=4$ となればよい. \\
+$P(2) = 2^3 + k(2)^2 - 3(2) + 2 = 8 + 4k - 6 + 2 = 4k + 4$ \\
+よって $4k+4=4 \iff 4k=0 \iff \boldsymbol{k=0}$
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\textbf{B2} \\
+求める余りを $ax+b$ とおくと, 条件より
+\[ \begin{cases} P(1) = a+b = 3 \\ P(-2) = -2a+b = -3 \end{cases} \]
+辺々引くと $3a=6 \iff a=2$. \\
+これを代入して $2+b=3 \iff b=1$. \\
+よって求める余りは $\boldsymbol{2x+1}$
+\end{answer}
+
+\end{multicols*}
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A3（因数の判定）}
+整式 $P(x) = x^3 - 2x^2 - 5x + 6$ について, 次の1次式のうち, $P(x)$ の因数であるものを選べ.
+\[ x-1, \quad x+1, \quad x-2, \quad x-3 \]
+\end{prac}
+
+
+\begin{prac}{A4（因数分解の実践）}
+次の式を因数分解せよ.
+\begin{enumerate}
+    \item $x^3 - 3x^2 - 4x + 12$ \quad ($P(2)$や$P(3)$を試そう)
+    \item $x^3 + 4x^2 + x - 6$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+\vspace{6cm}
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B3（係数がついている場合）}
+$2x^3 - 3x^2 - 11x + 6$ を因数分解せよ.
+\end{prac}
+
+\begin{any}{Hint}
+定数項 $6$ の約数 $(\pm1, \pm2, \pm3, \pm6)$ を代入しても $0$ にならない場合は, 分数 $\pm \frac{1}{2}$ などを試す必要がある.
+\[ P(3) = 54 - 27 - 33 + 6 = 0 \]
+(おっと, 今回は整数 $3$ で見つかりますね. $x-3$ で割ってみよう)
+\end{any}
+
+\begin{prac}{B4（因数をもつ条件）}
+整式 $P(x) = x^3 + (k+1)x^2 - x - 3$ が $x-1$ を因数にもつとき, 定数 $k$ の値を求めよ. また, そのときの $P(x)$ を因数分解せよ.
+\end{prac}
+
+\begin{answer}
+% P(1) = 1 + k + 1 - 1 - 3 = k - 2 = 0 -> k=2
+% P(x) = x^3 + 3x^2 - x - 3
+%      = x^2(x+3) - (x+3) = (x^2-1)(x+3)
+%      = (x+1)(x-1)(x+3)
+\end{answer}
+
+\end{multicols*}
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A3（因数の判定）}
+整式 $P(x) = x^3 - 2x^2 - 5x + 6$ について, 次の1次式のうち, $P(x)$ の因数であるものを選べ.
+\[ x-1, \quad x+1, \quad x-2, \quad x-3 \]
+\end{prac}
+
+\begin{prac}{A4（因数分解の実践）}
+次の式を因数分解せよ.
+\begin{enumerate}
+    \item $x^3 - 3x^2 - 4x + 12$ \quad ($P(2)$や$P(3)$を試そう)
+    \item $x^3 + 4x^2 + x - 6$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+\color{printRed}
+\textbf{A3} \\
+剰余の定理より $P(k)=0$ となるものを確認する.
+\begin{itemize}
+    \item $P(1) = 1 - 2 - 5 + 6 = 0$ \quad $\to$ \textbf{○ ($x-1$)}
+    \item $P(-1) = -1 - 2 + 5 + 6 = 8 \neq 0$
+    \item $P(2) = 8 - 8 - 10 + 6 = -4 \neq 0$
+    \item $P(3) = 27 - 18 - 15 + 6 = 0$ \quad $\to$ \textbf{○ ($x-3$)}
+\end{itemize}
+よって答えは $\boldsymbol{x-1, \quad x-3}$
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\textbf{A4}
+\begin{enumerate}
+    \item $P(2) = 8 - 12 - 8 + 12 = 0$ より $x-2$ を因数にもつ. \\
+    $(x-2)(x^2-x-6) = \boldsymbol{(x-2)(x+2)(x-3)}$
+    \item $P(1) = 1 + 4 + 1 - 6 = 0$ より $x-1$ を因数にもつ. \\
+    $(x-1)(x^2+5x+6) = \boldsymbol{(x-1)(x+2)(x+3)}$
+\end{enumerate}
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B3（係数がついている場合）}
+$2x^3 - 3x^2 - 11x + 6$ を因数分解せよ.
+\end{prac}
+
+\begin{any}{Hint}
+定数項 $6$ の約数 $(\pm1, \pm2, \pm3, \pm6)$ を代入しても $0$ にならない場合は, 分数 $\pm \frac{1}{2}$ などを試す必要がある.
+\[ P(3) = 54 - 27 - 33 + 6 = 0 \]
+(おっと, 今回は整数 $3$ で見つかりますね. $x-3$ で割ってみよう)
+\end{any}
+
+\begin{prac}{B4（因数をもつ条件）}
+整式 $P(x) = x^3 + (k+1)x^2 - x - 3$ が $x-1$ を因数にもつとき, 定数 $k$ の値を求めよ. また, そのときの $P(x)$ を因数分解せよ.
+\end{prac}
+
+\begin{answer}
+\color{printRed}
+\textbf{B3} \\
+ヒントより $x-3$ を因数にもつ.
+筆算または組立除法で割り算を行うと
+\[ (x-3)(2x^2 + 3x - 2) \]
+後ろの2次式をたすき掛けで因数分解して,
+\[ \boldsymbol{(x-3)(x+2)(2x-1)} \]
+
+\vspace{0.5em}
+\hrule
+\vspace{0.5em}
+
+\textbf{B4} \\
+$x-1$ を因数にもつ $\iff P(1)=0$.
+\[ P(1) = 1 + (k+1) - 1 - 3 = k - 2 = 0 \iff \boldsymbol{k=2} \]
+このとき $P(x) = x^3 + 3x^2 - x - 3$. \\
+$P(1)=0$ なので $x-1$ で割ると,
+\[ (x-1)(x^2 + 4x + 3) = \boldsymbol{(x-1)(x+1)(x+3)} \]
+\end{answer}
+
+\end{multicols*}
+
+\end{document}

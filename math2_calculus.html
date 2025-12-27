@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math II - Calculus | Kyosuke Shibuya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        serif: ['"Noto Serif JP"', 'serif'],
+                    },
+                    colors: {
+                        gray: {
+                            50: '#f9fafb',
+                            800: '#1f2937',
+                            900: '#111827',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* スクロールバーの装飾 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <header class="fixed top-0 w-full h-16 bg-gray-900 text-white flex items-center justify-between px-6 z-40 shadow-md">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="text-xl focus:outline-none hover:text-gray-300 transition">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h1 class="font-serif text-lg tracking-wider">数学 II：微分・積分法</h1>
+        </div>
+        <div class="text-gray-500 text-sm"><i class="fa-solid fa-chart-area"></i></div>
+    </header>
+
+    <main class="flex-grow pt-16 flex flex-col fade-in">
+        
+        <div class="py-10 text-center bg-gray-50 border-b border-gray-200">
+            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Differential & Integral</h2>
+            <p class="text-xs text-gray-400 tracking-[0.3em] uppercase">Calculus</p>
+        </div>
+
+        <div class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto w-full px-4 py-8 gap-8">
+            
+            <section class="w-full md:w-2/3 flex flex-col">
+                <div class="bg-white border border-gray-200 shadow-sm rounded-sm overflow-hidden flex flex-col h-full">
+                    <h3 class="bg-gray-50 text-sm font-bold text-gray-500 tracking-widest p-4 border-b border-gray-200 flex items-center gap-2">
+                        <i class="fa-regular fa-file-lines"></i> 授業プリント
+                    </h3>
+                    
+                    <ul class="divide-y divide-gray-50 text-sm text-gray-700 flex-grow">
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_01.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">01.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">極限概念の形成</div>
+                                        <div class="text-xs text-gray-400 font-light">Limit Concept</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_02.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">02.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">極限の計算</div>
+                                        <div class="text-xs text-gray-400 font-light">Calculation of Limits</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_03.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">03.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">定積分の定義と区分求積法</div>
+                                        <div class="text-xs text-gray-400 font-light">Definite Integral & Quadrature</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_04.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">04.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">平均変化率と導関数</div>
+                                        <div class="text-xs text-gray-400 font-light">Average Rate of Change</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_05.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">05.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">導関数の性質と計算</div>
+                                        <div class="text-xs text-gray-400 font-light">Properties of Derivatives</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_06.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">06.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">微分と導関数 (概念定義)</div>
+                                        <div class="text-xs text-gray-400 font-light">Concept of Differentiation</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_07.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">07.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">接線の方程式と因数定理</div>
+                                        <div class="text-xs text-gray-400 font-light">Tangent Line Equation</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_08.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">08.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">関数の増減とグラフ</div>
+                                        <div class="text-xs text-gray-400 font-light">Increase/Decrease & Graphs</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_09.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">09.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">最大・最小 / 方程式への応用</div>
+                                        <div class="text-xs text-gray-400 font-light">Max/Min Applications</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_10.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">10.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">微分積分学の基本定理</div>
+                                        <div class="text-xs text-gray-400 font-light">Fundamental Thm of Calculus</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_11.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">11.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">微積分学の基本定理と面積</div>
+                                        <div class="text-xs text-gray-400 font-light">Fundamental Thm & Area</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_12.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">12.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">定積分の計算と性質</div>
+                                        <div class="text-xs text-gray-400 font-light">Definite Integral Properties</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_13.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">13.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">面積計算の特訓</div>
+                                        <div class="text-xs text-gray-400 font-light">Area Calculation Training</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_14.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">14.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">1/6公式の証明</div>
+                                        <div class="text-xs text-gray-400 font-light">Proof of the 1/6 Formula</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_15.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">15.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">1/6公式の利用と発展</div>
+                                        <div class="text-xs text-gray-400 font-light">Applications of 1/6 Formula</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="calculus/calculus_16.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">16.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">微分・積分の融合と極限</div>
+                                        <div class="text-xs text-gray-400 font-light">Fusion of Calculus & Limits</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="w-full md:w-1/3 flex flex-col gap-6">
+                <div class="bg-white border border-gray-200 shadow-sm rounded-sm p-6 sticky top-24">
+                    <h3 class="text-sm font-bold text-gray-500 tracking-widest mb-6 border-b border-gray-200 pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> 副読本と解説動画
+                    </h3>
+                    
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="calculus/calculus_text.pdf" target="_blank" class="block group bg-gray-50 hover:bg-gray-800 hover:text-white border border-gray-200 p-4 transition duration-300 rounded-sm">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-2xl text-gray-400 group-hover:text-white transition">
+                                        <i class="fa-solid fa-book"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-serif text-lg leading-tight mb-1">微分積分学の物語</div>
+                                        <div class="text-xs text-gray-500 group-hover:text-gray-300 tracking-wider">Calculus Textbook</div>
+                                        <div class="mt-2 text-xs border border-gray-300 group-hover:border-gray-500 rounded px-2 py-0.5 inline-block">PDFを見る</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.youtube.com/playlist?list=PLtLYJVKtz3ddXi67WOmvSHJ8YY4x5vutl" target="_blank" class="block group bg-gray-50 hover:bg-gray-800 hover:text-white border border-gray-200 p-4 transition duration-300 rounded-sm">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-2xl text-red-600 group-hover:text-white transition">
+                                        <i class="fa-brands fa-youtube"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-serif text-lg leading-tight mb-1">解説動画プレイリスト</div>
+                                        <div class="text-xs text-gray-500 group-hover:text-gray-300 tracking-wider">YouTube Playlist</div>
+                                        <div class="mt-2 text-xs border border-gray-300 group-hover:border-gray-500 rounded px-2 py-0.5 inline-block">動画を見る</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="mt-8 pt-6 border-t border-gray-100">
+                        <h4 class="text-xs font-bold text-gray-400 mb-2">NOTE</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            副読本は授業の補助教材です。予習・復習に活用してください。ファイルサイズが大きいのでWi-Fi環境での閲覧を推奨します。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="py-8 text-center text-gray-300 text-xs tracking-widest mt-auto">
+            &copy; 2025 Kyosuke Shibuya Mathematics.
+        </div>
+    </main>
+</body>
+</html>

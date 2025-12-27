@@ -1,0 +1,306 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+
+%--- ボックススタイル定義 ---
+\tcbset{
+    testbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        colframe=printBlue,
+        colback=white,
+        coltitle=white,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        drop fuzzy shadow,
+        attach boxed title to top left={xshift=5pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+% 問題用ボックス
+\newenvironment{prob}[1]{
+\begin{tcolorbox}[
+    testbox,
+    title=\textbf{第#1問},
+]}
+{\end{tcolorbox}}
+
+% 解説用ボックス
+\newenvironment{explain}[1]{
+    \begin{tcolorbox}[
+        enhanced,
+        colframe=printRed,
+        colback=white,
+        coltitle=white,
+        title=\textbf{【解説】第#1問},
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        segmentation style={draw=printRed, dashed}
+    ]}
+{ \end{tcolorbox}}
+
+%-----------------------------------------------------------
+% answer環境 (前回までの定義と全く同じもの)
+%-----------------------------------------------------------
+\newenvironment{answer}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Memo / Answer},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        enlarge left by=2mm, 
+        enlarge right by=2mm, 
+        height fill,
+        segmentation style={draw=black!20, solid},
+        underlay={% 方眼を描画
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        }, 
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第2章 複素数と方程式 $>$ 第10回--\textbf{到達度確認テスト}}}
+\fancyhead[R]{\small 実施日：\hspace{2cm} \quad ／50点 \quad 氏名 \hspace{5cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+%===========================================================
+% 1枚目：問題（左）と解答欄（右）
+%===========================================================
+\begin{multicols*}{2}
+
+%-----------------------------------------------------------
+% 左カラム：問題
+%-----------------------------------------------------------
+{\large \textbf{【問題】 制限時間 30分}}
+
+\begin{prob}{1 (複素数の計算・10点)}
+次の計算をし，$a+bi$ の形で答えよ.
+\begin{enumerate}
+    \item $(3-2i)^2$
+    \item $\ds \frac{5}{1-2i}$
+\end{enumerate}
+\end{prob}
+
+\begin{answer}
+    
+\end{answer}
+
+\begin{prob}{2 (2次方程式の解・10点)}
+2次方程式 $x^2 - 3x + 4 = 0$ の2つの解を $\alpha, \beta$ とするとき，次の式の値を求めよ.
+\begin{enumerate}
+    \item $\alpha^2 + \beta^2$
+    \item $\ds \frac{1}{\alpha} + \frac{1}{\beta}$
+\end{enumerate}
+\end{prob}
+
+\begin{answer}
+    
+\end{answer}
+
+\begin{prob}{3 (因数定理と高次方程式・15点)}
+3次方程式 $x^3 - 4x^2 + ax + b = 0$ が $x=1$ と $x=2$ を解にもつとき，以下の問いに答えよ.
+\begin{enumerate}
+    \item 定数 $a, b$ の値を求めよ.
+    \item 残りの解を求めよ.
+\end{enumerate}
+\end{prob}
+
+\begin{answer}
+    
+\end{answer}
+
+\begin{prob}{4 (高次方程式とオメガ・15点)}
+以下の問いに答えよ.
+\begin{enumerate}
+    \item 4次方程式 $x^4 - 3x^2 - 4 = 0$ を解け.
+    \item 方程式 $x^3=1$ の虚数解の一つを $\omega$ とするとき，
+    $\omega^{5} + \omega^4 + 1$ の値を求めよ.
+\end{enumerate}
+\end{prob}
+
+
+\begin{answer}
+
+\end{answer}
+
+
+
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 2枚目：解答と解説
+%===========================================================
+\begin{multicols*}{2}
+
+{\large \textbf{【解答・解説】}}
+
+\begin{tcolorbox}[colframe=printTeal, title=\textbf{学習チェックリスト}]
+\small
+間違えた問題に関連する項目をチェックしよう.
+\begin{itemize}
+    \item[$\square$] 複素数の四則演算（特に分母の実数化）
+    \item[$\square$] 解と係数の関係と対称式の変形
+    \item[$\square$] 剰余の定理・因数定理の使い方
+    \item[$\square$] 高次方程式の解法（因数分解・複二次式）
+    \item[$\square$] 1の3乗根 $\omega$ の性質 ($\omega^3=1, \omega^2+\omega+1=0$)
+\end{itemize}
+\end{tcolorbox}
+
+\begin{explain}{1}
+(1) 展開公式 $(A-B)^2=A^2-2AB+B^2$ を利用.
+\begin{align*}
+(3-2i)^2 &= 9 - 12i + 4i^2 \\
+&= 9 - 12i - 4 \\
+&= \boldsymbol{5 - 12i}
+\end{align*}
+
+(2) 分母の共役な複素数 $1+2i$ を掛ける.
+\begin{align*}
+\frac{5}{1-2i} &= \frac{5(1+2i)}{(1-2i)(1+2i)} \\
+&= \frac{5(1+2i)}{1^2 + 2^2} \\
+&= \frac{5(1+2i)}{5} = \boldsymbol{1 + 2i}
+\end{align*}
+\end{explain}
+
+\begin{explain}{2}
+解と係数の関係より，$\alpha+\beta = 3, \quad \alpha\beta = 4$.
+
+(1)
+\begin{align*}
+\alpha^2+\beta^2 &= (\alpha+\beta)^2 - 2\alpha\beta \\
+&= 3^2 - 2 \cdot 4 \\
+&= 9 - 8 = \boldsymbol{1}
+\end{align*}
+
+(2)
+\begin{align*}
+\frac{1}{\alpha} + \frac{1}{\beta} &= \frac{\alpha+\beta}{\alpha\beta} \\
+&= \boldsymbol{\frac{3}{4}}
+\end{align*}
+\end{explain}
+
+\columnbreak
+
+\begin{explain}{3}
+(1) $x=1, 2$ を解にもつので，代入して成り立つ.
+\[
+\begin{cases}
+1 - 4 + a + b = 0 \\
+8 - 16 + 2a + b = 0
+\end{cases}
+\iff
+\begin{cases}
+a + b = 3 \\
+2a + b = 8
+\end{cases}
+\]
+これを解いて，$\boldsymbol{a=5, b=-2}$
+
+(2) 方程式は $x^3 - 4x^2 + 5x - 2 = 0$.
+$(x-1)(x-2) = x^2-3x+2$ で割り切れるので，
+筆算などで割り算を行うと，
+$(x-1)(x-2)(x-1) = 0$ となる.
+よって残りの解は $\boldsymbol{x=1}$ (重解).
+\end{explain}
+
+\begin{explain}{4}
+(1) $x^2=X$ とおくと $X^2 - 3X - 4 = 0$.
+$(X-4)(X+1) = 0$ より $X=4, -1$.
+よって $x^2=4, \ x^2=-1$.
+$\boldsymbol{x = \pm 2, \ \pm i}$
+
+(2) $\omega$ の性質を利用する.
+\begin{itemize}
+    \item $\omega^5 = \omega^3 \cdot \omega^2 = 1 \cdot \omega^2 = \omega^2$
+    \item $\omega^4 = \omega^3 \cdot \omega = 1 \cdot \omega = \omega$
+\end{itemize}
+よって
+\[ \omega^5 + \omega^4 + 1 = \omega^2 + \omega + 1 = \boldsymbol{0} \]
+\end{explain}
+
+\end{multicols*}
+
+\end{document}

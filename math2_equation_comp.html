@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math II - Equations | Kyosuke Shibuya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        serif: ['"Noto Serif JP"', 'serif'],
+                    },
+                    colors: {
+                        gray: {
+                            50: '#f9fafb',
+                            800: '#1f2937',
+                            900: '#111827',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* スクロールバーの装飾 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <header class="fixed top-0 w-full h-16 bg-gray-900 text-white flex items-center justify-between px-6 z-40 shadow-md">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="text-xl focus:outline-none hover:text-gray-300 transition">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h1 class="font-serif text-lg tracking-wider">数学 II：式と証明・方程式</h1>
+        </div>
+        <div class="text-gray-500 text-sm"><i class="fa-solid fa-superscript"></i></div>
+    </header>
+
+    <main class="flex-grow pt-16 flex flex-col fade-in">
+        
+        <div class="py-10 text-center bg-gray-50 border-b border-gray-200">
+            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Equations & Proofs</h2>
+            <p class="text-xs text-gray-400 tracking-[0.3em] uppercase">Equation / Complex Numbers</p>
+        </div>
+
+        <div class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto w-full px-4 py-8 gap-8">
+            
+            <section class="w-full md:w-2/3 flex flex-col">
+                <div class="bg-white border border-gray-200 shadow-sm rounded-sm overflow-hidden flex flex-col h-full">
+                    <h3 class="bg-gray-50 text-sm font-bold text-gray-500 tracking-widest p-4 border-b border-gray-200 flex items-center gap-2">
+                        <i class="fa-regular fa-file-lines"></i> 授業プリント
+                    </h3>
+                    
+                   <ul class="divide-y divide-gray-50 text-sm text-gray-700 flex-grow">
+                        
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_01.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">01.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">二項定理</div>
+                                        <div class="text-xs text-gray-400 font-light">Binomial Theorem</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_02.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">02.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">整式の除法と分数式</div>
+                                        <div class="text-xs text-gray-400 font-light">Polynomial Division</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_03.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">03.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">複素数の導入</div>
+                                        <div class="text-xs text-gray-400 font-light">Introduction to Complex Numbers</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_04.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">04.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">共役複素数と判別式</div>
+                                        <div class="text-xs text-gray-400 font-light">Conjugate & Discriminant</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_05.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">05.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">解と係数の関係</div>
+                                        <div class="text-xs text-gray-400 font-light">Roots and Coefficients</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_06.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">06.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">剰余の定理と因数定理</div>
+                                        <div class="text-xs text-gray-400 font-light">Remainder & Factor Theorems</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_07.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">07.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">高次方程式</div>
+                                        <div class="text-xs text-gray-400 font-light">High-Degree Equations</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_08.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">08.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">高次方程式 (2)</div>
+                                        <div class="text-xs text-gray-400 font-light">High-Degree Equations II</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_09.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">09.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">1の3乗根と複素数</div>
+                                        <div class="text-xs text-gray-400 font-light">Cube Roots of Unity</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_10.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">10.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">到達度確認テスト</div>
+                                        <div class="text-xs text-gray-400 font-light">Review Test</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_11.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">11.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">等式の証明</div>
+                                        <div class="text-xs text-gray-400 font-light">Equality Proofs</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_12.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">12.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">不等式の証明 (1)</div>
+                                        <div class="text-xs text-gray-400 font-light">Inequality Proofs I</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_13.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">13.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">不等式の証明 (2)</div>
+                                        <div class="text-xs text-gray-400 font-light">Inequality Proofs II</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_14.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">14.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">相加・相乗平均 (1)</div>
+                                        <div class="text-xs text-gray-400 font-light">AM-GM Inequality I</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_15.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">15.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">発展:コーシー・シュワルツの不等式</div>
+                                        <div class="text-xs text-gray-400 font-light">Cauchy-Schwarz Inequality</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_16.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">16.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">単元の総整理 (1)</div>
+                                        <div class="text-xs text-gray-400 font-light">Unit Review I</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+
+                        <li class="group hover:bg-gray-50 transition duration-150">
+                            <a href="equation_comp/equation_17.pdf" target="_blank" class="flex items-center justify-between p-4">
+                                <div class="flex items-center gap-4">
+                                    <span class="font-serif text-gray-400 text-lg w-8">17.</span>
+                                    <div>
+                                        <div class="font-medium group-hover:text-gray-900">第17回 講義プリント</div>
+                                        <div class="text-xs text-gray-400 font-light">Lesson 17</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="w-full md:w-1/3 flex flex-col gap-6">
+                <div class="bg-white border border-gray-200 shadow-sm rounded-sm p-6 sticky top-24">
+                    <h3 class="text-sm font-bold text-gray-500 tracking-widest mb-6 border-b border-gray-200 pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> 副読本と解説動画
+                    </h3>
+                    
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="equation_comp/equation_text.pdf" target="_blank" class="block group bg-gray-50 hover:bg-gray-800 hover:text-white border border-gray-200 p-4 transition duration-300 rounded-sm">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-2xl text-gray-400 group-hover:text-white transition">
+                                        <i class="fa-solid fa-book"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-serif text-lg leading-tight mb-1">式と証明・複素数</div>
+                                        <div class="text-xs text-gray-500 group-hover:text-gray-300 tracking-wider">Textbook</div>
+                                        <div class="mt-2 text-xs border border-gray-300 group-hover:border-gray-500 rounded px-2 py-0.5 inline-block">PDFを見る</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="opacity-60">
+                            <div class="block bg-gray-50 border border-gray-200 p-4 rounded-sm cursor-not-allowed">
+                                <div class="flex items-start gap-3">
+                                    <div class="text-2xl text-gray-300">
+                                        <i class="fa-brands fa-youtube"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-serif text-lg leading-tight mb-1 text-gray-400">解説動画プレイリスト</div>
+                                        <div class="text-xs text-gray-400 tracking-wider">Coming Soon...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="mt-8 pt-6 border-t border-gray-100">
+                        <h4 class="text-xs font-bold text-gray-400 mb-2">NOTE</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            式変形のテクニックや証明の記述方法は、今後のすべての単元の基礎となります。丁寧な計算練習を心がけてください。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="py-8 text-center text-gray-300 text-xs tracking-widest mt-auto">
+            &copy; 2025 Kyosuke Shibuya Mathematics.
+        </div>
+    </main>
+</body>
+</html>

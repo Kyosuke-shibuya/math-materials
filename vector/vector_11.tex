@@ -1,0 +1,474 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% TikZライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections,
+    angles,
+    quotes,
+    decorations.pathmorphing
+}
+
+% tcolorboxライブラリ
+\tcbuselibrary{skins, breakable, theorems}
+
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+%--- 各種ボックス環境定義 ---
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+\newtcolorbox{eg}[1]{
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+}
+
+\newtcolorbox{prac}[1]{
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+}
+
+\newtcolorbox{thm}[1]{
+    chartbox,
+    colframe=printTeal,
+    coltitle=white,
+    title=\textbf{#1},
+    boxed title style={colback=printTeal}
+}
+
+\newtcolorbox{answer}[1][height fill]{
+    enhanced,
+    title={Memo / Answer},
+    colframe=black!80,
+    colback=white,
+    coltitle=black!60,
+    fonttitle=\sffamily\bfseries,
+    attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+    boxed title style={frame hidden, colback=white},
+    boxrule=1pt,
+    arc=1pt,
+    nobeforeafter,
+    enlarge left by=-2mm, 
+    enlarge right by=-2mm, 
+    height fill,
+    segmentation style={draw=black!20, solid},
+    underlay={
+        \begin{tcbclipinterior}
+            \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+        \end{tcbclipinterior}
+    }, 
+    #1
+}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学C $>$ 第1章--平面ベクトル $>$ 第11回 \textbf{円のベクトル方程式}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+%=============================================================================
+% 1枚目：円の定義とベクトル
+%=============================================================================
+\begin{multicols}{2}
+
+%-----------------------------------------------------------------------------
+% 左カラム：中心と半径
+%-----------------------------------------------------------------------------
+\begin{any}{1. 「距離が一定」となる矢印の集まり}
+    前回学んだ通り, 図形とは条件を満たす点の集合である.
+    「ある定点 C からの距離が一定値 $r$ である」ような点 P の集まりは円になる.
+    
+    これをベクトル（矢印）で表現してみよう.
+    
+    \begin{thm}{円のベクトル方程式 (基本形)}
+        中心 C($\vec{c}$), 半径 $r$ の円の方程式は,
+        \[ |\vec{p} - \vec{c}| = r \]
+        と表される. ($\vec{p}$ は円周上の動点)
+    \end{thm}
+    
+    \begin{center}
+    \begin{tikzpicture}[scale=1.0, >=stealth]
+        \coordinate (O) at (0, -0.5);
+        \coordinate (C) at (2, 1.5);
+        
+        % Circle
+        \draw[thick, gray!50] (C) circle (1.5);
+        \fill (C) circle (1.5pt) node[below] {C($\vec{c}$)};
+        \fill (O) circle (1.5pt) node[below left] {O};
+        
+        % Vectors
+        \draw[->, thick, printBlue] (O) -- (C);
+        
+        % Dynamic vectors p
+        \foreach \angle in {30, 100, 200, 300} {
+            \coordinate (P) at ($(C) + (\angle:1.5)$);
+            \draw[->, printTeal!70] (O) -- (P);
+            \fill (P) circle (1pt);
+        }
+        % Highlight one p
+        \coordinate (Pmain) at ($(C) + (45:1.5)$);
+        \draw[->, thick, printTeal] (O) -- (Pmain) node[midway, left] {$\vec{p}$};
+        \fill (Pmain) circle (2pt) node[above right] {P($\vec{p}$)};
+        
+        % Radius vector
+        \draw[->, thick, printRed] (C) -- (Pmain) node[midway, above left] {$\vec{p}-\vec{c}$};
+        \node[printRed, right] at (3.5, 2.5) {};
+        
+        \node[align=left, scale=0.9, draw=black!50, rounded corners] at (6.0, 0.5) {
+            条件 $|\vec{p}-\vec{c}|=r$ を満たす\\
+            矢印の\textbf{先端}を全部集めると\\
+            円が浮かび上がる.
+        };
+    \end{tikzpicture}
+    \end{center}
+    
+    \textbf{計算のコツ:} \\
+    絶対値 $|\cdot|$ のままでは扱いにくいので, 実際の問題では\textbf{両辺を2乗して内積の形にする}ことが多い.
+    \[ |\vec{p} - \vec{c}|^2 = r^2 \iff (\vec{p}-\vec{c})\cdot(\vec{p}-\vec{c}) = r^2 \]
+\end{any}
+
+%-----------------------------------------------------------------------------
+% 右カラム：直径の両端
+%-----------------------------------------------------------------------------
+\columnbreak
+
+\begin{any}{2. 「直径」が見込む角は90度}
+    円にはもう一つの定義がある. 「直径 AB に対する円周角は $90^\circ$」という性質だ.
+    これをベクトルの言葉（垂直＝内積0）に翻訳する.
+
+    \begin{thm}{円のベクトル方程式 (直径形)}
+        2点 A($\vec{a}$), B($\vec{b}$) を直径の両端とする円の方程式は,
+        \[ (\vec{p} - \vec{a}) \cdot (\vec{p} - \vec{b}) = 0 \]
+        と表される.
+    \end{thm}
+
+    \begin{center}
+    \begin{tikzpicture}[scale=1.0, >=stealth]
+        \coordinate (O) at (0, -0.5);
+        \coordinate (A) at (1, 1);
+        \coordinate (B) at (4, 2);
+        \coordinate (C) at (2.5, 1.5); % Center
+        
+        % Circle
+        % Radius: dist(2.5,1.5) to (1,1) is sqrt(1.5^2+0.5^2) approx
+        \def\rad{1.58}
+        \draw[thick, gray!50] (C) circle (\rad);
+        
+        % Diameter
+        \draw[thick] (A) -- (B);
+        \fill (A) circle (1.5pt) node[left] {A($\vec{a}$)};
+        \fill (B) circle (1.5pt) node[right] {B($\vec{b}$)};
+        
+        % Point P
+        \coordinate (P) at ($(C) + (110:\rad)$);
+        \fill (P) circle (2pt) node[above] {P($\vec{p}$)};
+        
+        % Vectors AP, BP
+        \draw[->, thick, printBlue] (A) -- (P) node[midway, left] {$\overrightarrow{\text{AP}}$};
+        \draw[->, thick, printRed] (B) -- (P) node[midway, right] {$\overrightarrow{\text{BP}}$};
+        
+        % Right angle
+        \pic [draw, angle radius=3mm] {right angle = A--P--B};
+        
+        \node[below] at (5.5, 0.5) {$\overrightarrow{\text{AP}} \perp \overrightarrow{\text{BP}} \iff \text{内積} 0$};
+    \end{tikzpicture}
+    \end{center}
+
+    この式を展開して整理すると,
+    \[ |\vec{p}|^2 - (\vec{a}+\vec{b})\cdot\vec{p} + \vec{a}\cdot\vec{b} = 0 \]
+    となり, さらに変形すると中心が $\frac{\vec{a}+\vec{b}}{2}$（中点）の基本形に帰着する.
+    
+    \begin{eg}{1 (方程式の読解)}
+        次の方程式はどのような図形を表すか.
+        \[ | \vec{p} - (\vec{a} + \vec{b}) | = 3 \]
+        \tcblower
+        \vspace{5cm}
+    \end{eg}
+\end{any}
+
+\end{multicols}
+
+%=============================================================================
+% 2枚目：垂直二等分線との比較
+%=============================================================================
+\newpage
+\begin{multicols}{2}
+
+%-----------------------------------------------------------------------------
+% 左カラム：距離が等しい点の集合
+%-----------------------------------------------------------------------------
+\begin{any}{3. 円じゃない場合（垂直二等分線）}
+    絶対値がついているからといって, 必ずしも円になるとは限らない.
+    式の意味（図形的条件）を日本語に翻訳する癖をつけよう.
+
+    \begin{thm}{垂直二等分線のベクトル方程式}
+        2点 A($\vec{a}$), B($\vec{b}$) からの距離が等しい点 P($\vec{p}$) の集合:
+        \[ |\vec{p} - \vec{a}| = |\vec{p} - \vec{b}| \]
+        これは線分 AB の\textbf{垂直二等分線}を表す.
+    \end{thm}
+    
+    \begin{center}
+    \begin{tikzpicture}[scale=0.9, >=stealth]
+        \coordinate (A) at (0,0);
+        \coordinate (B) at (4,0);
+        \coordinate (M) at (2,0);
+        
+        % Points
+        \fill (A) circle (2pt) node[below] {A($\vec{a}$)};
+        \fill (B) circle (2pt) node[below] {B($\vec{b}$)};
+        
+        % Perpendicular Bisector
+        \draw[thick, printBlue] (2, -1) -- (2, 3) node[above] {垂直二等分線};
+        
+        % Sample Point P
+        \coordinate (P) at (2, 2);
+        \fill (P) circle (2pt) node[right] {P($\vec{p}$)};
+        
+        % Distances
+        \draw[dashed, printRed] (A) -- (P) node[midway, left] {$|\vec{p}-\vec{a}|$};
+        \draw[dashed, printRed] (B) -- (P) node[midway, right] {$|\vec{p}-\vec{b}|$};
+        
+        % Equidistant mark
+        \node at (0.8, 1.2) {＝};
+        \node at (3.2, 1.2) {＝};
+    \end{tikzpicture}
+    \end{center}
+    
+    \textbf{証明:} 両辺を2乗して差を取ると,
+    \[ |\vec{p}-\vec{a}|^2 - |\vec{p}-\vec{b}|^2 = 0 \]
+    \[ \dots \iff (\vec{p} - \frac{\vec{a}+\vec{b}}{2}) \cdot (\vec{a}-\vec{b}) = 0 \]
+    これは「Pと中点を結ぶベクトル」と「ABベクトル」が垂直であることを示している.
+\end{any}
+
+%-----------------------------------------------------------------------------
+% 右カラム：計算練習
+%-----------------------------------------------------------------------------
+\columnbreak
+
+\begin{eg}{2 (式の変形と図形の特定)}
+    $|\vec{p} + 2\vec{a}| = |\vec{p} - \vec{a}|$ を満たす点 P($\vec{p}$) はどのような図形を描くか.
+    ただし $\vec{a} \neq \vec{0}$ とする.
+    
+    \tcblower
+    \vspace{18cm}
+\end{eg}
+
+\end{multicols}
+
+%=============================================================================
+% 3枚目：確認テスト（問題）
+%=============================================================================
+\newpage
+\fancyhead[L]{\small \textcolor{black!90}{数学C $>$ 第1章--平面ベクトル $>$ 第11回--\textbf{確認テスト}}}
+\begin{multicols}{2}
+
+\begin{any}{確認テスト (A: 基本)}
+    \begin{prac}{A1 (方程式の翻訳)}
+        次のベクトル方程式はどのような図形を表すか. 言葉で答えよ.
+        \begin{enumerate}
+            \item $|\vec{p} - \vec{a}| = 2$
+            \item $|\vec{p} + \vec{a}| = 1$
+            \item $(\vec{p} - \vec{a}) \cdot (\vec{p} + \vec{a}) = 0$
+            \item $|\vec{p} - \vec{a}| = |\vec{p} + \vec{a}|$
+        \end{enumerate}
+    \end{prac}
+    \begin{answer}[height=6cm]
+    \end{answer}
+
+    \begin{prac}{A2 (成分計算)}
+        A$(1, 2)$, B$(3, -2)$ を直径の両端とする円の方程式を, ベクトルを用いずに $x, y$ の式で表せ.
+        （※検算として, 内積の式 $(\vec{p}-\vec{a})\cdot(\vec{p}-\vec{b})=0$ を利用してもよい）
+    \end{prac}
+    \begin{answer}[height=4cm]
+    \end{answer}
+\end{any}
+
+\columnbreak
+
+\begin{any}{確認テスト (B: 標準)}
+    \begin{prac}{B1 (係数を含む方程式)}
+        定点 A($\vec{a}$), B($\vec{b}$) に対し, 次の式を満たす点 P($\vec{p}$) はどのような図形を描くか.
+        \[ |3\vec{p} - 2\vec{a}| = 6 \]
+    \end{prac}
+    \begin{answer}[height=5cm]
+    \end{answer}
+
+    \begin{prac}{B2 (アポロニウスの円・導入)}
+        $|\vec{p}| = 2|\vec{p} - \vec{a}|$ を満たす点 P 全体はどのような図形になるか.
+        両辺を2乗して計算し, 中心と半径（またはどのような円か）を答えよ.
+    \end{prac}
+    \begin{answer}[height fill]
+    \end{answer}
+\end{any}
+
+\end{multicols}
+
+%=============================================================================
+% 4枚目：確認テスト（解答）
+%=============================================================================
+\newpage
+\fancyhead[L]{\small \textcolor{black!90}{数学C $>$ 第1章--平面ベクトル $>$ 第11回 \textbf{【解答解説】}}}
+
+\begin{multicols}{2}
+
+\begin{any}{解答 (A: 基本)}
+    \begin{prac}{A1 解答}
+        (1) 中心 A($\vec{a}$), 半径 2 の円.
+        
+        (2) $|\vec{p} - (-\vec{a})| = 1$ と変形できる.
+        中心 $-\vec{a}$, 半径 1 の円.
+        
+        (3) 直径の両端が A($\vec{a}$) と $-\text{A}(-\vec{a})$ である円.
+        (中心は原点O, 半径 $|\vec{a}|$ の円)
+        
+        (4) 2点 A($\vec{a}$), $-\text{A}(-\vec{a})$ からの距離が等しい点の集合.
+        線分 A($\vec{a}$), $-\text{A}(-\vec{a})$ の垂直二等分線.
+        (原点を通り $\vec{a}$ に垂直な直線)
+    \end{prac}
+
+    \begin{prac}{A2 解答}
+        数学IIの知識で解くと:
+        中心はABの中点 $(2, 0)$, 半径は $\sqrt{1^2+2^2}=\sqrt{5}$.
+        よって $(x-2)^2 + y^2 = 5$.
+        
+        ベクトル方程式で解くと:
+        $(x-1)(x-3) + (y-2)(y-(-2)) = 0$
+        $x^2 - 4x + 3 + y^2 - 4 = 0$
+        $x^2 - 4x + y^2 = 1 \iff (x-2)^2 + y^2 = 5$.
+        同じ結果になる.
+    \end{prac}
+\end{any}
+
+\columnbreak
+
+\begin{any}{解答 (B: 標準)}
+    \begin{prac}{B1 解答}
+        $\vec{p}$ の係数を 1 にするために, 両辺を 3 で割る.
+        \begin{align*}
+            |3(\vec{p} - \frac{2}{3}\vec{a})| &= 6 \\
+            3 |\vec{p} - \frac{2}{3}\vec{a}| &= 6 \\
+            |\vec{p} - \frac{2}{3}\vec{a}| &= 2
+        \end{align*}
+        この式の形は「中心からの距離が2」を表している.
+        中心の位置ベクトルは $\frac{2}{3}\vec{a}$.
+        これは線分OAを $2:1$ に内分する点である.
+        
+        \textbf{答え:}
+        線分 OA を $2:1$ に内分する点を中心とする, 半径 2 の円.
+    \end{prac}
+
+    \begin{prac}{B2 解答}
+        両辺を2乗して展開する.
+        \begin{align*}
+            |\vec{p}|^2 &= 4 |\vec{p} - \vec{a}|^2 \\
+            |\vec{p}|^2 &= 4 (\vec{p}-\vec{a}) \cdot (\vec{p}-\vec{a}) \\
+            |\vec{p}|^2 &= 4 (|\vec{p}|^2 - 2\vec{p}\cdot\vec{a} + |\vec{a}|^2) \\
+            |\vec{p}|^2 &= 4|\vec{p}|^2 - 8\vec{p}\cdot\vec{a} + 4|\vec{a}|^2 \\
+            3|\vec{p}|^2 - 8\vec{p}\cdot\vec{a} + 4|\vec{a}|^2 &= 0
+        \end{align*}
+        全体を3で割って平方完成を目指す.
+        \[ |\vec{p}|^2 - \frac{8}{3}\vec{p}\cdot\vec{a} + \frac{4}{3}|\vec{a}|^2 = 0 \]
+        \[ |\vec{p} - \frac{4}{3}\vec{a}|^2 - |\frac{4}{3}\vec{a}|^2 + \frac{4}{3}|\vec{a}|^2 = 0 \]
+        \[ |\vec{p} - \frac{4}{3}\vec{a}|^2 - \frac{16}{9}|\vec{a}|^2 + \frac{12}{9}|\vec{a}|^2 = 0 \]
+        \[ |\vec{p} - \frac{4}{3}\vec{a}|^2 = \frac{4}{9}|\vec{a}|^2 \]
+        \[ |\vec{p} - \frac{4}{3}\vec{a}| = \frac{2}{3}|\vec{a}| \]
+        
+        \textbf{答え:}
+        中心 $\frac{4}{3}\vec{a}$ (線分OAを $4:1$ に外分する点), 半径 $\frac{2}{3}|\vec{a}|$ の円.
+        (アポロニウスの円)
+    \end{prac}
+\end{any}
+
+\end{multicols}
+\end{document}

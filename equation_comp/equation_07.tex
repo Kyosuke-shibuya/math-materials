@@ -1,0 +1,349 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{wrapfig}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+\definecolor{gridColor}{gray}{0.75}          % 解答欄の方眼
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+% 各種ボックス環境定義
+\newenvironment{overall}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printTeal,
+    coltitle=white,
+    title=\textbf{全体課題 #1},
+    boxed title style={colback=printTeal},
+]}
+{\end{tcolorbox}}
+
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+\newenvironment{eg}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{prac}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{answer}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Memo / Answer},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        enlarge left by=2mm, 
+        enlarge right by=2mm, 
+        height fill,
+        segmentation style={draw=black!20, solid},
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        }, 
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第2章 複素数と方程式 $>$ 第7回--\textbf{高次方程式}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 高次方程式の解法（基本）
+%===========================================================
+
+{\large \textbf{1. 高次方程式の解き方}}
+
+\begin{any}{基本戦略：因数分解して次数を下げる}
+3次以上の方程式を\textbf{高次方程式}という. 解の公式が存在しない(あるいは複雑すぎる)ため, 基本的には\textbf{因数定理}を用いて因数分解し, 1次式や2次式の積の形にもちこんで解く.
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    \textbf{手順}
+    \begin{enumerate}
+        \item $P(x)=0$ となる $x$ の値 ($k$) を見つける.
+        \item $P(x)$ を $x-k$ で割り算し, $(x-k)(\text{2次式})=0$ にする.
+        \item 2次方程式を解く (因数分解 or 解の公式).
+    \end{enumerate}
+\end{tcolorbox}
+\end{center}
+\end{any}
+
+\begin{any}{割り算は「筆算」で十分！}
+教科書等では「組立除法」という計算テクニックが紹介されることがあるが, \textbf{これは必須ではない}.
+通常の\textbf{筆算による割り算}の方が, 「今何をしているか」が明確であり, ミスをした際の確認もしやすい. 堂々と筆算を使おう.
+\end{any}
+
+\begin{eg}{1（3次方程式）}
+3次方程式 $x^3 - 4x^2 + 8x - 5 = 0$ を解け.
+\end{eg}
+
+\begin{answer}
+\begin{minipage}[t]{0.55\textwidth}
+\small
+\begin{enumerate}
+    \item[1.] $P(1) = 1 - 4 + 8 - 5 = 0$ なので, $x-1$ を因数にもつ.
+    \item[2.] 筆算で割り算を行う(右図). \\
+    商は $x^2 -3x +5$.
+    \item[3.] $(x-1)(x^2 -3x +5) = 0$ \\
+    $x=1$, または $x^2 -3x +5 = 0$ \\
+    解の公式より \\
+    $x = 1, \ \ds\frac{3\pm\sqrt{11}i}{2}$
+\end{enumerate}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.4\textwidth}
+% 筆算の図
+\small
+\[
+\renewcommand{\arraystretch}{1.2}
+\setlength\arraycolsep{1pt}
+\begin{array}{r@{\,}l}
+ & x^2 -3x +5 \\
+\cline{2-2}
+x-1 & \big) \ x^3 -4x^2 +8x -5 \\
+ & x^3 -\phantom{4}x^2 \\
+\cline{2-2}
+ & \phantom{x^3} -3x^2 +8x \\
+ & \phantom{x^3} -3x^2 +3x \\
+\cline{2-2}
+ & \phantom{x^3 -3x^2} 5x -5 \\
+ & \phantom{x^3 -3x^2} 5x -5 \\
+\cline{2-2}
+ & \phantom{x^3 -3x^2 +5x} 0
+\end{array}
+\]
+\end{minipage}
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{1}
+次の3次方程式を解け.
+\begin{enumerate}
+    \item $x^3 - 2x^2 + x - 2 = 0$
+    \item $x^3 - 3x^2 + 4x - 2 = 0$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+
+\end{answer}
+
+\columnbreak
+%===========================================================
+% 右カラム: 特殊な形・複二次式
+%===========================================================
+
+{\large \textbf{2. 置き換えを利用する形}}
+
+\begin{any}{複二次式 $\boldsymbol{ax^4+bx^2+c=0}$}
+$x^4$ と $x^2$ だけが登場する式は, $\boldsymbol{X=x^2}$ と置き換えることで2次方程式に帰着できる.
+ただし, $X$ が求まった後, $x = \pm\sqrt{X}$ で $x$ に戻すことを忘れないこと.
+\end{any}
+
+\begin{eg}{2（複二次方程式）}
+次の方程式を解け.
+\begin{enumerate}
+    \item $x^4 - 3x^2 - 4 = 0$
+    \item $x^4 + 5x^2 - 36 = 0$
+\end{enumerate}
+\end{eg}
+
+\begin{answer}
+% 解説
+% (1) X=x^2 とおく -> X^2 -3X -4 = 0 -> (X-4)(X+1)=0
+%     X=4, -1 -> x^2=4, x^2=-1
+%     x = ±2, ±i
+% (2) (X+9)(X-4)=0 -> X=-9, 4
+%     x = ±3i, ±2
+\vspace{6cm}
+\end{answer}
+
+\begin{any}{Note: 重解の扱い}
+$(x-1)^2(x+2)=0$ のように因数分解された場合, 解は $x=1$ (2重解), $x=-2$ となる.
+3次方程式だからといって必ずしも異なる3つの解をもつとは限らない.
+\end{any}
+
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 裏面: 演習問題
+%===========================================================
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A1（因数定理と筆算）}
+次の方程式を解け.
+\begin{enumerate}
+    \item $x^3 - 3x^2 + 4 = 0$
+    \item $x^3 + x^2 - 17x + 15 = 0$
+\end{enumerate}
+\end{prac}
+
+
+\begin{prac}{A2（複二次式）}
+次の方程式を解け.
+\begin{enumerate}
+    \item $x^4 - 5x^2 + 4 = 0$
+    \item $x^4 - 16 = 0$
+\end{enumerate}
+\end{prac}
+
+\begin{answer}
+\vspace{5cm}
+\end{answer}
+
+\columnbreak
+
+\begin{prac}{B1（虚数解をもつ高次方程式）}
+$x^3 - 1 = 0$ を解け.
+また, その虚数解の一つを $\omega$ (オメガ) とするとき, $\omega^2 + \omega + 1$ の値を求めよ.
+\end{prac}
+
+\begin{any}{Hint}
+因数分解公式 $x^3-1 = (x-1)(x^2+x+1)$ を利用する.
+\end{any}
+
+\begin{prac}{B2（係数決定）}
+3次方程式 $x^3 + ax^2 + bx - 6 = 0$ が $x=1$ と $x=2$ を解にもつとき, 定数 $a, b$ の値と, 残りの解を求めよ.
+\end{prac}
+
+\begin{answer}
+% 代入して連立
+% 1+a+b-6=0 -> a+b=5
+% 8+4a+2b-6=0 -> 2a+b=-1
+% これを解く a=-6, b=11
+% x^3 -6x^2 +11x -6 = 0 -> (x-1)(x-2)(x-3)=0
+% 残りの解 x=3
+\end{answer}
+
+\end{multicols*}
+
+\end{document}

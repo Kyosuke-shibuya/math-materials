@@ -1,0 +1,329 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+% 各種ボックス環境定義
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+
+\newenvironment{eg}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{prac}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{answer}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Memo / Answer},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        enlarge left by=2mm, 
+        enlarge right by=2mm, 
+        height fill,
+        segmentation style={draw=black!20, solid},
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        }, 
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+\newenvironment{proofbox}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Proof},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        width=\linewidth,
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        },
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第3章 式と証明 $>$ 第13回--\textbf{不等式の証明(2)}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 平方の非負性
+%===========================================================
+
+{\large \textbf{1. 実数条件最大の武器「2乗」}}
+
+\begin{any}{絶対にマイナスにならない数}
+実数 $x$ について, 最も重要な性質の一つがこれである.
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    \centering
+    $\ds \boldsymbol{x^2 \geqq 0}$ \quad (等号成立は $x=0$ のとき)
+\end{tcolorbox}
+\end{center}
+また, 2乗の和についても同様である.
+\[ \boldsymbol{A^2 + B^2 \geqq 0} \]
+これを利用すると, 「平方完成」することで不等式を証明できる.
+\end{any}
+
+\begin{eg}{1（基本の平方完成）}
+不等式 $x^2 - 4x + 6 > 0$ を証明せよ.
+\end{eg}
+
+\begin{proofbox}
+% 平方完成を行う.
+% \begin{align*}
+% x^2 - 4x + 6 &= (x-2)^2 - 4 + 6 \\
+% &= (x-2)^2 + 2
+% \end{align*}
+% ここで, $x$ は実数であるから, $\boldsymbol{(x-2)^2 \geqq 0}$. \\
+% よって, $\boldsymbol{(x-2)^2 + 2 > 0}$ (0以上の数に2を足すと必ず正). \\
+% したがって, $x^2 - 4x + 6 > 0$ である. \qed
+\end{proofbox}
+
+\begin{any}{「等号成立」とは？}
+不等式 $A \geqq B$ において, $A=B$ となる瞬間のことをいう.
+例えば $x^2 \geqq 0$ なら, $x=0$ のとき等号が成立する.
+
+では，そもそもなぜ「等号成立」を考えなければいけないのか??
+\end{any}
+
+\begin{any}{最年少は何歳??}
+     全員の中で最年少と最年長が何歳なのかを知りたい．
+     \begin{itemize}
+         \item 「全員15歳以上($x\geqq16$)」なら最年少は15歳であると【~~言える~~/~~言えない~~】.
+         \item 「全員16歳未満($x<16$)」なら最年長は15歳であると【~~言える~~/~~言えない~~】.
+         \item 「全員15歳以上で，かつ，15歳の人が少なくとも一人いる」なら最年少は15歳であると【~~言える~~/~~言えない~~】.
+     \end{itemize}
+     $\to$最小値や最大値の問題では，\uwave{等号を成り立たせるような$x$の存在}が極めて重要なのである．
+\end{any}
+
+\columnbreak
+
+%===========================================================
+% 右カラム: 文字が2つの場合
+%===========================================================
+
+{\large \textbf{2. 2変数の不等式}}
+
+\begin{any}{証明の流れ}
+\begin{enumerate}
+    \item $(\text{左辺}) - (\text{右辺})$ を計算する.
+    \item \textbf{平方完成}して $(\quad)^2 + (\quad)^2$ などの形を作る.
+    \item 実数の2乗は0以上であることを述べる.
+    \item 等号成立条件 ($=0$ になる時) を確認する.
+\end{enumerate}
+\end{any}
+
+\begin{eg}{2（2変数の不等式）}
+不等式 $x^2 + y^2 \geqq 2xy$ を証明せよ. また, 等号が成立するのはどのようなときか答えよ.
+\end{eg}
+
+\begin{proofbox}
+$(\text{左辺}) - (\text{右辺}) = x^2 + y^2 - 2xy$ \\
+$\phantom{(\text{左辺}) - (\text{右辺})} = x^2 - 2xy + y^2$ \\
+$\phantom{(\text{左辺}) - (\text{右辺})} = (x-y)^2$
+
+ここで, $x, y$ は実数であるから, $(x-y)^2 \geqq 0$.
+よって, $(\text{左辺}) - (\text{右辺}) \geqq 0$ より
+\[ x^2 + y^2 \geqq 2xy \]
+等号が成立するのは, $x-y=0$, すなわち $\boldsymbol{x=y}$ のときである. \qed
+\end{proofbox}
+
+\begin{any}{なぜ実数条件が必要？}
+もし虚数でもよいなら, $x=i$ のとき $x^2 = -1 < 0$ となり, この証明は崩壊する.
+「2乗して0以上」は, 実数だけの特権なのである.
+\end{any}
+
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 裏面: 演習問題
+%===========================================================
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A1（常に正であることの証明）}
+不等式 $x^2 + 6x + 10 > 0$ を証明せよ.
+\end{prac}
+
+\begin{proofbox}
+\vspace{4cm}
+\end{proofbox}
+
+
+\begin{prac}{A2（2変数の不等式）}
+不等式 $2(x^2+y^2) \geqq (x+y)^2$ を証明せよ. また, 等号成立条件を求めよ.
+\end{prac}
+
+\begin{proofbox}
+\vspace{6cm}
+\end{proofbox}
+
+\columnbreak
+
+\begin{prac}{B1（応用：平方の和）}
+不等式 $a^2 + b^2 \geqq ab$ を証明せよ.
+また, 等号成立条件を求めよ.
+\end{prac}
+
+\begin{any}{Hint}
+$a$ について整理して平方完成する.
+$a^2 - ba + b^2 = \left(a - \frac{b}{2}\right)^2 - \frac{b^2}{4} + b^2 = \cdots$
+\end{any}
+
+\begin{proofbox}
+\vspace{6cm}
+\end{proofbox}
+
+\begin{prac}{B2（絶対不等式）}
+不等式 $x^2 + y^2 + z^2 \geqq xy + yz + zx$ を証明せよ.
+(ヒント: 全体を2倍して $2x^2+2y^2+2z^2-2xy-2yz-2zx$ を作り, $(x-y)^2$ などの和に変形する)
+\end{prac}
+
+\begin{proofbox}
+\end{proofbox}
+
+\end{multicols*}
+
+\end{document}

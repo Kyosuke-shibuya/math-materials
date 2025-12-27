@@ -1,0 +1,341 @@
+\documentclass[b4paper, landscape, dvipdfmx]{jsarticle}
+%----- 必要なパッケージ -----
+\usepackage{fancybox,ascmac,otf,ulem}
+\usepackage{amssymb, amsthm}
+\usepackage[leqno]{amsmath}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+
+% shadowsライブラリ
+\usetikzlibrary{
+    positioning,
+    arrows.meta,
+    calc,
+    shadows,
+    shadows.blur,
+    intersections
+}
+
+\tcbuselibrary{skins, breakable, theorems}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=(\arabic*)}
+\setlist[itemize]{leftmargin=*}
+\newcommand{\ds}{\displaystyle}
+
+%----- レイアウト設定 -----
+\geometry{
+  left=15mm,
+  right=15mm,
+  top=20mm,
+  bottom=15mm,
+  headheight=25pt
+}
+
+%----- 数式環境の上下の余白調整 -----
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{5pt}
+  \setlength{\belowdisplayskip}{5pt}
+  \setlength{\abovedisplayshortskip}{0pt}
+  \setlength{\belowdisplayshortskip}{3pt}
+}
+
+%===========================================================
+%  デザイン設定
+%===========================================================
+
+%--- 色の定義 ---
+\definecolor{printBlue}{RGB}{0, 50, 100}     % 濃紺
+\definecolor{printRed}{RGB}{140, 20, 20}     % 濃エンジ
+\definecolor{printTeal}{RGB}{0, 60, 60}      % 濃い青緑
+
+%--- 共通スタイル定義 ---
+\tcbset{
+    chartbox/.style={
+        enhanced,
+        fonttitle=\sffamily\bfseries,
+        boxrule=1pt,
+        arc=2pt,
+        top=1.0em,
+        nobeforeafter,
+        enlarge left by=-2mm,
+        enlarge right by=-2mm,
+        drop fuzzy shadow,
+        colback=white,
+        attach boxed title to top left={xshift=10pt, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, sharp corners, rounded corners=southeast, arc=3pt}
+    }
+}
+
+% 各種ボックス環境定義
+\newtcolorbox{any}[1]{
+    enlarge left by=0mm, enlarge right by=0mm,
+    enhanced, frame hidden, colback=white, title={#1},
+    attach boxed title to top left={xshift=0mm, yshift=0mm},
+    coltitle=white, fonttitle=\bfseries\sffamily,
+    boxed title style={
+        colback=black!80, frame hidden, arc=4pt, outer arc=4pt,
+        sharp corners=south, boxrule=0pt,
+        top=1mm, bottom=1mm, left=3mm, right=3mm
+    },
+    underlay boxed title={
+        \draw[thick, black!80] (title.south west) -- (title.south west-|frame.east);
+    },
+    breakable, top=5mm, left=2mm, right=2mm, bottom=0mm,
+    before skip=1em, after skip=1em,
+    segmentation style={draw=black!40, dashed}
+}
+
+\newenvironment{eg}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printBlue,
+    coltitle=white,
+    title=\textbf{例題 #1},
+    boxed title style={colback=printBlue},
+    segmentation style={draw=printBlue, line width=0.5pt, dashed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{prac}[1]{
+\begin{tcolorbox}[
+    chartbox,
+    colframe=printRed,
+    coltitle=white,
+    title=\textbf{練習 #1},
+    boxed title style={colback=printRed}
+]}
+{\end{tcolorbox}}
+
+\newenvironment{answer}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Memo / Answer},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        enlarge left by=2mm, 
+        enlarge right by=2mm, 
+        height fill,
+        segmentation style={draw=black!20, solid},
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        }, 
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+\newenvironment{proofbox}[1][height fill]{
+    \begin{tcolorbox}[
+        enhanced,
+        title={Proof},
+        colframe=black!80,
+        colback=white,
+        coltitle=black!60,
+        fonttitle=\sffamily\bfseries,
+        attach boxed title to top left={xshift=5mm, yshift*=-\tcboxedtitleheight/2},
+        boxed title style={frame hidden, colback=white},
+        boxrule=1pt,
+        arc=1pt,
+        nobeforeafter,
+        width=\linewidth,
+        underlay={
+            \begin{tcbclipinterior}
+                \draw[step=5mm, black!5, ultra thin] (interior.south west) grid (interior.north east);
+            \end{tcbclipinterior}
+        },
+        #1
+    ]}
+{ \end{tcolorbox}}
+
+%----- 段組の設定 -----
+\setlength{\columnsep}{15mm}
+\setlength{\columnseprule}{0.4pt}
+\renewcommand{\columnseprulecolor}{\color{black!30}}
+
+%----- ヘッダーの設定 -----
+\pagestyle{fancy}
+\fancyhf{}
+
+% ヘッダーデザイン
+\fancyhead[C]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[anchor=north west, fill=printBlue, minimum width=\paperwidth, minimum height=5pt] at (current page.north west) {};
+    \end{tikzpicture}
+}
+\fancyhead[L]{\small \textcolor{black!90}{数学\ajRoman{2} $>$ 第3章 式と証明 $>$ 第15回--\textbf{発展：コーシー・シュワルツの不等式}}}
+\fancyhead[R]{\small 年 \hspace{1cm} 組 \hspace{1cm} 番 \quad 氏名 \hspace{6cm}}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{multicols*}{2}
+
+%===========================================================
+% 左カラム: 公式の導入と証明
+%===========================================================
+
+{\large \textbf{1. コーシー・シュワルツの不等式}}
+
+\begin{any}{「2乗の積」は「積の2乗」よりデカい}
+相加・相乗平均と並ぶ, 不等式のスーパースターを紹介する.
+これは「ベクトルの内積」とも深く関係している美しい不等式である.
+
+\begin{center}
+\begin{tcolorbox}[colframe=printRed, colback=white, boxrule=1.5pt, arc=0pt]
+    $\boldsymbol{a, b, x, y}$ が実数のとき,
+    \[ \boldsymbol{(a^2+b^2)(x^2+y^2) \geqq (ax+by)^2} \]
+    (等号成立は $\boldsymbol{ay=bx}$ のとき)
+\end{tcolorbox}
+\end{center}
+\end{any}
+
+\begin{eg}{1（不等式の証明）}
+コーシー・シュワルツの不等式を証明せよ.
+\end{eg}
+
+\begin{proofbox}
+% $(\text{左辺}) - (\text{右辺})$
+% $= (a^2+b^2)(x^2+y^2) - (ax+by)^2$ \\
+% $= (a^2x^2 + a^2y^2 + b^2x^2 + b^2y^2) - (a^2x^2 + 2abxy + b^2y^2)$ \\
+% $= a^2y^2 - 2abxy + b^2x^2$ \\
+% $= (ay - bx)^2$
+
+% ここで, $a, b, x, y$ は実数であるから, $(ay-bx)^2 \geqq 0$.
+% よって, $(\text{左辺}) \geqq (\text{右辺})$.
+% 等号成立は $ay-bx=0$, すなわち $ay=bx$ のとき. \qed
+\end{proofbox}
+
+% \begin{any}{Reference: ベクトルとの関係}
+% $\vec{u} = (a, b), \ \vec{v} = (x, y)$ とすると, 不等式は $|\vec{u}|^2 |\vec{v}|^2 \geqq (\vec{u} \cdot \vec{v})^2$ を意味する.
+% これは $-1 \leqq \cos\theta \leqq 1$ ($|\vec{u}\cdot\vec{v}| \leqq |\vec{u}||\vec{v}|$) と本質的に同じである.
+% \end{any}
+
+\columnbreak
+
+%===========================================================
+% 右カラム: 応用問題
+%===========================================================
+
+{\large \textbf{2. 最大・最小問題への応用}}
+
+\begin{any}{2乗の和がわかっているとき}
+この不等式は, 「$x^2+y^2=k$ のとき $ax+by$ の範囲を求めよ」といった問題で威力を発揮する.
+\end{any}
+
+\begin{eg}{2（最大・最小）}
+$x^2 + y^2 = 4$ のとき, $3x + 4y$ の最大値と最小値を求めよ.
+\end{eg}
+
+\begin{proofbox}
+% コーシー・シュワルツの不等式において,
+% $a=3, \ b=4$ と考えると,
+% \[ (3^2+4^2)(x^2+y^2) \geqq (3x+4y)^2 \]
+% 数値を代入すると,
+% \[ (9+16) \cdot 4 \geqq (3x+4y)^2 \]
+% \[ 100 \geqq (3x+4y)^2 \]
+% よって,
+% \[ -10 \leqq 3x+4y \leqq 10 \]
+% したがって, 最大値 $10$, 最小値 $-10$.
+\end{proofbox}
+
+\begin{any}{3変数の場合（拡張）}
+この不等式は変数の数が増えても成り立つ.
+\[ (a^2+b^2+c^2)(x^2+y^2+z^2) \geqq (ax+by+cz)^2 \]
+\end{any}
+
+\begin{eg}{3（3変数の最小値）}
+$a>0, b>0, c>0$ とする. $\ds \left( a+b+c \right) \left( \frac{1}{a}+\frac{1}{b}+\frac{1}{c} \right)$ の最小値を求めよ.
+\end{eg}
+
+\begin{proofbox}
+% 3変数のコーシー・シュワルツの不等式において,
+% $( \sqrt{a}, \sqrt{b}, \sqrt{c} )$ と $( \frac{1}{\sqrt{a}}, \frac{1}{\sqrt{b}}, \frac{1}{\sqrt{c}} )$ のペアで考える.
+% \[ \{(\sqrt{a})^2+(\sqrt{b})^2+(\sqrt{c})^2\} \{(\frac{1}{\sqrt{a}})^2+(\frac{1}{\sqrt{b}})^2+(\frac{1}{\sqrt{c}})^2\} \]
+% \[ \geqq \left( \sqrt{a}\cdot\frac{1}{\sqrt{a}} + \sqrt{b}\cdot\frac{1}{\sqrt{b}} + \sqrt{c}\cdot\frac{1}{\sqrt{c}} \right)^2 \]
+% \[ = (1+1+1)^2 = 9 \]
+% よって最小値は $9$.
+\end{proofbox}
+
+\end{multicols*}
+
+\newpage
+
+%===========================================================
+% 裏面: 演習問題
+%===========================================================
+
+\begin{multicols*}{2}
+
+{\large \textbf{確認テスト}}
+
+\begin{prac}{A1（基本適用）}
+$x^2 + y^2 = 1$ のとき, $x + 2y$ のとりうる値の範囲を求めよ.
+\end{prac}
+
+\begin{proofbox}
+$a=1, b=2$ としてコーシー・シュワルツの不等式を適用する.
+\[ (1^2+2^2)(x^2+y^2) \geqq (x+2y)^2 \]
+\[ 5 \cdot 1 \geqq (x+2y)^2 \]
+\[ (x+2y)^2 \leqq 5 \]
+\[ -\sqrt{5} \leqq x+2y \leqq \sqrt{5} \]
+\end{proofbox}
+
+
+\begin{prac}{A2（証明）}
+$x^2 + y^2 + z^2 = 1$ のとき, $x+y+z$ の最大値が $\sqrt{3}$ であることを証明せよ.
+\end{prac}
+
+\begin{proofbox}
+3変数のコーシー・シュワルツの不等式で $a=b=c=1$ とする.
+\[ (1^2+1^2+1^2)(x^2+y^2+z^2) \geqq (x+y+z)^2 \]
+\[ 3 \cdot 1 \geqq (x+y+z)^2 \]
+\[ -\sqrt{3} \leqq x+y+z \leqq \sqrt{3} \]
+よって最大値は $\sqrt{3}$.
+\end{proofbox}
+
+\columnbreak
+
+\begin{prac}{B1（条件付きの最小値）}
+$3x + 4y = 5$ のとき, $x^2 + y^2$ の最小値を求めよ.
+\end{prac}
+
+\begin{any}{Hint}
+コーシー・シュワルツの不等式 $(3^2+4^2)(x^2+y^2) \geqq (3x+4y)^2$ を利用し, 不等式の向きに注意して解く.
+\end{any}
+
+\begin{answer}
+% (9+16)(x^2+y^2) >= (5)^2
+% 25(x^2+y^2) >= 25
+% x^2+y^2 >= 1
+% 最小値 1.
+\vspace{6cm}
+\end{answer}
+
+\begin{prac}{B2（数学史コラム：3次方程式の解の公式）}
+16世紀イタリア, 数学者のタルタリアとカルダノは3次方程式の解の公式を発見した. しかし, その公式を使うと $\sqrt{-1}$ (虚数) が途中式に出てきてしまう場合があった.
+彼らは当時「不合理な数」としてこれを嫌ったが, この「虚数」を認めることで, 数学の世界は飛躍的に広がった.
+今日の授業で扱った $x^2+y^2$ のような2乗の和も, 複素数平面上では「原点からの距離の2乗」として意味を持つ.
+
+\vspace{0.5em}
+\textbf{問い:} 複素数 $z = 3+4i$ について, 原点からの距離 $|z| = \sqrt{3^2+4^2}$ を求めよ.
+\end{prac}
+
+\begin{answer}
+$|z| = \sqrt{9+16} = \sqrt{25} = 5$.
+\end{answer}
+
+\end{multicols*}
+
+\end{document}
