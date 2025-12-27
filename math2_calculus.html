@@ -70,198 +70,406 @@
                     </h3>
                     
                     <ul class="divide-y divide-gray-50 text-sm text-gray-700 flex-grow">
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_01.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">01.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">極限概念の形成</div>
-                                        <div class="text-xs text-gray-400 font-light">Limit Concept</div>
-                                    </div>
+                        <li class="group border-b border-gray-50 last:border-0">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            
+                            <a href="calculus/calculus_01.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">01</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">極限概念の形成</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Limit Concept</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_02.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">02.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">極限の計算</div>
-                                        <div class="text-xs text-gray-400 font-light">Calculation of Limits</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                
+                                <audio id="audio-01" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_01.m4a"></audio>
+                                
+                                <select onchange="document.getElementById('audio-01').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_02.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">02</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">極限の計算</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Calculation of Limits</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_03.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">03.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">定積分の定義と区分求積法</div>
-                                        <div class="text-xs text-gray-400 font-light">Definite Integral & Quadrature</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-02" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_02.m4a"></audio>
+                                <select onchange="document.getElementById('audio-02').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_03.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">03</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">定積分の定義と区分求積法</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Definite Integral & Quadrature</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_04.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">04.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">平均変化率と導関数</div>
-                                        <div class="text-xs text-gray-400 font-light">Average Rate of Change</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-03" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_03.m4a"></audio>
+                                <select onchange="document.getElementById('audio-03').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_04.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">04</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">平均変化率と導関数</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Average Rate of Change</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_05.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">05.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">導関数の性質と計算</div>
-                                        <div class="text-xs text-gray-400 font-light">Properties of Derivatives</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-04" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_04.m4a"></audio>
+                                <select onchange="document.getElementById('audio-04').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_05.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">05</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">導関数の性質と計算</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Properties of Derivatives</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_06.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">06.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">微分と導関数 (概念定義)</div>
-                                        <div class="text-xs text-gray-400 font-light">Concept of Differentiation</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-05" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_05.m4a"></audio>
+                                <select onchange="document.getElementById('audio-05').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                        <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_06.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">06</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">微分と導関数 (概念定義)</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Concept of Differentiation</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_07.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">07.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">接線の方程式と因数定理</div>
-                                        <div class="text-xs text-gray-400 font-light">Tangent Line Equation</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-06" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_06.m4a"></audio>
+                                <select onchange="document.getElementById('audio-06').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_07.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">07</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">接線の方程式と因数定理</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Tangent Line Equation</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_08.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">08.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">関数の増減とグラフ</div>
-                                        <div class="text-xs text-gray-400 font-light">Increase/Decrease & Graphs</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-07" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_07.m4a"></audio>
+                                <select onchange="document.getElementById('audio-07').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_08.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">08</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">関数の増減とグラフ</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Increase/Decrease & Graphs</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_09.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">09.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">最大・最小 / 方程式への応用</div>
-                                        <div class="text-xs text-gray-400 font-light">Max/Min Applications</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-08" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_08.m4a"></audio>
+                                <select onchange="document.getElementById('audio-08').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_09.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">09</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">最大・最小 / 方程式への応用</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Max/Min Applications</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_10.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">10.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">微分積分学の基本定理</div>
-                                        <div class="text-xs text-gray-400 font-light">Fundamental Thm of Calculus</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-09" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_09.m4a"></audio>
+                                <select onchange="document.getElementById('audio-09').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_10.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">10</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">微分積分学の基本定理</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Fundamental Thm of Calculus</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_11.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">11.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">微積分学の基本定理と面積</div>
-                                        <div class="text-xs text-gray-400 font-light">Fundamental Thm & Area</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-10" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_10.m4a"></audio>
+                                <select onchange="document.getElementById('audio-10').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                       <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_11.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">11</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">微積分学の基本定理と面積</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Fundamental Thm & Area</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_12.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">12.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">定積分の計算と性質</div>
-                                        <div class="text-xs text-gray-400 font-light">Definite Integral Properties</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-11" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_11.m4a"></audio>
+                                <select onchange="document.getElementById('audio-11').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_12.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">12</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">定積分の計算と性質</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Definite Integral Properties</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_13.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">13.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">面積計算の特訓</div>
-                                        <div class="text-xs text-gray-400 font-light">Area Calculation Training</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-12" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_12.m4a"></audio>
+                                <select onchange="document.getElementById('audio-12').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_13.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">13</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">面積計算の特訓</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Area Calculation Training</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_14.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">14.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">1/6公式の証明</div>
-                                        <div class="text-xs text-gray-400 font-light">Proof of the 1/6 Formula</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-13" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_13.m4a"></audio>
+                                <select onchange="document.getElementById('audio-13').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_14.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">14</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">1/6公式の証明</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Proof of the 1/6 Formula</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_15.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">15.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">1/6公式の利用と発展</div>
-                                        <div class="text-xs text-gray-400 font-light">Applications of 1/6 Formula</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-14" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_14.m4a"></audio>
+                                <select onchange="document.getElementById('audio-14').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_15.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">15</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">1/6公式の利用と発展</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Applications of 1/6 Formula</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
-                        <li class="group hover:bg-gray-50 transition duration-150">
-                            <a href="calculus/calculus_16.pdf" target="_blank" class="flex items-center justify-between p-4">
-                                <div class="flex items-center gap-4">
-                                    <span class="font-serif text-gray-400 text-lg w-8">16.</span>
-                                    <div>
-                                        <div class="font-medium group-hover:text-gray-900">微分・積分の融合と極限</div>
-                                        <div class="text-xs text-gray-400 font-light">Fusion of Calculus & Limits</div>
-                                    </div>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-15" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_15.m4a"></audio>
+                                <select onchange="document.getElementById('audio-15').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="group border-b border-gray-50 last:border-0">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                            <a href="calculus/calculus_16.pdf" target="_blank" class="flex items-center gap-6 flex-1 group-hover:opacity-80 transition">
+                                <span class="font-serif text-gray-300 text-xl w-8">16</span>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-base text-gray-800">微分・積分の融合と極限</span>
+                                    <span class="text-xs text-gray-400 font-light mt-0.5">Fusion of Calculus & Limits</span>
                                 </div>
-                                <i class="fa-solid fa-file-pdf text-gray-300 group-hover:text-gray-600 text-lg"></i>
+                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0"></i>
                             </a>
-                        </li>
+
+                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm">
+                                <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
+                                <audio id="audio-16" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/calculus_16.m4a"></audio>
+                                <select onchange="document.getElementById('audio-16').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1.0" selected>1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
                     </ul>
                 </div>
             </section>
