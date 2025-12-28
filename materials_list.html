@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplementary Materials | Kyosuke Shibuya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        serif: ['"Noto Serif JP"', 'serif'],
+                    },
+                    colors: {
+                        gray: {
+                            50: '#f9fafb',
+                            800: '#1f2937',
+                            900: '#111827',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <header class="fixed top-0 w-full h-16 bg-gray-900 text-white flex items-center justify-between px-6 z-40 shadow-md">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="text-xl focus:outline-none hover:text-gray-300 transition">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h1 class="font-serif text-lg tracking-wider">副読本リスト</h1>
+        </div>
+        <div class="text-gray-500 text-sm"><i class="fa-solid fa-book-bookmark"></i></div>
+    </header>
+
+    <main class="flex-grow pt-16 flex flex-col fade-in">
+        
+        <div class="py-10 text-center bg-gray-50 border-b border-gray-200">
+            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Supplementary Materials</h2>
+            <p class="text-xs text-gray-400 tracking-[0.3em] uppercase">Sub--Textbooks </p>
+        </div>
+
+        <div class="flex-grow max-w-5xl mx-auto w-full px-4 py-8 space-y-12">
+            
+            <section>
+                <div class="flex items-center gap-4 mb-6">
+                    <h3 class="text-xl font-serif text-gray-800 border-l-4 border-gray-800 pl-4 tracking-wider">数学 II</h3>
+                    <div class="h-px bg-gray-200 flex-grow"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <a href="sub_materials/equation_text.pdf" target="_blank" class="group bg-white border border-gray-200 p-6 rounded-sm hover:shadow-lg transition duration-300 flex items-start gap-5 relative overflow-hidden">
+                        <div class="bg-gray-100 w-16 h-20 flex items-center justify-center text-3xl text-gray-400 group-hover:bg-gray-800 group-hover:text-white transition duration-300 flex-shrink-0">
+                            <i class="fa-solid fa-superscript"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <h4 class="font-serif text-lg text-gray-800 group-hover:text-black mb-1">式と証明・複素数</h4>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider mb-3">Equations & Complex Numbers</p>
+                            <p class="text-xs text-gray-500 leading-relaxed">
+                                二項定理、整式の除法、そして虚数の導入まで。計算の「意味」を深く掘り下げるためのテキストです。
+                            </p>
+                        </div>
+                        <div class="absolute bottom-4 right-4 text-gray-200 group-hover:text-gray-800 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                    </a>
+
+                    <a href="sub_materials/calculus_text.pdf" target="_blank" class="group bg-white border border-gray-200 p-6 rounded-sm hover:shadow-lg transition duration-300 flex items-start gap-5 relative overflow-hidden">
+                        <div class="bg-gray-100 w-16 h-20 flex items-center justify-center text-3xl text-gray-400 group-hover:bg-gray-800 group-hover:text-white transition duration-300 flex-shrink-0">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <h4 class="font-serif text-lg text-gray-800 group-hover:text-black mb-1">微分積分学の物語</h4>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider mb-3">Calculus Story</p>
+                            <p class="text-xs text-gray-500 leading-relaxed">
+                                極限の概念から微積分の基本定理まで、歴史的背景を交えて解説した副読本です。
+                            </p>
+                        </div>
+                        <div class="absolute bottom-4 right-4 text-gray-200 group-hover:text-gray-800 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                    </a>
+                </div>
+
+
+            </section>
+
+            <section>
+                <div class="flex items-center gap-4 mb-6">
+                    <h3 class="text-xl font-serif text-gray-800 border-l-4 border-gray-800 pl-4 tracking-wider">数学 B</h3>
+                    <div class="h-px bg-gray-200 flex-grow"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="sub_materials/sequence_text.pdf" target="_blank" class="group bg-white border border-gray-200 p-6 rounded-sm hover:shadow-lg transition duration-300 flex items-start gap-5 relative overflow-hidden">
+                        <div class="bg-gray-100 w-16 h-20 flex items-center justify-center text-3xl text-gray-400 group-hover:bg-gray-800 group-hover:text-white transition duration-300 flex-shrink-0">
+                            <i class="fa-solid fa-arrow-down-1-9"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <h4 class="font-serif text-lg text-gray-800 group-hover:text-black mb-1">数列：数のリズム</h4>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider mb-3">The Rhythm of Numbers</p>
+                            <p class="text-xs text-gray-500 leading-relaxed">
+                                等差・等比数列の基礎から、漸化式、数学的帰納法までを網羅。パターンの発見力を養います。
+                            </p>
+                        </div>
+                        <div class="absolute bottom-4 right-4 text-gray-200 group-hover:text-gray-800 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <section>
+                <div class="flex items-center gap-4 mb-6">
+                    <h3 class="text-xl font-serif text-gray-800 border-l-4 border-gray-800 pl-4 tracking-wider">数学 C</h3>
+                    <div class="h-px bg-gray-200 flex-grow"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="sub_materials/vector_text.pdf" target="_blank" class="group bg-white border border-gray-200 p-6 rounded-sm hover:shadow-lg transition duration-300 flex items-start gap-5 relative overflow-hidden">
+                        <div class="bg-gray-100 w-16 h-20 flex items-center justify-center text-3xl text-gray-400 group-hover:bg-gray-800 group-hover:text-white transition duration-300 flex-shrink-0">
+                            <i class="fa-solid fa-location-arrow"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <h4 class="font-serif text-lg text-gray-800 group-hover:text-black mb-1">平面ベクトル</h4>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider mb-3">The Art of Arrows</p>
+                            <p class="text-xs text-gray-500 leading-relaxed">
+                                「矢印」としてのベクトル演算から、図形問題への応用まで。位置ベクトルの概念を重視しています。
+                            </p>
+                        </div>
+                        <div class="absolute bottom-4 right-4 text-gray-200 group-hover:text-gray-800 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+           <div class="pt-12 mt-4 border-t border-gray-100">
+                <div class="max-w-2xl mx-auto text-center">
+                    <div class="text-gray-300 text-xl mb-3">
+                        <i class="fa-solid fa-pen-nib"></i>
+                    </div>
+                    <p class="text-xs text-gray-400 font-serif leading-7 tracking-wider">
+                        本テキストは、結城浩先生の『数学ガール』シリーズの<br class="hidden md:inline">
+                        対話形式による解説スタイルに感銘を受け、インスパイアされて執筆した<br class="hidden md:inline">
+                        オリジナルの数学講義ノートです。<br>
+                        <span class="text-[10px] text-gray-600">（内容はすべてオリジナルのものです）</span>
+                    </p>
+                </div>
+            </div>
+
+        </div> <div class="py-8 text-center text-gray-300 text-xs tracking-widest mt-auto">
+
+        </div>
+
+        <div class="py-8 text-center text-gray-300 text-xs tracking-widest mt-auto">
+            &copy; 2025 Kyosuke Shibuya Mathematics.
+        </div>
+    </main>
+</body>
+</html>
