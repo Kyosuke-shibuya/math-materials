@@ -130,20 +130,26 @@ const subjectData = {
             }
         ]
     },
-    "数学 C": {
+   "数学 C": {
         isMenu: true,
         units: [
             { 
-                title: "ベクトル", 
-                subtitle: "Vectors", 
-                url: "#", 
+                title: "平面ベクトル", 
+                subtitle: "Plane Vectors", 
+                url: "mathc_vector.html",  // ★ここを書き換え
                 icon: "fa-solid fa-location-arrow" 
+            },
+            { 
+                title: "空間ベクトル", 
+                subtitle: "Space Vectors", 
+                url: "#", // まだページがないので # のまま
+                icon: "fa-solid fa-cube" 
             },
             { 
                 title: "複素数平面", 
                 subtitle: "Complex Plane", 
                 url: "#", 
-                icon: "fa-solid fa-globe" 
+                icon: "fa-solid fa-circle-nodes" 
             },
             { 
                 title: "式と曲線", 
@@ -152,7 +158,7 @@ const subjectData = {
                 icon: "fa-solid fa-bezier-curve" 
             }
         ]
-    }
+    },
 };
 // ▲▲▲ データ定義終わり ▲▲▲
 
