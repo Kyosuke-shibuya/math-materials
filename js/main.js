@@ -142,7 +142,7 @@ const subjectData = {
             { 
                 title: "空間ベクトル", 
                 subtitle: "Space Vectors", 
-                url: "#", // まだページがないので # のまま
+                url: "mathc_vector3d.html", // まだページがないので # のまま
                 icon: "fa-solid fa-cube" 
             },
             { 
