@@ -95,8 +95,8 @@ const subjectData = {
         units: [
             { 
                 title: "数列", 
-                subtitle: "Sequences", 
-                url: "#", 
+                subtitle: "Sequence", 
+                url: "mathb_sequence.html", 
                 icon: "fa-solid fa-arrow-down-1-9" 
             },
             { 
