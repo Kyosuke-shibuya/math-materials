@@ -38,7 +38,7 @@ const subjectData = {
             { 
                 title: "場合の数と確率", 
                 subtitle: "Cases & Probability", 
-                url: "#", 
+                url: "matha_prob.html", 
                 icon: "fa-solid fa-dice" 
             },
             { 
