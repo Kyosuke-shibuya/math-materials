@@ -3,7 +3,7 @@
 // --- 設定 ---
 const GAME_CONFIG = {
     xpPerClick: 100,      // PDFクリック
-    xpPerAudio: 300,      // 音声再生完了（★追加）
+    xpPerAudio: 300,      // 音声再生完了
     baseXpForLevel: 500,  // 次のレベルに必要な基本経験値
     titles: [             // レベルごとの称号
         "数学の旅人",        // Lv 1-4
@@ -52,11 +52,9 @@ class MathRPG {
         this.data.currentXp += amount;
         this.data.totalClicks++;
         
-        // レベルアップ判定
         if (this.data.currentXp >= this.data.nextLevelXp) {
             this.levelUp();
         } else {
-            // レベルアップ時以外はここで保存・更新（レベルアップ時はメソッド内で行う）
             this.saveData();
             this.updateUI();
         }
@@ -75,29 +73,38 @@ class MathRPG {
         const today = new Date().toDateString();
         if (this.data.lastLogin !== today) {
             this.data.lastLogin = today;
-            this.showNotification("ログインボーナス！ +200 XP", 'text-blue-400');
+            this.showNotification("Login Bonus! +200 XP", 'text-blue-400');
             this.gainXp(200);
         }
     }
 
+  // --- UI構築 (称号強調スリム版) ---
     initUI() {
         const widgetHTML = `
-            <div id="rpg-widget" class="fixed bottom-4 right-4 bg-gray-900 text-white p-4 rounded-lg shadow-2xl z-50 border border-gray-700 w-64 transform transition-all hover:scale-105 font-sans">
-                <div class="flex justify-between items-end mb-2">
-                    <div>
-                        <div class="text-xs text-gray-400">Lv.<span id="rpg-level" class="text-xl text-yellow-500 font-bold ml-1">1</span></div>
-                        <div id="rpg-title" class="text-sm font-bold tracking-wider">数学の旅人</div>
+            <div id="rpg-widget" onclick="this.classList.toggle('opacity-20')" class="fixed top-1.5 right-2 bg-gray-900 bg-opacity-95 text-white py-1 px-3 rounded shadow-xl z-[60] border border-gray-700 w-44 transition-all duration-300 cursor-pointer font-sans select-none hover:bg-opacity-100">
+                
+                <div class="flex flex-col mb-1">
+                    <div id="rpg-title" class="text-xs font-bold text-yellow-400 tracking-tighter truncate drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]">
+                        数学の旅人
                     </div>
-                    <div class="text-right">
-                        <div class="text-xs text-gray-500">NEXT</div>
-                        <div class="text-xs"><span id="rpg-xp">0</span> / <span id="rpg-next">500</span></div>
+                    
+                    <div class="flex justify-between items-center mt-0.5">
+                        <div class="flex items-baseline gap-0.5">
+                            <span class="text-[8px] text-gray-500 uppercase font-bold">Lv.</span>
+                            <span id="rpg-level" class="text-xs text-white font-bold font-mono">1</span>
+                        </div>
+                        <div class="text-[8px] text-gray-500 font-mono">
+                            <span id="rpg-xp">0</span>/<span id="rpg-next">500</span> <span class="text-[7px]">XP</span>
+                        </div>
                     </div>
                 </div>
-                <div class="w-full bg-gray-700 rounded-full h-2.5">
-                    <div id="rpg-bar" class="bg-gradient-to-r from-yellow-400 to-yellow-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+
+                <div class="w-full bg-gray-700 rounded-full h-1">
+                    <div id="rpg-bar" class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-500 h-1 rounded-full transition-all duration-500 shadow-[0_0_5px_rgba(234,179,8,0.3)]" style="width: 0%"></div>
                 </div>
             </div>
-            <div id="rpg-notification-area" class="fixed bottom-24 right-4 flex flex-col items-end gap-2 pointer-events-none z-50"></div>
+            
+            <div id="rpg-notification-area" class="fixed top-16 right-2 flex flex-col items-end gap-1 pointer-events-none z-[60]"></div>
         `;
         document.body.insertAdjacentHTML('beforeend', widgetHTML);
     }
@@ -113,7 +120,7 @@ class MathRPG {
     }
 
     attachEvents() {
-        // 1. PDFリンクのクリックイベント
+        // PDFリンク
         const links = document.querySelectorAll('a[href$=".pdf"]');
         links.forEach(link => {
             link.addEventListener('click', () => {
@@ -122,7 +129,7 @@ class MathRPG {
             });
         });
 
-        // 2. 音声再生完了イベント（★ここを追加）
+        // 音声再生完了
         const audios = document.querySelectorAll('audio');
         audios.forEach(audio => {
             audio.addEventListener('ended', () => {
@@ -135,7 +142,8 @@ class MathRPG {
     showNotification(text, colorClass) {
         const area = document.getElementById('rpg-notification-area');
         const notif = document.createElement('div');
-        notif.className = `bg-gray-800 border border-gray-600 px-4 py-2 rounded shadow-lg font-bold fade-in-up ${colorClass}`;
+        // 通知のデザインも少し小さめに調整
+        notif.className = `bg-gray-900 bg-opacity-90 border-l-4 border-yellow-500 text-white text-xs px-3 py-2 rounded shadow-md font-bold fade-in-down ${colorClass}`;
         notif.innerText = text;
         area.appendChild(notif);
 
@@ -143,11 +151,11 @@ class MathRPG {
             const style = document.createElement('style');
             style.id = 'rpg-style';
             style.innerHTML = `
-                @keyframes fadeInUp {
-                    from { opacity: 0; transform: translateY(20px); }
+                @keyframes fadeInDown {
+                    from { opacity: 0; transform: translateY(-10px); }
                     to { opacity: 1; transform: translateY(0); }
                 }
-                .fade-in-up { animation: fadeInUp 0.3s ease-out forwards; }
+                .fade-in-down { animation: fadeInDown 0.3s ease-out forwards; }
             `;
             document.head.appendChild(style);
         }
@@ -162,11 +170,11 @@ class MathRPG {
     showLevelUpModal() {
         const modalHTML = `
             <div id="levelup-modal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[100]">
-                <div class="bg-gray-900 border-2 border-yellow-500 p-8 rounded-lg text-center max-w-sm mx-4 shadow-[0_0_50px_rgba(234,179,8,0.5)] transform scale-110">
-                    <h2 class="text-4xl text-yellow-500 font-serif font-bold mb-2">LEVEL UP!</h2>
-                    <p class="text-white text-xl mb-4">Lv.${this.data.level-1} <i class="fa-solid fa-arrow-right text-gray-500 mx-2"></i> <span class="text-yellow-400 text-2xl font-bold">Lv.${this.data.level}</span></p>
-                    <p class="text-gray-300 text-sm mb-6">称号: ${this.getTitle()}</p>
-                    <button onclick="document.getElementById('levelup-modal').remove()" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-6 rounded transition">閉じる</button>
+                <div class="bg-gray-900 border-2 border-yellow-500 p-6 rounded-lg text-center max-w-xs mx-4 shadow-[0_0_30px_rgba(234,179,8,0.4)] transform scale-105">
+                    <h2 class="text-3xl text-yellow-500 font-serif font-bold mb-2">LEVEL UP!</h2>
+                    <p class="text-white text-lg mb-3">Lv.${this.data.level-1} <i class="fa-solid fa-arrow-right text-gray-500 mx-2"></i> <span class="text-yellow-400 text-xl font-bold">Lv.${this.data.level}</span></p>
+                    <p class="text-gray-300 text-xs mb-5">称号: ${this.getTitle()}</p>
+                    <button onclick="document.getElementById('levelup-modal').remove()" class="bg-yellow-600 hover:bg-yellow-700 text-white text-sm font-bold py-2 px-6 rounded transition">閉じる</button>
                 </div>
             </div>
         `;
