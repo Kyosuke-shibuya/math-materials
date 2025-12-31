@@ -1,14 +1,13 @@
-// js/game.js (配置修正・進捗ゲージ連携版)
+// js/game.js (全科目対応・100%お祝い演出 完全版)
 
 const GAME_CONFIG = {
-    minCommentLength: 30, // コンプリートに必要な最小文字数
+    minCommentLength: 30,
     units: {
-       "math2_calculus":16,
-        "math2_equation_comp":17,
-        "matha_prob": 16,     // 数学A
-        "mathb_sequence": 18, // 数学B
-        "mathc_vector":13,
-        "mathc_vector3d": 13  // 数学C
+        "matha_prob": { total: 16, name: "数学A：場合の数と確率" },
+        "mathb_sequence": { total: 18, name: "数学B：数列" },
+        "mathc_vector": { total: 13, name: "数学C：平面ベクトル" },
+        "mathc_vector3d": { total: 13, name: "数学C：空間ベクトル" },
+        "math2_calculus": { total: 16, name: "数学II：微分積分" }
     }
 };
 
@@ -16,7 +15,6 @@ class StudySystem {
     constructor() {
         this.data = this.loadData();
         this.initUI();
-
         if (document.readyState === 'loading') {
             window.addEventListener('load', () => this.injectLearningLogs());
         } else {
@@ -33,16 +31,21 @@ class StudySystem {
         localStorage.setItem('study_system_data', JSON.stringify(this.data));
     }
 
+    // 現在のページキー（ファイル名）を取得
+    getPageKey() {
+        return window.location.pathname.split('/').pop().replace('.html', '') || 'index';
+    }
+
     getProgress(pageKey) {
-        const total = GAME_CONFIG.units[pageKey] || 0;
-        if (total === 0) return 0;
+        const config = GAME_CONFIG.units[pageKey];
+        if (!config) return 0;
+        const total = config.total;
         const done = Object.keys(this.data.completed).filter(k => k.startsWith(pageKey)).length;
         return Math.floor((done / total) * 100);
     }
 
     initUI() {
-        const path = window.location.pathname.split('/').pop();
-        const pageKey = path.replace('.html', '') || 'index';
+        const pageKey = this.getPageKey();
         if (!GAME_CONFIG.units[pageKey]) return;
 
         const progress = this.getProgress(pageKey);
@@ -62,8 +65,8 @@ class StudySystem {
 
     injectLearningLogs() {
         const listItems = document.querySelectorAll('li.group');
-        const path = window.location.pathname.split('/').pop();
-        const pageKey = path.replace('.html', '') || 'matha_prob';
+        const pageKey = this.getPageKey();
+        if (!GAME_CONFIG.units[pageKey]) return;
         
         listItems.forEach((li, index) => {
             if (li.querySelector('.log-area')) return;
@@ -80,31 +83,22 @@ class StudySystem {
                         </span>
                         ${isDone ? '<span class="text-[10px] text-green-600 font-bold"><i class="fa-solid fa-check-circle"></i> COMPLETED</span>' : ''}
                     </div>
-                    <div class="flex flex-col gap-2">
-                        <textarea id="input-${itemId}" rows="2" maxlength="200" placeholder="つまづいた所や、工夫した解き方をメモしよう..." 
-                            class="w-full p-3 text-xs border ${isDone ? 'border-green-200 bg-white' : 'border-gray-200'} rounded focus:outline-none focus:border-yellow-500 transition shadow-inner resize-none text-gray-700 leading-relaxed">${savedText}</textarea>
-                        <div class="flex justify-between items-center">
-                            <span id="count-${itemId}" class="text-[9px] ${savedText.length >= 30 ? 'text-green-600' : 'text-gray-400'} font-mono">現在: ${savedText.length} 文字</span>
-                            <button onclick="studySystem.saveLog('${itemId}')" 
-                                class="bg-gray-800 text-white text-[10px] px-4 py-1.5 rounded font-bold hover:bg-yellow-600 transition shadow-sm active:scale-95">
-                                LOG SAVE
-                            </button>
-                        </div>
+                    <textarea id="input-${itemId}" rows="2" maxlength="200" placeholder="つまづいた所や工夫をメモ..." 
+                        class="w-full p-3 text-xs border ${isDone ? 'border-green-200 bg-white' : 'border-gray-200'} rounded focus:outline-none focus:border-yellow-500 transition shadow-inner resize-none text-gray-700">${savedText}</textarea>
+                    <div class="flex justify-between items-center mt-2">
+                        <span id="count-${itemId}" class="text-[9px] ${savedText.length >= 30 ? 'text-green-600' : 'text-gray-400'} font-mono text-gray-400">現在: ${savedText.length} 文字</span>
+                        <button onclick="studySystem.saveLog('${itemId}')" class="bg-gray-800 text-white text-[10px] px-4 py-1.5 rounded font-bold hover:bg-yellow-600 transition shadow-sm active:scale-95">LOG SAVE</button>
                     </div>
                 </div>
             `;
-            
-            // 重要：横並びのコンテナ（div）の中ではなく、li自体の末尾に追加する
             li.insertAdjacentHTML('beforeend', logHTML);
+
             const textarea = document.getElementById(`input-${itemId}`);
             const countLabel = document.getElementById(`count-${itemId}`);
             textarea.addEventListener('input', () => {
                 countLabel.innerText = `現在: ${textarea.value.length} 文字`;
-                if(textarea.value.length >= GAME_CONFIG.minCommentLength) {
-                    countLabel.classList.replace('text-gray-400', 'text-green-600');
-                } else {
-                    countLabel.classList.replace('text-green-600', 'text-gray-400');
-                }
+                countLabel.classList.toggle('text-green-600', textarea.value.length >= 30);
+                countLabel.classList.toggle('text-gray-400', textarea.value.length < 30);
             });
         });
     }
@@ -112,17 +106,56 @@ class StudySystem {
     saveLog(itemId) {
         const text = document.getElementById(`input-${itemId}`).value.trim();
         if (text.length < GAME_CONFIG.minCommentLength) {
-            alert(`あと ${GAME_CONFIG.minCommentLength - text.length} 文字足りません。自分の言葉で学びを言語化してみよう！`);
+            alert(`あと ${GAME_CONFIG.minCommentLength - text.length} 文字足りません。`);
             return;
         }
 
+        const pageKey = this.getPageKey();
         this.data.completed[itemId] = text;
         this.saveData();
-        location.reload();
+
+        const newProgress = this.getProgress(pageKey);
+        if (newProgress === 100) {
+            this.showCelebration(pageKey);
+        } else {
+            location.reload();
+        }
+    }
+
+    showCelebration(pageKey) {
+        const unitName = GAME_CONFIG.units[pageKey]?.name || "このユニット";
+        
+        // 紙吹雪演出
+        if (typeof confetti === 'function') {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#fbbf24', '#ffffff', '#3b82f6'] });
+        }
+
+        const modalHTML = `
+            <div id="congrats-modal" class="fixed inset-0 bg-gray-900 bg-opacity-95 flex items-center justify-center z-[200] p-6">
+                <div class="bg-white rounded-lg p-8 max-w-lg w-full text-center shadow-2xl border-t-8 border-yellow-500">
+                    <h2 class="text-2xl font-serif font-bold text-gray-800 mb-2 tracking-widest uppercase">Congratulations!</h2>
+                    <p class="text-sm text-gray-500 mb-1">${unitName}</p>
+                    <p class="text-lg font-medium text-yellow-600 mb-6 underline decoration-yellow-200 italic">全工程コンプリート達成</p>
+                    
+                    <div class="bg-gray-50 border-l-4 border-gray-200 p-6 text-left mb-8 italic">
+                        <p class="text-gray-700 leading-relaxed mb-4 text-sm">
+                            「最後まで歩みを止めず、全項目の振り返りを完了させたその努力に、心から敬意を表します。言語化されたあなたの経験は、何にも代えがたい財産です。」
+                        </p>
+                        <p class="text-gray-700 leading-relaxed text-sm">
+                            「一つの山を登りきったあなたなら、次の課題も必ず乗り越えられるはず。自信を持って次のステージへ進みましょう！」
+                        </p>
+                        <p class="text-right text-xs font-bold text-gray-500 mt-4">— Kyosuke Shibuya</p>
+                    </div>
+
+                    <button onclick="location.reload()" class="bg-gray-900 text-white px-8 py-3 rounded-full font-bold hover:bg-yellow-600 transition shadow-xl hover:scale-105 active:scale-95">
+                        修了を確認する
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
     }
 }
 
 let studySystem;
-window.addEventListener('DOMContentLoaded', () => {
-    studySystem = new StudySystem();
-});
+window.addEventListener('DOMContentLoaded', () => { studySystem = new StudySystem(); });
