@@ -1,9 +1,9 @@
-// js/game.js (進捗ゲージ・30文字感想ログ連携版)
+// js/game.js (配置修正・進捗ゲージ連携版)
 
 const GAME_CONFIG = {
     minCommentLength: 30, // コンプリートに必要な最小文字数
     units: {
-        "math2_calculus":16,
+       "math2_calculus":16,
         "math2_equation_comp":17,
         "matha_prob": 16,     // 数学A
         "mathb_sequence": 18, // 数学B
@@ -16,7 +16,7 @@ class StudySystem {
     constructor() {
         this.data = this.loadData();
         this.initUI();
-        // HTMLの読み込みを待ってから実行
+
         if (document.readyState === 'loading') {
             window.addEventListener('load', () => this.injectLearningLogs());
         } else {
@@ -66,14 +66,14 @@ class StudySystem {
         const pageKey = path.replace('.html', '') || 'matha_prob';
         
         listItems.forEach((li, index) => {
-            if (li.querySelector('.log-area')) return; // 重複防止
+            if (li.querySelector('.log-area')) return;
 
             const itemId = `${pageKey}_item_${index + 1}`;
             const isDone = this.data.completed[itemId];
             const savedText = isDone || "";
 
             const logHTML = `
-                <div class="log-area mt-4 p-4 border-t border-gray-100 bg-gray-50 rounded-b-sm w-full">
+                <div class="log-area w-full bg-gray-50 p-4 border-t border-gray-100">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
                             <i class="fa-solid fa-pen-nib"></i> Learning Log (30字以上で完了)
@@ -82,11 +82,11 @@ class StudySystem {
                     </div>
                     <div class="flex flex-col gap-2">
                         <textarea id="input-${itemId}" rows="2" maxlength="200" placeholder="つまづいた所や、工夫した解き方をメモしよう..." 
-                            class="w-full p-3 text-xs border ${isDone ? 'border-green-200 bg-white' : 'border-gray-200'} rounded focus:outline-none focus:border-yellow-500 transition shadow-inner resize-none">${savedText}</textarea>
+                            class="w-full p-3 text-xs border ${isDone ? 'border-green-200 bg-white' : 'border-gray-200'} rounded focus:outline-none focus:border-yellow-500 transition shadow-inner resize-none text-gray-700 leading-relaxed">${savedText}</textarea>
                         <div class="flex justify-between items-center">
-                            <span id="count-${itemId}" class="text-[9px] text-gray-400">現在: ${savedText.length} 文字</span>
+                            <span id="count-${itemId}" class="text-[9px] ${savedText.length >= 30 ? 'text-green-600' : 'text-gray-400'} font-mono">現在: ${savedText.length} 文字</span>
                             <button onclick="studySystem.saveLog('${itemId}')" 
-                                class="bg-gray-800 text-white text-[10px] px-4 py-1.5 rounded font-bold hover:bg-yellow-600 transition shadow-md">
+                                class="bg-gray-800 text-white text-[10px] px-4 py-1.5 rounded font-bold hover:bg-yellow-600 transition shadow-sm active:scale-95">
                                 LOG SAVE
                             </button>
                         </div>
@@ -94,21 +94,16 @@ class StudySystem {
                 </div>
             `;
             
-            // aタグなどが入っているメインのコンテナを探して追加
-            const targetContainer = li.querySelector('div') || li;
-            targetContainer.insertAdjacentHTML('beforeend', logHTML);
-
-            // 文字数カウントの反映
+            // 重要：横並びのコンテナ（div）の中ではなく、li自体の末尾に追加する
+            li.insertAdjacentHTML('beforeend', logHTML);
             const textarea = document.getElementById(`input-${itemId}`);
             const countLabel = document.getElementById(`count-${itemId}`);
             textarea.addEventListener('input', () => {
                 countLabel.innerText = `現在: ${textarea.value.length} 文字`;
                 if(textarea.value.length >= GAME_CONFIG.minCommentLength) {
-                    countLabel.classList.add('text-green-600');
-                    countLabel.classList.remove('text-gray-400');
+                    countLabel.classList.replace('text-gray-400', 'text-green-600');
                 } else {
-                    countLabel.classList.remove('text-green-600');
-                    countLabel.classList.add('text-gray-400');
+                    countLabel.classList.replace('text-green-600', 'text-gray-400');
                 }
             });
         });
@@ -123,7 +118,7 @@ class StudySystem {
 
         this.data.completed[itemId] = text;
         this.saveData();
-        location.reload(); // ゲージ更新のためリロード
+        location.reload();
     }
 }
 
