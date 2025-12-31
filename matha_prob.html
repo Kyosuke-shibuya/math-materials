@@ -598,6 +598,37 @@
                     </ul>
 
                     <div class="mt-8 pt-6 border-t border-gray-100">
+
+                        <div class="mt-6 bg-gray-900 rounded-sm p-5 border border-gray-700 shadow-inner">
+    <div class="flex items-center gap-2 mb-3">
+        <i class="fa-solid fa-layer-group text-yellow-500 text-sm"></i>
+        <h3 class="text-xs font-bold text-gray-300 tracking-widest uppercase">Learning Log</h3>
+    </div>
+    
+    <p class="text-[10px] text-gray-500 mb-3 leading-relaxed">つまづきや工夫をメモして保存しよう。初回保存時に <span class="text-yellow-500">+500 XP</span> 獲得！</p>
+    
+    <div class="space-y-3">
+        <select id="memo-target" onchange="mathRPG.loadMemo()" class="w-full bg-gray-800 border border-gray-600 text-gray-300 text-[11px] rounded px-2 py-1.5 focus:outline-none focus:border-yellow-500">
+            <option value="general">全体のまとめ・感想</option>
+            <option value="item-01">第1回 数え上げの原則</option>
+            <option value="item-02">第2回 順列(1)</option>
+            <option value="item-03">第3回 順列(2)</option>
+            <option value="item-04">第4回 順列(3)</option>
+            <option value="item-05">第5回 組合せ(1)</option>
+            <option value="item-06">第6回 組合せ(2)</option>
+            <option value="item-07">第7回 組分け</option>
+            <option value="item-08">第8回 同じものを含む順列</option>
+            <option value="item-09">第9回 重複組合せ</option>
+        </select>
+        
+        <textarea id="memo-input" maxlength="50" rows="3" placeholder="工夫した解き方など（50字以内）" 
+            class="w-full bg-gray-800 border border-gray-600 text-white text-xs rounded p-3 focus:outline-none focus:border-yellow-500 transition shadow-inner resize-none"></textarea>
+        
+        <button onclick="mathRPG.saveMemo()" class="w-full bg-yellow-600 hover:bg-yellow-500 text-white text-[10px] font-bold py-2 rounded transition shadow-lg active:transform active:scale-95">
+            SAVE LOG & GET XP
+        </button>
+    </div>
+</div>
                         <h4 class="text-xs font-bold text-gray-400 mb-2">NOTE</h4>
                         <p class="text-xs text-gray-500 leading-relaxed">
                             場合の数は「漏れなく、重複なく」数える技術です。計算式だけでなく、樹形図やベン図を描いて構造を可視化しましょう。
