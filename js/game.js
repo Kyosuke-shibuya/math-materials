@@ -3,16 +3,18 @@
 const GAME_CONFIG = {
     xpPerClick: 100,
     xpPerAudio: 300,
-    xpPerComment: 500,
+    xpPerComment: 500,    // コメント投稿で大量XPゲット！
     baseXpForLevel: 500,
-    titles: ["数学の旅人", "計算の魔術師", "証明の達人", "無限の探求者", "数理の覇王", "SHIBUYAの後継者"]
+    titles: [
+        "数学の旅人", "計算の魔術師", "証明の達人", "無限の探求者", "数理の覇王", "SHIBUYAの後継者"
+    ]
 };
 
 const initialState = {
     level: 1,
     currentXp: 0,
     nextLevelXp: 500,
-    comments: {},
+    comments: {}, // ページごとのコメント保存用
     lastLogin: new Date().toDateString()
 };
 
@@ -21,8 +23,7 @@ class MathRPG {
         this.data = this.loadData();
         this.initUI();
         this.attachEvents();
-        // 少し遅らせて実行（HTMLが生成されるのを待つ）
-        setTimeout(() => this.injectMessageBoards(), 500);
+        this.injectMessageBoards(); // 掲示板を注入
         this.checkLoginBonus();
         this.updateUI();
     }
@@ -61,18 +62,17 @@ class MathRPG {
     }
 
     initUI() {
-        if(document.getElementById('rpg-widget')) return;
         const widgetHTML = `
             <div id="rpg-widget" onclick="this.classList.toggle('opacity-20')" class="fixed top-1.5 right-2 bg-gray-900 bg-opacity-95 text-white py-1 px-3 rounded shadow-xl z-[60] border border-gray-700 w-44 transition-all duration-300 cursor-pointer font-sans select-none hover:bg-opacity-100">
                 <div class="flex flex-col mb-1">
-                    <div id="rpg-title" class="text-xs font-bold text-yellow-400 tracking-tighter truncate drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]">${this.getTitle()}</div>
+                    <div id="rpg-title" class="text-xs font-bold text-yellow-400 tracking-tighter truncate drop-shadow-[0_0_3px_rgba(250,204,21,0.5)]">数学の旅人</div>
                     <div class="flex justify-between items-center mt-0.5">
-                        <div class="flex items-baseline gap-0.5"><span class="text-[8px] text-gray-500 font-bold">Lv.</span><span id="rpg-level" class="text-xs text-white font-bold font-mono">${this.data.level}</span></div>
-                        <div class="text-[8px] text-gray-500 font-mono"><span id="rpg-xp">${Math.floor(this.data.currentXp)}</span>/<span id="rpg-next">${this.data.nextLevelXp}</span> XP</div>
+                        <div class="flex items-baseline gap-0.5"><span class="text-[8px] text-gray-500 font-bold">Lv.</span><span id="rpg-level" class="text-xs text-white font-bold font-mono">1</span></div>
+                        <div class="text-[8px] text-gray-500 font-mono"><span id="rpg-xp">0</span>/<span id="rpg-next">500</span> XP</div>
                     </div>
                 </div>
                 <div class="w-full bg-gray-700 rounded-full h-1">
-                    <div id="rpg-bar" class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-500 h-1 rounded-full transition-all duration-500" style="width: ${(this.data.currentXp/this.data.nextLevelXp)*100}%"></div>
+                    <div id="rpg-bar" class="bg-gradient-to-r from-yellow-400 via-yellow-200 to-yellow-500 h-1 rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
             </div>
             <div id="rpg-notification-area" class="fixed top-16 right-2 flex flex-col items-end gap-1 pointer-events-none z-[60]"></div>
@@ -80,39 +80,31 @@ class MathRPG {
         document.body.insertAdjacentHTML('beforeend', widgetHTML);
     }
 
+    // --- 掲示板システムの注入 ---
     injectMessageBoards() {
-        // 全ページ共通の「プリントの各行」を特定
-        const listItems = document.querySelectorAll('li.group');
-        if (listItems.length === 0) return;
-
+        const listItems = document.querySelectorAll('li.group'); // プリントの各行を取得
         listItems.forEach((li, index) => {
-            // すでに掲示板がある場合はスキップ
-            if (li.querySelector('.learning-log-area')) return;
-
-            const pageId = window.location.pathname.split('/').pop() + "_item_" + index;
+            const pageId = window.location.pathname + "_item_" + index; // 各行固有のID
             const savedComment = this.data.comments[pageId] || "";
 
             const boardHTML = `
-                <div class="learning-log-area mt-4 px-4 pb-4 border-t border-gray-50 pt-3 w-full">
+                <div class="mt-4 px-4 pb-4 border-t border-gray-50 pt-3">
                     <div class="flex items-center gap-2 mb-2">
-                        <i class="fa-solid fa-pen-to-square text-gray-300 text-[10px]"></i>
-                        <span class="text-[9px] font-bold text-gray-400 tracking-wider uppercase">Learning Log (つまづき・工夫)</span>
+                        <i class="fa-solid fa-pen-to-square text-gray-300 text-xs"></i>
+                        <span class="text-[10px] font-bold text-gray-400 tracking-wider uppercase">Learning Log (MAX 50)</span>
                     </div>
                     <div class="flex gap-2">
-                        <input type="text" maxlength="50" placeholder="50字以内でメモ..." 
+                        <input type="text" maxlength="50" placeholder="つまづき・工夫をメモ..." 
                             id="input-${pageId}" value="${savedComment}"
-                            class="flex-1 bg-gray-50 border border-gray-200 rounded px-2 py-1 text-[11px] focus:outline-none focus:border-yellow-500 transition shadow-inner text-gray-600">
+                            class="flex-1 bg-gray-50 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-yellow-500 transition shadow-inner">
                         <button onclick="mathRPG.postComment('${pageId}')" 
-                            class="bg-gray-800 text-white text-[9px] px-2 py-1 rounded font-bold hover:bg-yellow-600 transition whitespace-nowrap">
+                            class="bg-gray-800 text-white text-[10px] px-3 py-1 rounded font-bold hover:bg-yellow-600 transition">
                             SAVE
                         </button>
                     </div>
                 </div>
             `;
-            
-            // aタグの入っている親要素（flexレイアウトの中）の末尾に追加
-            const container = li.querySelector('div') || li;
-            container.appendChild(document.createRange().createContextualFragment(boardHTML));
+            li.querySelector('div').insertAdjacentHTML('afterend', boardHTML);
         });
     }
 
@@ -121,67 +113,56 @@ class MathRPG {
         const text = input.value.trim();
         if (text === "") return;
 
+        // 既にコメントしているかチェック（初回のみXP付与）
         const isFirstTime = !this.data.comments[pageId];
+        
         this.data.comments[pageId] = text;
         this.saveData();
 
         if (isFirstTime) {
             this.gainXp(GAME_CONFIG.xpPerComment);
-            this.showNotification(`Log Saved! +${GAME_CONFIG.xpPerComment} XP`, 'text-green-400');
+            this.showNotification(`Great Insight! +${GAME_CONFIG.xpPerComment} XP`, 'text-green-400');
         } else {
-            this.showNotification(`Updated!`, 'text-blue-400');
+            this.showNotification(`Log Updated!`, 'text-blue-400');
         }
     }
 
+    // (中略: updateUI, attachEvents, showNotification, showLevelUpModal, checkLoginBonus は前回と同じ)
     updateUI() {
-        const elLevel = document.getElementById('rpg-level');
-        const elTitle = document.getElementById('rpg-title');
-        const elXp = document.getElementById('rpg-xp');
-        const elNext = document.getElementById('rpg-next');
-        const elBar = document.getElementById('rpg-bar');
-
-        if(elLevel) elLevel.innerText = this.data.level;
-        if(elTitle) elTitle.innerText = this.getTitle();
-        if(elXp) elXp.innerText = Math.floor(this.data.currentXp);
-        if(elNext) elNext.innerText = Math.floor(this.data.nextLevelXp);
-        if(elBar) {
-            const percentage = Math.min(100, (this.data.currentXp / this.data.nextLevelXp) * 100);
-            elBar.style.width = `${percentage}%`;
-        }
+        document.getElementById('rpg-level').innerText = this.data.level;
+        document.getElementById('rpg-title').innerText = this.getTitle();
+        document.getElementById('rpg-xp').innerText = Math.floor(this.data.currentXp);
+        document.getElementById('rpg-next').innerText = Math.floor(this.data.nextLevelXp);
+        const percentage = Math.min(100, (this.data.currentXp / this.data.nextLevelXp) * 100);
+        document.getElementById('rpg-bar').style.width = `${percentage}%`;
     }
 
     attachEvents() {
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a[href$=".pdf"]');
-            if (link) {
-                this.gainXp(GAME_CONFIG.xpPerClick);
-                this.showNotification(`+${GAME_CONFIG.xpPerClick} XP`, 'text-yellow-400');
-            }
-        });
-
-        document.addEventListener('ended', (e) => {
-            if (e.target.tagName === 'AUDIO') {
-                this.gainXp(GAME_CONFIG.xpPerAudio);
-                this.showNotification(`Listening Complete! +${GAME_CONFIG.xpPerAudio} XP`, 'text-green-400');
-            }
-        }, true);
+        const links = document.querySelectorAll('a[href$=".pdf"]');
+        links.forEach(link => link.addEventListener('click', () => {
+            this.gainXp(GAME_CONFIG.xpPerClick);
+            this.showNotification(`+${GAME_CONFIG.xpPerClick} XP`, 'text-yellow-400');
+        }));
+        const audios = document.querySelectorAll('audio');
+        audios.forEach(audio => audio.addEventListener('ended', () => {
+            this.gainXp(GAME_CONFIG.xpPerAudio);
+            this.showNotification(`Listening Complete! +${GAME_CONFIG.xpPerAudio} XP`, 'text-green-400');
+        }));
     }
 
     showNotification(text, colorClass) {
         const area = document.getElementById('rpg-notification-area');
-        if(!area) return;
         const notif = document.createElement('div');
-        notif.className = `bg-gray-900 bg-opacity-90 border-l-4 border-yellow-500 text-white text-[10px] px-3 py-2 rounded shadow-md font-bold fade-in-down ${colorClass}`;
+        notif.className = `bg-gray-900 bg-opacity-90 border-l-4 border-yellow-500 text-white text-xs px-3 py-2 rounded shadow-md font-bold fade-in-down ${colorClass}`;
         notif.innerText = text;
         area.appendChild(notif);
-
         if (!document.getElementById('rpg-style')) {
             const style = document.createElement('style');
             style.id = 'rpg-style';
             style.innerHTML = `@keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } } .fade-in-down { animation: fadeInDown 0.3s ease-out forwards; }`;
             document.head.appendChild(style);
         }
-        setTimeout(() => { notif.style.opacity = '0'; setTimeout(() => notif.remove(), 500); }, 2000);
+        setTimeout(() => { notif.style.opacity = '0'; notif.style.transition = 'opacity 0.5s'; setTimeout(() => notif.remove(), 500); }, 2000);
     }
 
     showLevelUpModal() {
@@ -199,7 +180,8 @@ class MathRPG {
     }
 }
 
+// グローバル変数として保持（HTMLボタンから呼ぶため）
 let mathRPG;
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     mathRPG = new MathRPG();
 });
