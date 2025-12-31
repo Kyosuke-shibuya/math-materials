@@ -7,7 +7,8 @@ const GAME_CONFIG = {
         "mathb_sequence": { total: 18, name: "数学B：数列" },
         "mathc_vector": { total: 13, name: "数学C：平面ベクトル" },
         "mathc_vector3d": { total: 13, name: "数学C：空間ベクトル" },
-        "math2_calculus": { total: 16, name: "数学II：微分積分" }
+        "math2_calculus": { total: 16, name: "数学II：微分積分" },
+        "math2_equation_comp": { total: 17, name: "数学II：微分積分" }
     }
 };
 
