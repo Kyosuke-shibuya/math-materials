@@ -1,6 +1,40 @@
 // main.js
 // 2025 Curriculum Manager
 
+// 各科目カードに進捗バーを出す (トップページ用)
+window.addEventListener('load', () => {
+    if (!window.location.pathname.endsWith('index.html') && window.location.pathname !== '/') return;
+    
+    const cards = document.querySelectorAll('.unit-card'); // 科目カードを特定
+    const system = new StudySystem();
+
+    const configMap = {
+        "場合の数と確率": "matha_prob",
+        "数列": "mathb_sequence",
+        "空間ベクトル": "mathc_vector3d"
+    };
+
+    cards.forEach(card => {
+        const title = card.querySelector('h3').innerText;
+        const key = configMap[title];
+        if (key) {
+            const progress = system.getProgress(key);
+            const barHTML = `
+                <div class="mt-4">
+                    <div class="flex justify-between text-[10px] mb-1 font-bold">
+                        <span class="text-gray-400 uppercase">Achievement</span>
+                        <span class="text-yellow-600">${progress}%</span>
+                    </div>
+                    <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden border border-gray-200">
+                        <div class="bg-yellow-500 h-full transition-all duration-1000" style="width: ${progress}%"></div>
+                    </div>
+                </div>
+            `;
+            card.insertAdjacentHTML('beforeend', barHTML);
+        }
+    });
+});
+
 // ▼▼▼ データ定義 (全科目ボタンモード化) ▼▼▼
 const subjectData = {
     "数学 I": {
