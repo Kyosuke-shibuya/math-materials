@@ -44,26 +44,6 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
 
-    <div id="nav-overlay" class="fixed top-0 left-0 h-full w-full md:w-1/3 bg-gray-900 bg-opacity-95 z-50 transform -translate-x-full transition-transform duration-700 ease-in-out flex flex-col justify-start items-start pt-28 pl-12 text-white shadow-2xl">
-        <button onclick="toggleMenu()" class="absolute top-6 left-6 text-2xl focus:outline-none hover:text-gray-400 transition">
-            <i class="fa-solid fa-times"></i>
-        </button>
-        <nav class="flex flex-col space-y-6 text-xl font-light tracking-widest text-left">
-            <a href="index.html" class="hover:text-gray-400 transition">HOME</a>
-            <div class="w-8 h-px bg-gray-600 mr-auto"></div>
-            <a href="index.html" class="hover:text-gray-400 transition">数学 I</a>
-            <a href="matha_prob.html" class="hover:text-gray-400 transition text-yellow-500">数学 A</a>
-            <a href="math2_calculus.html" class="hover:text-gray-400 transition">数学 II</a>
-            <a href="mathb_sequence.html" class="hover:text-gray-400 transition">数学 B</a>
-            <a href="index.html" class="hover:text-gray-400 transition">数学 III</a>
-            <a href="mathc_vector.html" class="hover:text-gray-400 transition">数学 C</a>
-            <div class="w-8 h-px bg-gray-600 mr-auto mt-2"></div>
-            <a href="materials_list.html" class="hover:text-gray-400 transition flex items-center gap-3">
-                <i class="fa-solid fa-book-open text-base"></i> 副読本リスト
-            </a>
-        </nav>
-    </div>
-
     <header class="fixed top-0 w-full h-16 bg-gray-900 text-white flex items-center justify-between px-6 z-40 shadow-md">
         <div class="flex items-center gap-4">
             <a href="index.html" class="text-xl focus:outline-none hover:text-gray-300 transition">
@@ -91,486 +71,57 @@
                     
                     <ul class="divide-y divide-gray-50 text-sm text-gray-700 flex-grow">
                         
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_01.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">01</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">数え上げの原理原則</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Counting Principles</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「または」は足し算、「かつ」は掛け算。集合のベン図（和集合・共通部分・補集合）とリンクさせて理解しましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-01" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_01.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-01').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
+                        <script>
+                            const unitData = [
+                                { id: "01", title: "数え上げの原理原則", sub: "Counting Principles", note: "「または」は足し算、「かつ」は掛け算。集合のベン図とリンクさせて理解しましょう。" },
+                                { id: "02", title: "順列 (1) 基本と隣接", sub: "Permutations: Basics", note: "「隣り合う」ものは、ひとかたまりのブロックとして扱うのが鉄則です。" },
+                                { id: "03", title: "順列 (2) 条件付き配置", sub: "Permutations: Conditional", note: "「隣り合わない」は隙間に入れる。安易な引き算はミスの元です。" },
+                                { id: "04", title: "順列 (3) 円・重複", sub: "Circular & Repeated", note: "円順列は「1人を固定」して回転を止めます。重複順列は部屋割りのイメージで。" },
+                                { id: "05", title: "組合せ (1) 定義と図形", sub: "Combinations: Basics", note: "順序を考えず「選ぶだけ」ならCを使います。図形問題で威力を発揮します。" },
+                                { id: "06", title: "組合せ (2) 正多角形", sub: "Combinations: Polygons", note: "直角なら「直径」を固定して考えるのがポイントです。" },
+                                { id: "07", title: "組分け", sub: "Grouping", note: "「箱に区別があるか」が最大の争点。人数が同じ組の扱いに注意。" },
+                                { id: "08", title: "同じものを含む順列", sub: "Permutations with Repetition", note: "最短経路問題も、右矢印と上矢印の並べ替えと考えればこれに含まれます。" },
+                                { id: "09", title: "重複組合せ", sub: "Repeated Combinations", note: "公式Hを覚えるよりも「丸と仕切り」の図を描くこと。" },
+                                { id: "10", title: "確率の定義と原理", sub: "Definition & Principles", note: "「同様に確からしい」が確率の大前提。同じものでもすべて区別します。" },
+                                { id: "11", title: "和事象と余事象", sub: "Union & Complementary", note: "「少なくとも」は余事象が有効。排反かどうかの確認を忘れずに。" },
+                                { id: "12", title: "独立試行と乗法定理", sub: "Independent Trials", note: "試行が互いに影響しないなら掛け算。状況が変わるなら乗法定理です。" },
+                                { id: "13", title: "反復試行の確率", sub: "Repeated Trials", note: "同じことを繰り返すときはnCrを忘れないこと。" },
+                                { id: "14", title: "条件付き確率 (1)", sub: "Conditional Probability (1)", note: "「Aが起きた世界でのBの確率」。分母がAに縮小するイメージです。" },
+                                { id: "15", title: "条件付き確率 (2) 原因の確率", sub: "Conditional Probability (2)", note: "結果から原因を探る考え方。時間の流れに沿って木の図を描きましょう。" },
+                                { id: "16", title: "場合の数・確率の総復習", sub: "Final Review", note: "道具を適切に選び出す力を確認します。総仕上げです。" }
+                            ];
 
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_02.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">02</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">順列 (1) 基本と隣接</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Permutations: Basics & Adjacent</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                順列 ${}_nP_r$ と階乗 $!$ の定義。「隣り合う」ものは、ひとかたまりのブロックとして扱うのが鉄則です。
-                                            </span>
+                            unitData.forEach(item => {
+                                document.write(`
+                                    <li class="group">
+                                        <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                                            <a href="prob/prob_${item.id}.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
+                                                <span class="font-serif text-gray-300 text-xl w-8 pt-1">${item.id}</span>
+                                                <div class="flex flex-col">
+                                                    <span class="font-medium text-base text-gray-800">${item.title}</span>
+                                                    <span class="text-xs text-gray-400 font-light mt-0.5">${item.sub}</span>
+                                                    <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg shadow-sm">
+                                                        <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
+                                                        <span>${item.note}</span>
+                                                    </div>
+                                                </div>
+                                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
+                                            </a>
+                                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
+                                                <span class="text-[10px] text-gray-400 font-serif tracking-widest uppercase">Voice</span>
+                                                <audio preload="none" id="prob-audio-${item.id}" controls class="h-6 w-32 md:w-40 opacity-70" src="audio/prob_${item.id}.m4a"></audio>
+                                                <select onchange="document.getElementById('prob-audio-${item.id}').playbackRate = this.value" class="text-[10px] bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                                    <option value="1.0">1.0x</option>
+                                                    <option value="1.25">1.25x</option>
+                                                    <option value="1.5">1.5x</option>
+                                                    <option value="2.0">2.0x</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-02" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_02.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-02').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_03.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">03</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">順列 (2) 条件付き配置</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Permutations: Conditional</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「隣り合わない」は隙間に入れる。「交互」は人数差を確認。安易な引き算（余事象）はミスの元です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-03" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_03.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-03').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_04.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">04</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">順列 (3) 円・重複</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Circular & Repeated Permutations</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                円順列は「1人を固定」して回転を止めます。重複順列は「部屋割り」のイメージで考えると分かりやすいです。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-04" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_04.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-04').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_05.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">05</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">組合せ (1) 定義と図形</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Combinations: Definition & Figures</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                順序を考えず「選ぶだけ」なら $C$ を使います。図形問題（直線の本数など）でその威力を発揮します。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-05" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_05.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-05').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_06.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">06</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">組合せ (2) 正多角形</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Combinations: Regular Polygons</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                直角なら「直径」、鈍角・鋭角なら「中心との位置関係」。直径を固定して考えるのがポイントです。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-06" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_06.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-06').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_07.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">07</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">組分け</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Grouping</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「箱に区別があるか」が最大の争点。区別がない場合は、一旦区別して並べてから、同じ人数の組の数だけ階乗で割ります。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-07" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_07.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-07').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_08.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">08</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">同じものを含む順列</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Permutations with Repetition</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「順序が指定されたもの」は「同じもの」とみなせます。最短経路問題も、右矢印と上矢印の並べ替えと考えればこれに含まれます。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-08" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_08.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-08').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_09.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">09</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">重複組合せ</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Repeated Combinations</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                公式 $H$ を覚えるよりも「丸と仕切り」の図を描くこと。方程式の整数解の個数問題も、飴を配る話に置き換えられます。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-09" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_09.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-09').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_10.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">10</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">確率の定義と原理</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Definition & Principles</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「同様に確からしい」が確率の大前提です。同じ色の玉や同じ数字のカードも、すべて区別して考えることが鉄則です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-10" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_10.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-10').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_11.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">11</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">和事象と余事象</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Union & Complementary Events</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「または」は足し算、「少なくとも」は余事象（全体－そうでない）が有効です。排反（重なりなし）かどうかの確認を忘れずに。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-11" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_11.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-11').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_12.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">12</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">独立試行と乗法定理</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Independent Trials & Multiplication</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                試行が「独立（互いに影響しない）」なら掛け算。「元に戻さない」場合は確率が変化していく（乗法定理）点に注意しましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-12" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_12.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-12').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_13.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">13</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">反復試行の確率</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Repeated Trials</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                同じことを繰り返すときは ${}_nC_r$ を忘れないこと。「〇〇×」の並び方が何通りあるか、という視点が重要です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-13" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_13.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-13').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_14.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">14</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">条件付き確率 (1)</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Conditional Probability (1)</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「Aが起きた世界でのBの確率」です。分母が全体 $U$ から $A$ に縮小するイメージを持ちましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-14" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_14.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-14').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_15.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">15</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">条件付き確率 (2) 原因の確率</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Conditional Probability (2)</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                結果から原因を探る「ベイズの定理」の考え方です。時間の流れに沿って「木の図」を描くと整理しやすくなります。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-15" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_15.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-15').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50 last:border-0">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="prob/prob_16.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">16</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">場合の数・確率の総復習</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Final Review</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                場合の数と確率の総仕上げです。順列・組合せの使い分けから条件付き確率まで、道具を適切に選び出す力を確認します。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="prob-audio-16" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/prob_16.m4a"></audio>
-                                    <select onchange="document.getElementById('prob-audio-16').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
+                                    </li>
+                                `);
+                            });
+                        </script>
                     </ul>
                 </div>
             </section>
@@ -598,10 +149,6 @@
                     </ul>
 
                     <div class="mt-8 pt-6 border-t border-gray-100">
-
-                        <div class="mt-6 bg-gray-900 rounded-sm p-5 border border-gray-700 shadow-inner">
-                            
-</div>
                         <h4 class="text-xs font-bold text-gray-400 mb-2">NOTE</h4>
                         <p class="text-xs text-gray-500 leading-relaxed">
                             場合の数は「漏れなく、重複なく」数える技術です。計算式だけでなく、樹形図やベン図を描いて構造を可視化しましょう。
@@ -617,18 +164,7 @@
         </div>
     </main>
 
-    <script>
-        // ハンバーガーメニューの開閉機能
-        const navOverlay = document.getElementById('nav-overlay');
-        function toggleMenu() {
-            if (navOverlay.classList.contains('-translate-x-full')) {
-                navOverlay.classList.remove('-translate-x-full');
-            } else {
-                navOverlay.classList.add('-translate-x-full');
-            }
-        }
-    </script>
-
     <script src="js/game.js"></script>
+
 </body>
 </html>
