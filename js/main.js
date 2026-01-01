@@ -49,7 +49,7 @@ const subjectData = {
             { 
                 title: "2次関数", 
                 subtitle: "Quadratic Functions", 
-                url: "#", 
+                url: "math1_quadra.html", 
                 icon: "fa-solid fa-chart-line" 
             },
             { 
