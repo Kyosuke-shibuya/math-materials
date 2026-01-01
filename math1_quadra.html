@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学I：二次関数 | Shibuya Math</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+        
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'], serif: ['"Noto Serif JP"', 'serif'] },
+                    animation: { 'fade-in': 'fadeIn 0.5s ease-in-out' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <header class="fixed top-0 w-full h-16 bg-gray-900 text-white flex items-center justify-between px-6 z-40 shadow-md">
+        <a href="index.html" class="flex items-center gap-2 hover:text-gray-300 transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span class="font-serif text-sm tracking-wider">数学 I：二次関数</span>
+        </a>
+        <div id="progress-area"></div> 
+    </header>
+
+    <main class="flex-grow pt-24 pb-20 px-4 max-w-3xl mx-auto w-full animate-fade-in">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-serif font-bold text-gray-800 mb-2">二次関数</h1>
+            <p class="text-xs text-gray-400 tracking-[0.3em] uppercase">Quadratic Functions</p>
+            <div class="w-12 h-1 bg-yellow-500 mx-auto mt-6 rounded-full"></div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4"><i class="fa-solid fa-layer-group mr-2"></i>授業プリント</h2>
+            
+            <ul class="space-y-4">
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">01</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">関数と変域</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 関数とは何か</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_01.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">02</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">グラフの基本形と平行移動</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 原点からの移動</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_02.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">03</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">平方完成と一般形</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 一般形と標準形</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_03.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">04</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">対称移動と平行移動の応用</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 対称移動の仕組み</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_04.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">05</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">絶対値とグラフ</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 絶対値の意味</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_05.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">06</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">最大・最小の基礎</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 最大値・最小値とは</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_06.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">07</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">場合分けの「原理」</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 動くグラフと固定定義域</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_07.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">08</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">最大・最小（軸移動：最小値）</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 最小値の狙い撃ち</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_08.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">09</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">最大・最小（軸移動：最大値）</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: 最大値の狙い撃ち</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_09.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="group border-b border-gray-100 pb-4 last:border-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-baseline gap-3">
+                            <span class="text-2xl font-serif text-gray-200 group-hover:text-yellow-500 transition font-bold">10</span>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-800">最大・最小（区間移動）</h3>
+                                <p class="text-[10px] text-gray-400 uppercase">Introduction: スライドする窓</p>
+                            </div>
+                        </div>
+                        <a href="quadra/quadra_10.pdf" target="_blank" class="text-gray-400 hover:text-red-500 transition p-2">
+                            <i class="fa-solid fa-file-pdf text-xl"></i>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </main>
+
+    <script src="js/game.js"></script>
+</body>
+</html>
