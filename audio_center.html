@@ -19,7 +19,6 @@
         }
     </script>
     <style>
-        /* アコーディオンの開閉アニメーション */
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
         details[open] summary ~ * { animation: sweep .3s ease-in-out; }
@@ -27,7 +26,6 @@
             0%    { opacity: 0; transform: translateY(-10px); }
             100%  { opacity: 1; transform: translateY(0); }
         }
-        /* 矢印の回転 */
         details[open] summary .arrow-icon { transform: rotate(180deg); }
     </style>
 </head>
@@ -51,164 +49,100 @@
         </div>
 
         <div id="audio-container" class="flex flex-col gap-4">
-            </div>
+            <p class="text-center text-gray-500 animate-pulse mt-10">Loading tracks...</p>
+        </div>
 
     </main>
 
     <script>
-        // ▼▼ 全単元のデータ設定 ▼▼
-        // prefix: 音声ファイル名の接頭辞 (例: prefix:"quadra" -> audio/quadra_01.m4a)
-        // link: 元のプリントページへのリンク
+        // 設定: prefixは音声ファイル名の接頭辞
         const units = [
-            {
-                id: "math1_quadra",
-                title: "数学 I：二次関数",
-                icon: "fa-bezier-curve",
-                prefix: "quadra", 
-                link: "math1_quadra.html",
-                items: [
-                    {id:"01", t:"関数と変域"}, {id:"02", t:"基本形と平行移動"}, {id:"03", t:"平方完成"}, 
-                    {id:"04", t:"対称移動"}, {id:"05", t:"絶対値とグラフ"}, {id:"06", t:"最大・最小(基礎)"},
-                    {id:"07", t:"場合分けの原理"}, {id:"08", t:"軸移動(最小)"}, {id:"09", t:"軸移動(最大)"},
-                    {id:"10", t:"区間移動"}, {id:"11", t:"文章題・応用"}, {id:"12", t:"2次関数の決定"},
-                    {id:"13", t:"グラフと共有点"}, {id:"14", t:"判別式Dの本質"}, {id:"15", t:"2次不等式"},
-                    {id:"16", t:"文字を含む不等式"}, {id:"17", t:"解の配置(基本)"}, {id:"18", t:"解の配置(区間)"},
-                    {id:"19", t:"すべて・ある"}, {id:"20", t:"解の配置(応用)"}
-                ]
-            },
-            {
-                id: "matha_prob",
-                title: "数学 A：場合の数と確率",
-                icon: "fa-dice",
-                prefix: "prob",
-                link: "matha_prob.html",
-                items: [
-                    {id:"01", t:"数え上げの原理"}, {id:"02", t:"順列(基本)"}, {id:"03", t:"順列(条件付)"},
-                    {id:"04", t:"円・重複順列"}, {id:"05", t:"組合せ(基本)"}, {id:"06", t:"図形と組合せ"},
-                    {id:"07", t:"組分け"}, {id:"08", t:"同じものを含む"}, {id:"09", t:"重複組合せ"},
-                    {id:"10", t:"確率の定義"}, {id:"11", t:"和事象・余事象"}, {id:"12", t:"独立試行"},
-                    {id:"13", t:"反復試行"}, {id:"14", t:"条件付き確率(1)"}, {id:"15", t:"条件付き確率(2)"},
-                    {id:"16", t:"総復習"}
-                ]
-            },
-            {
-                id: "math2_equation_comp",
-                title: "数学 II：式と証明・複素数",
-                icon: "fa-scale-balanced",
-                prefix: "equation", /* ファイル名が equation_01.m4a と想定 */
-                link: "math2_equation_comp.html",
-                items: [
-                    {id:"01", t:"3次式の展開・因数分解"}, {id:"02", t:"二項定理"}, {id:"03", t:"整式の割り算"},
-                    {id:"04", t:"恒等式"}, {id:"05", t:"等式の証明"}, {id:"06", t:"不等式の証明"},
-                    {id:"07", t:"相加・相乗平均"}, {id:"08", t:"複素数の計算"}, {id:"09", t:"2次方程式の解法"},
-                    {id:"10", t:"解と係数の関係"}, {id:"11", t:"剰余の定理・因数定理"}, {id:"12", t:"高次方程式"}
-                ]
-            },
-            {
-                id: "math2_calculus",
-                title: "数学 II：微分積分",
-                icon: "fa-chart-area",
-                prefix: "calculus",
-                link: "math2_calculus.html",
-                items: [
-                    {id:"01", t:"微分の考え方"}, {id:"02", t:"導関数の計算"}, {id:"03", t:"接線の方程式"},
-                    {id:"04", t:"関数の増減"}, {id:"05", t:"極大・極小"}, {id:"06", t:"最大・最小"},
-                    {id:"07", t:"方程式への応用"}, {id:"08", t:"不等式への応用"}, {id:"09", t:"積分の考え方"},
-                    {id:"10", t:"不定積分"}, {id:"11", t:"定積分"}, {id:"12", t:"定積分と微分"},
-                    {id:"13", t:"面積(基本)"}, {id:"14", t:"面積(上下関係)"}, {id:"15", t:"1/6公式の活用"},
-                    {id:"16", t:"積分方程式"}
-                ]
-            },
-            {
-                id: "mathb_sequence",
-                title: "数学 B：数列",
-                icon: "fa-arrow-down-1-9",
-                prefix: "sequence",
-                link: "mathb_sequence.html",
-                items: [
-                    {id:"01", t:"等差数列"}, {id:"02", t:"等比数列"}, {id:"03", t:"和の記号Σ"},
-                    {id:"04", t:"Σの計算性質"}, {id:"05", t:"階差数列"}, {id:"06", t:"和と一般項の関係"},
-                    {id:"07", t:"部分分数分解"}, {id:"08", t:"群数列"}, {id:"09", t:"漸化式(基本)"},
-                    {id:"10", t:"漸化式(特性方程式)"}, {id:"11", t:"漸化式(応用)"}, {id:"12", t:"数学的帰納法(等式)"},
-                    {id:"13", t:"数学的帰納法(不等式)"}, {id:"14", t:"確率漸化式"}, {id:"15", t:"数列の極限(数III導入)"},
-                    {id:"16", t:"無限等比級数"}, {id:"17", t:"格子点"}, {id:"18", t:"総復習"}
-                ]
-            },
-            {
-                id: "mathc_vector",
-                title: "数学 C：平面ベクトル",
-                icon: "fa-location-arrow",
-                prefix: "vector",
-                link: "mathc_vector.html",
-                items: [
-                    {id:"01", t:"ベクトルの定義"}, {id:"02", t:"ベクトルの演算"}, {id:"03", t:"成分表示"},
-                    {id:"04", t:"内積の定義"}, {id:"05", t:"内積と成分"}, {id:"06", t:"垂直と平行"},
-                    {id:"07", t:"分点公式"}, {id:"08", t:"重心と内心"}, {id:"09", t:"ベクトル方程式(直線)"},
-                    {id:"10", t:"ベクトル方程式(円)"}, {id:"11", t:"存在範囲"}, {id:"12", t:"三角形の面積"},
-                    {id:"13", t:"内積の応用"}
-                ]
-            },
-            {
-                id: "mathc_vector3d",
-                title: "数学 C：空間ベクトル",
-                icon: "fa-cube",
-                prefix: "vector3d",
-                link: "mathc_vector3d.html",
-                items: [
-                    {id:"01", t:"空間座標"}, {id:"02", t:"空間ベクトルの成分"}, {id:"03", t:"空間の内積"},
-                    {id:"04", t:"位置ベクトル"}, {id:"05", t:"同一平面上の点"}, {id:"06", t:"一直線上の点"},
-                    {id:"07", t:"空間図形への応用"}, {id:"08", t:"四面体の体積"}, {id:"09", t:"球面の方程式"},
-                    {id:"10", t:"平面の方程式"}, {id:"11", t:"法線ベクトル"}, {id:"12", t:"座標空間の図形"},
-                    {id:"13", t:"総合演習"}
-                ]
-            }
+            { id: "math1_quadra", title: "数学 I：二次関数", icon: "fa-bezier-curve", prefix: "quadra", link: "math1_quadra.html" },
+            { id: "matha_prob", title: "数学 A：場合の数と確率", icon: "fa-dice", prefix: "prob", link: "matha_prob.html" },
+            { id: "math2_equation_comp", title: "数学 II：式と証明・複素数", icon: "fa-scale-balanced", prefix: "equation", link: "math2_equation_comp.html" },
+            { id: "math2_calculus", title: "数学 II：微分積分", icon: "fa-chart-area", prefix: "calculus", link: "math2_calculus.html" },
+            { id: "mathb_sequence", title: "数学 B：数列", icon: "fa-arrow-down-1-9", prefix: "sequence", link: "mathb_sequence.html" },
+            { id: "mathc_vector", title: "数学 C：平面ベクトル", icon: "fa-location-arrow", prefix: "vector", link: "mathc_vector.html" },
+            { id: "mathc_vector3d", title: "数学 C：空間ベクトル", icon: "fa-cube", prefix: "vector3d", link: "mathc_vector3d.html" }
         ];
 
-        // HTML生成処理
         const container = document.getElementById('audio-container');
 
-        units.forEach(unit => {
-            // リストアイテムのHTML生成
-            const itemsHTML = unit.items.map(item => `
-                <div class="bg-gray-800 rounded p-4 border border-gray-700 hover:border-yellow-600 transition group flex flex-col justify-between h-full">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <span class="text-[10px] text-yellow-600 font-bold tracking-widest block mb-1">NO.${item.id}</span>
-                            <h4 class="text-xs font-medium text-gray-200 group-hover:text-white transition leading-relaxed">${item.t}</h4>
-                        </div>
-                        <a href="${unit.link}" class="text-gray-600 hover:text-white text-xs p-1"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
-                    <div class="bg-gray-900 rounded-full px-3 py-1 flex items-center gap-2 border border-gray-800 mt-auto">
-                        <i class="fa-solid fa-play text-gray-500 text-[10px]"></i>
-                        <audio controls preload="none" class="w-full h-6 opacity-80 filter invert" src="audio/${unit.prefix}_${item.id}.m4a"></audio>
-                    </div>
-                </div>
-            `).join('');
+        // メイン処理: 各HTMLファイルを読み込んでデータを抽出
+        async function loadAllUnits() {
+            container.innerHTML = ''; // Loading表示を消去
 
-            // アコーディオン全体のHTML生成
-            const detailsHTML = `
-                <details class="group bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-sm open:bg-gray-800/50 open:border-gray-700 transition-colors duration-300">
-                    <summary class="flex items-center justify-between p-5 cursor-pointer select-none hover:bg-gray-800 transition">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-yellow-600 group-open:bg-yellow-500 group-open:text-gray-900 transition-colors">
-                                <i class="fa-solid ${unit.icon} text-lg"></i>
+            for (const unit of units) {
+                let itemsHTML = '';
+                let itemCount = 0;
+
+                try {
+                    // 1. 各単元のHTMLファイルをフェッチ
+                    const response = await fetch(unit.link);
+                    const text = await response.text();
+
+                    // 2. 正規表現で const unitData = [...] の中身を抽出
+                    const match = text.match(/const\s+unitData\s*=\s*(\[[\s\S]*?\]);/);
+
+                    if (match && match[1]) {
+                        // 3. 文字列をJSオブジェクトとして評価
+                        // (new Functionを使うことで、キーにクォートがなくてもパース可能にします)
+                        const unitData = new Function('return ' + match[1])();
+                        itemCount = unitData.length;
+
+                        // 4. 音声リストHTMLを生成
+                        itemsHTML = unitData.map(item => `
+                            <div class="bg-gray-800 rounded p-4 border border-gray-700 hover:border-yellow-600 transition group flex flex-col justify-between h-full">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <span class="text-[10px] text-yellow-600 font-bold tracking-widest block mb-1">NO.${item.id}</span>
+                                        <h4 class="text-xs font-medium text-gray-200 group-hover:text-white transition leading-relaxed">${item.title || item.t}</h4> 
+                                    </div>
+                                    <a href="${unit.link}" class="text-gray-600 hover:text-white text-xs p-1"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                </div>
+                                <div class="bg-gray-900 rounded-full px-3 py-1 flex items-center gap-2 border border-gray-800 mt-auto">
+                                    <i class="fa-solid fa-play text-gray-500 text-[10px]"></i>
+                                    <audio controls preload="none" class="w-full h-6 opacity-80 filter invert" src="audio/${unit.prefix}_${item.id}.m4a"></audio>
+                                </div>
                             </div>
-                            <div>
-                                <h3 class="font-bold text-gray-200 text-base tracking-wider group-open:text-white">${unit.title}</h3>
-                                <p class="text-xs text-gray-500 group-open:text-gray-400">Total ${unit.items.length} Tracks</p>
+                        `).join('');
+                    } else {
+                        throw new Error("Data not found");
+                    }
+
+                } catch (e) {
+                    console.error(`Failed to load ${unit.title}`, e);
+                    itemsHTML = `<p class="col-span-full text-xs text-gray-500 italic p-4">データの読み込みに失敗しました。<br>(${unit.link} 内に unitData が存在するか確認してください)</p>`;
+                }
+
+                // 5. アコーディオン枠を生成して追加
+                const detailsHTML = `
+                    <details class="group bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-sm open:bg-gray-800/50 open:border-gray-700 transition-colors duration-300">
+                        <summary class="flex items-center justify-between p-5 cursor-pointer select-none hover:bg-gray-800 transition">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-yellow-600 group-open:bg-yellow-500 group-open:text-gray-900 transition-colors">
+                                    <i class="fa-solid ${unit.icon} text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-200 text-base tracking-wider group-open:text-white">${unit.title}</h3>
+                                    <p class="text-xs text-gray-500 group-open:text-gray-400">Total ${itemCount} Tracks</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-gray-600 arrow-icon transition-transform duration-300"></i>
+                        </summary>
+                        <div class="p-5 pt-0 border-t border-gray-700/50 mt-2">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                                ${itemsHTML}
                             </div>
                         </div>
-                        <i class="fa-solid fa-chevron-down text-gray-600 arrow-icon transition-transform duration-300"></i>
-                    </summary>
-                    <div class="p-5 pt-0 border-t border-gray-700/50 mt-2">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                            ${itemsHTML}
-                        </div>
-                    </div>
-                </details>
-            `;
-            container.insertAdjacentHTML('beforeend', detailsHTML);
-        });
+                    </details>
+                `;
+                container.insertAdjacentHTML('beforeend', detailsHTML);
+            }
+        }
+
+        // 実行
+        loadAllUnits();
     </script>
 </body>
 </html>
