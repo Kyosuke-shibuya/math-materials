@@ -89,7 +89,17 @@
                                 { id: "07", title: "場合分けの「原理」", sub: "Case Study Principles", note: "動くグラフと固定された窓。頂点が左・中・右のどこにあるかで世界が変わります。" },
                                 { id: "08", title: "最大・最小（軸移動：最小値）", sub: "Moving Axis: Minimum", note: "下に凸なら、頂点が範囲内ならそこで最小。外なら近い方の端点です。" },
                                 { id: "09", title: "最大・最小（軸移動：最大値）", sub: "Moving Axis: Maximum", note: "頂点から「遠い方」が最大になる。定義域の中央との位置関係が鍵です。" },
-                                { id: "10", title: "最大・最小（区間移動）", sub: "Moving Interval", note: "グラフは止まっていて、窓枠がスライドするパターン。相対的な位置関係は軸移動と同じです。" }
+                                { id: "10", title: "最大・最小（区間移動）", sub: "Moving Interval", note: "グラフは止まっていて、窓枠がスライドするパターン。相対的な位置関係は軸移動と同じです。" },
+                                { id: "11", title: "文章題・図形への応用", sub: "Applications", note: "変数の設定、定義域の確認（これが命！）、立式の3ステップで現実の問題をモデル化します。" },
+                                { id: "12", title: "2次関数の決定", sub: "Determining Functions", note: "頂点・軸なら標準形、3点なら一般形、交点なら分解形。条件に合わせて「型」を使い分けよう。" },
+                                { id: "13", title: "グラフと軸の共有点", sub: "Intersection with x-axis", note: "グラフとx軸の共有点のx座標は、2次方程式の実数解と同じです。y=0の世界の話。" },
+                                { id: "14", title: "判別式Dの本質", sub: "Discriminant D", note: "Dはルートの中身。実数解の個数とグラフの交点個数を支配する司令塔です。" },
+                                { id: "15", title: "2次不等式の解法", sub: "Quadratic Inequalities", note: "不等式を解くとは、グラフが軸より「上」か「下」にある範囲を答えること。図を描けば一目瞭然。" },
+                                { id: "16", title: "文字を含む不等式", sub: "Inequalities with Parameters", note: "係数に文字が入るとグラフや境界が動きます。大小関係による丁寧な場合分けが攻略の鍵。" },
+                                { id: "17", title: "解の配置 (1) 基本", sub: "Location of Roots (1)", note: "「正の解」などの条件をグラフの言葉に翻訳。「D・軸・端点」の3点セットで包囲網を作ります。" },
+                                { id: "18", title: "解の配置 (2) 区間指定", sub: "Location of Roots (2)", note: "基準が0からkになっても本質は同じ。グラフをスライドさせて3点セットを適用しましょう。" },
+                                { id: "19", title: "「すべての」と「ある」", sub: "Universal & Existential", note: "「すべてOK」は最小値、「誰か一人でもOK」は最大値に注目。命題の強さを意識して。" },
+                                { id: "20", title: "解の配置 (3) 少なくとも1つ", sub: "At least one root", note: "「1個だけ区間内」と「2個とも区間内」に分けて考え、最後に合わせるのが確実な定石です。" }
                             ];
 
                             unitData.forEach(item => {
@@ -110,7 +120,7 @@
                                             </a>
                                             <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
                                                 <span class="text-[10px] text-gray-400 font-serif tracking-widest uppercase">Voice</span>
-                                                <audio preload="none" id="quadra-audio-${item.id}" controls class="h-6 w-32 md:w-40 opacity-70"></audio>
+                                                <audio preload="none" id="quadra-audio-${item.id}" controls class="h-6 w-32 md:w-40 opacity-70" src="audio/quadra_${item.id}.m4a"></audio>
                                                 <select onchange="document.getElementById('quadra-audio-${item.id}').playbackRate = this.value" class="text-[10px] bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
                                                     <option value="1.0">1.0x</option>
                                                     <option value="1.25">1.25x</option>
