@@ -3,6 +3,7 @@
 const GAME_CONFIG = {
     minCommentLength: 30,
     units: {
+        "math1_quadra": { total: 20, name: "数学I：二次関数" },
         "matha_prob": { total: 16, name: "数学A：場合の数と確率" },
         "mathb_sequence": { total: 18, name: "数学B：数列" },
         "mathc_vector": { total: 13, name: "数学C：平面ベクトル" },
