@@ -1,15 +1,17 @@
-// js/game.js (特別演出ディレイ ＆ CSV出力機能付き)
+// js/game.js (各単元リセット機能付き)
 
 const GAME_CONFIG = {
     minCommentLength: 30,
+    boardCsvUrl: "", 
+    questionFormUrl: "", 
     units: {
         "math1_quadra": { total: 20, name: "数学I：二次関数" },
         "matha_prob": { total: 16, name: "数学A：場合の数と確率" },
+        "math2_equation_comp": { total: 12, name: "数学II：式と証明" },
+        "math2_calculus": { total: 16, name: "数学II：微分積分" },
         "mathb_sequence": { total: 18, name: "数学B：数列" },
         "mathc_vector": { total: 13, name: "数学C：平面ベクトル" },
-        "mathc_vector3d": { total: 13, name: "数学C：空間ベクトル" },
-        "math2_calculus": { total: 16, name: "数学II：微分積分" },
-        "math2_equation_comp":{total: 17, name: "数学II：式と証明・複素数と方程式"}
+        "mathc_vector3d": { total: 13, name: "数学C：空間ベクトル" }
     }
 };
 
@@ -17,6 +19,8 @@ class StudySystem {
     constructor() {
         this.data = this.loadData();
         this.initUI();
+        this.initResetButton(); // リセットボタン配置
+        this.initBoard(); 
         if (document.readyState === 'loading') {
             window.addEventListener('load', () => this.injectLearningLogs());
         } else {
@@ -26,7 +30,7 @@ class StudySystem {
 
     loadData() {
         const saved = localStorage.getItem('study_system_data');
-        return saved ? JSON.parse(saved) : { completed: {} };
+        return saved ? JSON.parse(saved) : { completed: {}, driveUrl: "" };
     }
 
     saveData() {
@@ -40,15 +44,18 @@ class StudySystem {
     getProgress(pageKey) {
         const config = GAME_CONFIG.units[pageKey];
         if (!config) return 0;
-        const total = config.total;
         const done = Object.keys(this.data.completed).filter(k => k.startsWith(pageKey)).length;
-        return Math.floor((done / total) * 100);
+        return Math.floor((done / config.total) * 100);
     }
 
     initUI() {
         const pageKey = this.getPageKey();
         if (!GAME_CONFIG.units[pageKey]) return;
         const progress = this.getProgress(pageKey);
+        
+        const existing = document.getElementById('study-widget');
+        if(existing) existing.remove();
+
         const widgetHTML = `
             <div id="study-widget" class="fixed top-2 right-2 bg-gray-900 border border-gray-700 p-2 rounded shadow-xl z-[100] w-32 md:w-40 font-sans">
                 <div class="flex justify-between items-baseline mb-1">
@@ -63,6 +70,50 @@ class StudySystem {
         document.body.insertAdjacentHTML('beforeend', widgetHTML);
     }
 
+    // ▼▼▼ 各ページ下部にリセットエリアを追加する機能 ▼▼▼
+    initResetButton() {
+        const pageKey = this.getPageKey();
+        const config = GAME_CONFIG.units[pageKey];
+        if (!config) return; // index.htmlなどでは表示しない
+
+        const resetHTML = `
+            <div class="max-w-7xl mx-auto px-4 mt-12 mb-8">
+                <div class="border-t border-gray-200 pt-8 flex flex-col items-center">
+                    <p class="text-[10px] text-gray-400 mb-2">学習データの管理</p>
+                    <button onclick="studySystem.resetCurrentUnit()" class="text-xs text-gray-400 hover:text-red-500 transition underline decoration-gray-300 hover:decoration-red-400 flex items-center gap-1">
+                        <i class="fa-solid fa-rotate-right"></i> この単元（${config.name}）の進捗をリセットする
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        // mainタグの最後に追加（footerの前あたり）
+        const main = document.querySelector('main');
+        if (main) {
+            main.insertAdjacentHTML('beforeend', resetHTML);
+        }
+    }
+
+    // ▼▼▼ リセット実行処理 ▼▼▼
+    resetCurrentUnit() {
+        const pageKey = this.getPageKey();
+        const config = GAME_CONFIG.units[pageKey];
+        
+        if (confirm(`【警告】\n「${config.name}」の学習ログをすべて削除し、進捗を0%に戻します。\n\n※他の科目のデータは消えません。\n※この操作は取り消せません。\n\n実行しますか？`)) {
+            
+            // この単元(pageKey)で始まるデータだけを抽出して削除
+            const keysToDelete = Object.keys(this.data.completed).filter(k => k.startsWith(pageKey));
+            
+            keysToDelete.forEach(key => {
+                delete this.data.completed[key];
+            });
+
+            this.saveData();
+            alert("リセットしました。ページを再読み込みします。");
+            location.reload();
+        }
+    }
+
     injectLearningLogs() {
         const listItems = document.querySelectorAll('li.group');
         const pageKey = this.getPageKey();
@@ -75,22 +126,24 @@ class StudySystem {
             const savedText = isDone || "";
 
             const logHTML = `
-                <div class="log-area w-full bg-gray-50 p-4 border-t border-gray-100">
+                <div class="log-area w-full bg-gray-50 p-4 border-t border-gray-100 mt-2">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-[10px] font-bold text-gray-400 uppercase flex items-center gap-1">
                             <i class="fa-solid fa-pen-nib"></i> Learning Log
                         </span>
                         ${isDone ? '<span class="text-[10px] text-green-600 font-bold"><i class="fa-solid fa-check-circle"></i> COMPLETED</span>' : ''}
                     </div>
-                    <textarea id="input-${itemId}" rows="2" maxlength="200" placeholder="つまづいた所や工夫をメモ..." 
-                        class="w-full p-3 text-xs border ${isDone ? 'border-green-200 bg-white' : 'border-gray-200'} rounded focus:outline-none focus:border-yellow-500 transition shadow-inner resize-none text-gray-700 leading-relaxed">${savedText}</textarea>
+                    <textarea id="input-${itemId}" rows="2" maxlength="400" placeholder="つまづいた所や工夫をメモ..." 
+                        class="w-full p-3 text-xs border ${isDone ? 'border-green-200 bg-white' : 'border-gray-200'} rounded focus:outline-none focus:border-yellow-500 transition shadow-inner text-gray-700 leading-relaxed">${savedText}</textarea>
+                    
                     <div class="flex justify-between items-center mt-2">
-                        <span id="count-${itemId}" class="text-[9px] ${savedText.length >= 30 ? 'text-green-600' : 'text-gray-400'} font-mono">現在: ${savedText.length} 文字</span>
                         <button onclick="studySystem.saveLog('${itemId}')" class="bg-gray-800 text-white text-[10px] px-4 py-1.5 rounded font-bold hover:bg-yellow-600 transition shadow-sm active:scale-95">LOG SAVE</button>
+                        <span id="count-${itemId}" class="text-[9px] ${savedText.length >= 30 ? 'text-green-600' : 'text-gray-400'} font-mono">現在: ${savedText.length} 文字</span>
                     </div>
                 </div>
             `;
             li.insertAdjacentHTML('beforeend', logHTML);
+            
             const textarea = document.getElementById(`input-${itemId}`);
             textarea.addEventListener('input', () => {
                 const countLabel = document.getElementById(`count-${itemId}`);
@@ -120,7 +173,6 @@ class StudySystem {
         }
     }
 
-    // 演出前の「溜め」を作る
     prepareCelebration(pageKey) {
         const overlay = document.createElement('div');
         overlay.className = "fixed inset-0 bg-black bg-opacity-70 z-[300] flex flex-col items-center justify-center text-white font-serif";
@@ -136,13 +188,14 @@ class StudySystem {
     showCelebration(pageKey) {
         const unitName = GAME_CONFIG.units[pageKey]?.name || "このユニット";
         
-        // 紙吹雪：複数回飛ばして豪華にする
         const duration = 3 * 1000;
         const end = Date.now() + duration;
 
         (function frame() {
-            confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#fbbf24', '#ffffff'] });
-            confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#fbbf24', '#ffffff'] });
+            if(typeof confetti === 'function') {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#fbbf24', '#ffffff'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#fbbf24', '#ffffff'] });
+            }
             if (Date.now() < end) requestAnimationFrame(frame);
         }());
 
@@ -171,19 +224,16 @@ class StudySystem {
         document.body.insertAdjacentHTML('beforeend', modalHTML);
     }
 
-    // メモをCSV形式で出力
     downloadCSV(pageKey) {
         const config = GAME_CONFIG.units[pageKey];
-        let csvContent = "\uFEFF"; // UTF-8 BOM (Excel文字化け防止)
+        let csvContent = "\uFEFF"; 
         csvContent += "回数,タイトル,学習ログ(感想)\n";
 
-        // DOMからタイトルを取得しつつ、localStorageからメモを取得
         const listItems = document.querySelectorAll('li.group');
         listItems.forEach((li, index) => {
             const itemId = `${pageKey}_item_${index + 1}`;
             const title = li.querySelector('.font-medium')?.innerText || `第${index+1}回`;
             const log = this.data.completed[itemId] || "未記入";
-            // カンマや改行の処理
             const safeLog = `"${log.replace(/"/g, '""')}"`;
             csvContent += `${index + 1},${title},${safeLog}\n`;
         });
@@ -197,6 +247,63 @@ class StudySystem {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    }
+
+    async initBoard() {
+        if (!GAME_CONFIG.boardCsvUrl) return;
+        const pageKey = this.getPageKey();
+        const config = GAME_CONFIG.units[pageKey];
+        if (!config) return;
+
+        const boardHTML = `
+            <section class="mt-12 mb-20 max-w-4xl mx-auto px-4">
+                <div class="flex items-center gap-2 mb-6 border-b border-gray-200 pb-2">
+                    <i class="fa-solid fa-comments text-yellow-500"></i>
+                    <h2 class="text-sm font-bold text-gray-700 uppercase tracking-widest">Class Bulletin Board</h2>
+                </div>
+                <div id="board-container" class="grid gap-4 text-xs">
+                    <p class="text-gray-400 animate-pulse text-center py-10">読み込み中...</p>
+                </div>
+            </section>
+        `;
+        document.querySelector('main').insertAdjacentHTML('beforeend', boardHTML);
+
+        try {
+            const response = await fetch(GAME_CONFIG.boardCsvUrl);
+            const csvText = await response.text();
+            this.renderBoard(csvText, config.name);
+        } catch (e) {
+            document.getElementById('board-container').innerHTML = "<p class='text-gray-400 text-center'>掲示板を読み込めませんでした</p>";
+        }
+    }
+
+    renderBoard(csvData, currentUnitName) {
+        const rows = csvData.split('\n').slice(1);
+        const container = document.getElementById('board-container');
+        container.innerHTML = '';
+        const relevantPosts = rows.filter(row => row.includes(currentUnitName));
+
+        if (relevantPosts.length === 0) {
+            container.innerHTML = "<p class='text-gray-400 text-center py-10 italic'>まだ投稿がありません。</p>";
+            return;
+        }
+
+        relevantPosts.reverse().forEach(row => {
+            const cols = row.split(',');
+            const timestamp = cols[0] ? cols[0].split(' ')[0] : "";
+            const content = cols[2] ? cols[2].replace(/"/g, '') : "";
+
+            const postCard = `
+                <div class="bg-white p-4 border border-gray-100 shadow-sm rounded-sm">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-[9px] font-bold text-yellow-600 bg-yellow-50 px-2 py-0.5 rounded">STUDENT</span>
+                        <span class="text-[9px] text-gray-300 font-mono">${timestamp}</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">${content}</p>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', postCard);
+        });
     }
 }
 
