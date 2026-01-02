@@ -5,7 +5,7 @@ const GAME_CONFIG = {
     boardCsvUrl: "", 
     questionFormUrl: "", 
     units: {
-        "math1_numb": { total: 20, name: "数学I：数と式・集合と論証" },
+        "math1_numb": { total: 22, name: "数学I：数と式・集合と論証" },
         "math1_quadra": { total: 20, name: "数学I：二次関数" },
         "matha_prob": { total: 16, name: "数学A：場合の数と確率" },
         "math2_equation_comp": { total: 12, name: "数学II：式と証明" },
