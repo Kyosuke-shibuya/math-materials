@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math II - Equations | Kyosuke Shibuya</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Math II - Equation & Proof | Kyosuke Shibuya</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231f2937'/%3E%3Ctext x='50' y='50' font-family='serif' font-weight='bold' font-size='65' fill='white' text-anchor='middle' dy='.35em'%3ES%3C/text%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -42,12 +43,11 @@
         ::-webkit-scrollbar-thumb:hover { background: #555; }
     </style>
     <link rel="manifest" href="manifest.json">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      }
+    </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
 
@@ -56,16 +56,16 @@
             <a href="index.html" class="text-xl focus:outline-none hover:text-gray-300 transition">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <h1 class="font-serif text-lg tracking-wider">数学 II：式と証明・方程式</h1>
+            <h1 class="font-serif text-lg tracking-wider">数学 II：式と証明・複素数と方程式</h1>
         </div>
-        <div class="text-gray-500 text-sm"><i class="fa-solid fa-superscript"></i></div>
+        <div class="text-gray-500 text-sm"><i class="fa-solid fa-scale-balanced"></i></div>
     </header>
 
     <main class="flex-grow pt-16 flex flex-col fade-in">
         
         <div class="py-10 text-center bg-gray-50 border-b border-gray-200">
-            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Equations & Proofs</h2>
-            <p class="text-xs text-gray-400 tracking-[0.3em] uppercase">Equation / Complex Numbers</p>
+            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Equation & Proof</h2>
+            <p class="text-xs text-gray-400 tracking-[0.3em] uppercase">Mathematics II</p>
         </div>
 
         <div class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto w-full px-4 py-8 gap-8">
@@ -76,518 +76,57 @@
                         <i class="fa-regular fa-file-lines"></i> 授業プリント
                     </h3>
                     
-                   <ul class="divide-y divide-gray-50 text-sm text-gray-700 flex-grow">
-                        
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_01.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">01</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">二項定理</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Binomial Theorem</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                パスカルの三角形とセットで覚えましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-01" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_01.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-01').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
+                    <ul class="divide-y divide-gray-50 text-sm text-gray-700 flex-grow">
+                        <script>
+                            const unitData = [
+                                { id: "01", title: "3次式の展開・因数分解", sub: "Expansion & Factorization", note: "3乗の公式は符号ミスが命取りです。展開と因数分解をセットで覚え、形を見たら反応できるように。" },
+                                { id: "02", title: "二項定理", sub: "Binomial Theorem", note: "パスカルの三角形とCの計算のつながりを理解しましょう。係数だけを取り出す強力なツールです。" },
+                                { id: "03", title: "整式の割り算", sub: "Division of Polynomials", note: "筆算は桁を揃えて丁寧に。「割られる式＝割る式×商＋余り」の検算式は、この単元の最重要公式です。" },
+                                { id: "04", title: "恒等式", sub: "Identity", note: "「どんな値でも成り立つ」のが恒等式。係数比較法と数値代入法、どちらが楽かを見極めましょう。" },
+                                { id: "05", title: "等式の証明", sub: "Proof of Equality", note: "「左辺ー右辺＝０」を示すのが基本。条件付きの証明では、文字を消去して1文字に統一するのがセオリーです。" },
+                                { id: "06", title: "不等式の証明", sub: "Proof of Inequality", note: "「大きい方ー小さい方＞０」を示します。平方完成して「2乗＋正の数」の形を作るのが常套手段。" },
+                                { id: "07", title: "相加・相乗平均", sub: "AM-GM Inequality", note: "最大・最小問題のリーサルウェポン。正の数、逆数（掛けたら消える形）、最小値、このキーワードで発動。" },
+                                { id: "08", title: "複素数の計算", sub: "Complex Numbers", note: "2乗して-1になる数「i」の登場で、数の世界が広がります。iの2乗を見つけたら即座に-1に変えましょう。" },
+                                { id: "09", title: "2次方程式の解法と判別式", sub: "Quadratic Equations", note: "複素数の範囲まで解を拡張します。判別式Dが負でも「異なる2つの虚数解」を持つと言えるようになりました。" },
+                                { id: "10", title: "解と係数の関係", sub: "Vieta's Formulas", note: "解を求めずに、解の和や積を操る魔法の公式。対称式の値や、解から方程式を作る逆問題で大活躍します。" },
+                                { id: "11", title: "剰余の定理・因数定理", sub: "Remainder & Factor Thm", note: "1次式で割った余りは代入するだけで求まる。余りが0なら「割り切れる＝因数に持つ」ことと同値です。" },
+                                { id: "12", title: "高次方程式", sub: "High-Degree Equations", note: "因数定理で見つけた因数で割り算（組立除法）し、次数を下げていくのが基本戦略。3次以上の方程式を攻略せよ。" }
+                            ];
 
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_02.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">02</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">整式の除法と分数式</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Polynomial Division</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                筆算の計算ミスに注意してください。
-                                            </span>
+                            unitData.forEach(item => {
+                                document.write(`
+                                    <li class="group">
+                                        <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                                            <a href="equation/equation_${item.id}.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
+                                                <span class="font-serif text-gray-300 text-xl w-8 pt-1">${item.id}</span>
+                                                <div class="flex flex-col">
+                                                    <span class="font-medium text-base text-gray-800">${item.title}</span>
+                                                    <span class="text-xs text-gray-400 font-light mt-0.5">${item.sub}</span>
+                                                    <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg shadow-sm">
+                                                        <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
+                                                        <span>
+                                                            <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
+                                                            ${item.note}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
+                                            </a>
+                                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
+                                                <span class="text-[10px] text-gray-400 font-serif tracking-widest uppercase">Voice</span>
+                                                <audio preload="none" id="equation-audio-${item.id}" controls class="h-6 w-32 md:w-40 opacity-70" src="audio/equation_${item.id}.m4a"></audio>
+                                                <select onchange="document.getElementById('equation-audio-${item.id}').playbackRate = this.value" class="text-[10px] bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                                    <option value="1.0">1.0x</option>
+                                                    <option value="1.25">1.25x</option>
+                                                    <option value="1.5">1.5x</option>
+                                                    <option value="2.0">2.0x</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-02" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_02.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-02').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_03.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">03</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">複素数の導入</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Introduction to Complex Numbers</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                虚数単位 i の定義をしっかり確認しましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-03" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_03.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-03').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_04.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">04</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">共役複素数と判別式</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Conjugate & Discriminant</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                実数条件と純虚数条件は重要です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-04" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_04.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-04').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_05.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">05</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">解と係数の関係</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Roots and Coefficients</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                対称式の変形とセットで覚えましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-05" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_05.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-05').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_06.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">06</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">剰余の定理と因数定理</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Remainder & Factor Theorems</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                代入して0になる値を見つけるのがコツです。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-06" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_06.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-06').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_07.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">07</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">高次方程式</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">High-Degree Equations</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                因数分解して次数を下げていきます。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-07" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_07.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-07').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_08.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">08</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">高次方程式 (2)</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">High-Degree Equations II</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                相反方程式などの特殊な形です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-08" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_08.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-08').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_09.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">09</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">1の3乗根と複素数</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Cube Roots of Unity</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                オメガの性質は3点セットで暗記。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-09" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_09.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-09').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_10.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">10</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">到達度確認テスト</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Review Test</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                ここまでの内容を確認しましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-10" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_10.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-10').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_11.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">11</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">等式の証明</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Equality Proofs</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                (左辺)-(右辺)=0 の形が基本です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-11" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_11.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-11').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_12.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">12</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">不等式の証明 (1)</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Inequality Proofs I</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                平方完成して0以上を示します。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-12" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_12.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-12').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_13.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">13</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">不等式の証明 (2)</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Inequality Proofs II</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                絶対値を含む場合の証明法です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-13" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_13.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-13').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_14.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">14</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">相加・相乗平均 (1)</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">AM-GM Inequality I</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                正の数である条件を忘れずに。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-14" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_14.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-14').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_15.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">15</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">発展:コーシー・シュワルツの不等式</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Cauchy-Schwarz Inequality</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                ベクトルの内積と関連があります。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-15" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_15.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-15').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_16.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">16</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">単元の総整理 (1)</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Unit Review I</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                総合演習パート1です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-16" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_16.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-16').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50 last:border-0">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="equation_comp/equation_17.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">17</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">単元の総整理 (2)</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Unit Review II</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                総合演習パート2です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="eq-audio-17" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/equation_17.m4a"></audio>
-                                    <select onchange="document.getElementById('eq-audio-17').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
+                                    </li>
+                                `);
+                            });
+                        </script>
                     </ul>
                 </div>
             </section>
@@ -599,21 +138,6 @@
                     </h3>
                     
                     <ul class="space-y-4">
-                        <li>
-                            <a href="equation_comp/equation_text.pdf" target="_blank" class="block group bg-gray-50 hover:bg-gray-800 hover:text-white border border-gray-200 p-4 transition duration-300 rounded-sm">
-                                <div class="flex items-start gap-3">
-                                    <div class="text-2xl text-gray-400 group-hover:text-white transition">
-                                        <i class="fa-solid fa-book"></i>
-                                    </div>
-                                    <div>
-                                        <div class="font-serif text-lg leading-tight mb-1">式と証明・複素数</div>
-                                        <div class="text-xs text-gray-500 group-hover:text-gray-300 tracking-wider">Textbook</div>
-                                        <div class="mt-2 text-xs border border-gray-300 group-hover:border-gray-500 rounded px-2 py-0.5 inline-block">PDFを見る</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-
                         <li class="opacity-60">
                             <div class="block bg-gray-50 border border-gray-200 p-4 rounded-sm cursor-not-allowed">
                                 <div class="flex items-start gap-3">
@@ -621,7 +145,7 @@
                                         <i class="fa-brands fa-youtube"></i>
                                     </div>
                                     <div>
-                                        <div class="font-serif text-lg leading-tight mb-1 text-gray-400">解説動画プレイリスト</div>
+                                        <div class="font-serif text-lg leading-tight mb-1 text-gray-400">解説動画</div>
                                         <div class="text-xs text-gray-400 tracking-wider">Coming Soon...</div>
                                     </div>
                                 </div>
@@ -632,7 +156,7 @@
                     <div class="mt-8 pt-6 border-t border-gray-100">
                         <h4 class="text-xs font-bold text-gray-400 mb-2">NOTE</h4>
                         <p class="text-xs text-gray-500 leading-relaxed">
-                            式変形のテクニックや証明の記述方法は、今後のすべての単元の基礎となります。丁寧な計算練習を心がけてください。
+                            式変形は「一行ごとの根拠」を意識することで、計算ミスが減り、論理的な答案が書けるようになります。
                         </p>
                     </div>
                 </div>
@@ -644,7 +168,7 @@
             &copy; 2025 Kyosuke Shibuya Mathematics.
         </div>
     </main>
-    
+
     <script src="js/game.js"></script>
 
 </body>
