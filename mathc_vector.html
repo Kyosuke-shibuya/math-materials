@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math C - Vectors | Kyosuke Shibuya</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231f2937'/%3E%3Ctext x='50' y='50' font-family='serif' font-weight='bold' font-size='65' fill='white' text-anchor='middle' dy='.35em'%3ES%3C/text%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -42,18 +43,17 @@
         ::-webkit-scrollbar-thumb:hover { background: #555; }
     </style>
     <link rel="manifest" href="manifest.json">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      }
+    </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
 
     <header class="fixed top-0 w-full h-16 bg-gray-900 text-white flex items-center justify-between px-6 z-40 shadow-md">
         <div class="flex items-center gap-4">
-             <a href="index.html" class="text-xl focus:outline-none hover:text-gray-300 transition">
+            <a href="index.html" class="text-xl focus:outline-none hover:text-gray-300 transition">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
             <h1 class="font-serif text-lg tracking-wider">数学 C：平面ベクトル</h1>
@@ -64,7 +64,7 @@
     <main class="flex-grow pt-16 flex flex-col fade-in">
         
         <div class="py-10 text-center bg-gray-50 border-b border-gray-200">
-            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Plane Vectors</h2>
+            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Vectors</h2>
             <p class="text-xs text-gray-400 tracking-[0.3em] uppercase">Mathematics C</p>
         </div>
 
@@ -77,397 +77,57 @@
                     </h3>
                     
                     <ul class="divide-y divide-gray-50 text-sm text-gray-700 flex-grow">
-                        
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_01.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">01</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">ベクトルの定義と演算</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Definition & Operations</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                物理の「力」や「速度」のイメージを持つことが第一歩です。継ぎ足しの計算に慣れましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-01" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_01.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-01').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
+                        <script>
+                            const unitData = [
+                                { id: "01", title: "ベクトルの定義", sub: "Definition of Vectors", note: "向きと大きさを持つ量。矢印を使って世界を記述する新しい言葉を学びましょう。" },
+                                { id: "02", title: "ベクトルの演算", sub: "Vector Operations", note: "継ぎ足し（和）と逆向き（差）。ベクトルの足し算・引き算は図形でイメージすることが大切です。" },
+                                { id: "03", title: "成分表示", sub: "Components of Vectors", note: "座標平面上でのベクトル。縦と横の成分に分解すれば、ただの計算問題に帰着できます。" },
+                                { id: "04", title: "内積の定義", sub: "Dot Product Definition", note: "ベクトルの掛け算、内積。「仕事」の定義からくるこの演算は、垂直判定の最強ツールです。" },
+                                { id: "05", title: "内積と成分", sub: "Dot Product & Components", note: "成分による内積計算。角度がわからなくても内積が計算できる、革命的な公式です。" },
+                                { id: "06", title: "垂直と平行", sub: "Perpendicular & Parallel", note: "垂直なら内積0、平行なら定数倍。この2つの条件は、ベクトル問題の8割で使います。" },
+                                { id: "07", title: "分点公式", sub: "Section Formula", note: "内分点・外分点の公式。座標の公式と全く同じ形です。位置ベクトルという見方に慣れましょう。" },
+                                { id: "08", title: "重心と内心", sub: "Centroid & Incenter", note: "重心は足して3で割る。内心は角の二等分線の性質を利用。三角形の五心をベクトルで扱います。" },
+                                { id: "09", title: "ベクトル方程式(直線)", sub: "Vector Equation (Line)", note: "直線のベクトル方程式。「通る点」と「向き」があれば直線は決まる。媒介変数表示もマスターしよう。" },
+                                { id: "10", title: "ベクトル方程式(円)", sub: "Vector Equation (Circle)", note: "円のベクトル方程式。「中心からの距離が一定」という円の定義を、そのままベクトルの式にするだけです。" },
+                                { id: "11", title: "存在範囲", sub: "Existing Region", note: "係数の和が1。斜交座標の考え方を使うと、s+t=1の意味が図形的に見えてきます。" },
+                                { id: "12", title: "三角形の面積", sub: "Area of Triangle", note: "ベクトル版の面積公式。成分計算ならサラスの公式も便利です。形を覚えて使いこなそう。" },
+                                { id: "13", title: "内積の応用", sub: "Applications of Dot Product", note: "内積の図形への応用。長さや角度を求めたり、垂直を証明したり。総仕上げです。" }
+                            ];
 
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_02.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">02</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">ベクトルの分解と一次独立</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Decomposition & Linear Independence</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「斜めの座標軸」を作るイメージです。係数比較は連立方程式と同じ感覚で解けます。
-                                            </span>
+                            unitData.forEach(item => {
+                                document.write(`
+                                    <li class="group">
+                                        <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                                            <a href="vector/vector_${item.id}.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
+                                                <span class="font-serif text-gray-300 text-xl w-8 pt-1">${item.id}</span>
+                                                <div class="flex flex-col">
+                                                    <span class="font-medium text-base text-gray-800">${item.title}</span>
+                                                    <span class="text-xs text-gray-400 font-light mt-0.5">${item.sub}</span>
+                                                    <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg shadow-sm">
+                                                        <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
+                                                        <span>
+                                                            <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
+                                                            ${item.note}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
+                                            </a>
+                                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
+                                                <span class="text-[10px] text-gray-400 font-serif tracking-widest uppercase">Voice</span>
+                                                <audio preload="none" id="vector-audio-${item.id}" controls class="h-6 w-32 md:w-40 opacity-70" src="audio/vector_${item.id}.m4a"></audio>
+                                                <select onchange="document.getElementById('vector-audio-${item.id}').playbackRate = this.value" class="text-[10px] bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                                    <option value="1.0">1.0x</option>
+                                                    <option value="1.25">1.25x</option>
+                                                    <option value="1.5">1.5x</option>
+                                                    <option value="2.0">2.0x</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-02" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_02.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-02').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_03.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">03</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">成分表示と大きさ</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Component Representation</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                始点を原点に揃えることで、ベクトルを「座標」として扱えるようになります。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-03" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_03.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-03').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_04.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">04</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">内積の定義と幾何学的意味</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Definition of Dot Product</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                内積は「影の長さ」です。計算結果がベクトルではなく「数値（スカラー）」になる点に注意。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-04" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_04.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-04').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_05.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">05</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">成分による内積と垂直条件</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Dot Product & Perpendicularity</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「垂直ならば内積0」。これは大学入試で最も頻出する、最強のツールです。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-05" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_05.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-05').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_06.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">06</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">内積の演算と等式の証明</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Proof with Dot Product</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                ベクトルの大きさはそのままでは扱えません。必ず「2乗」して内積の形に持ち込むのが定石です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-06" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_06.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-06').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_07.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">07</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">位置ベクトルと分点・重心</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Position Vectors & Centroid</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                位置ベクトルは「点の住所」です。基準点（始点）をどこにするかで式の形が変わります。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-07" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_07.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-07').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_08.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">08</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">3点が一直線上にある条件</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Collinearity Condition</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「係数の和が1」。これは内分点の公式を一直線上に拡張した考え方です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-08" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_08.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-08').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_09.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">09</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">交点の位置ベクトル</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Intersection Point</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                1つの点を2通りの方法で表して、係数比較で連立します。メネラウスの定理は検算に使いましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-09" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_09.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-09').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_10.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">10</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">ベクトル方程式(直線)</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Vector Equation of Lines</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「通る点」＋「方向ベクトル」の足し算。直線の方程式をベクトルという視点から再定義します。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-10" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_10.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-10').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_11.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">11</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">円のベクトル方程式</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Vector Equation of Circles</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                条件 $|p-c|=r$ を満たす矢印の先端を集めると円になります。直径の両端が与えられた形も頻出です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-11" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_11.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-11').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_12.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">12</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">ベクトル方程式の演習</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Exercises on Vector Equations</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                直線と円のベクトル方程式の総まとめです。図形的意味（平行・垂直・距離）と式を結びつけましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-12" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_12.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-12').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50 last:border-0">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector/vector_13.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">13</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">点の存在範囲</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Existence Range of Points</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                係数の和が1なら直線上、1以下なら三角形の内部。「斜交座標」の視点を持つと、領域問題が劇的に簡単になります。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                                <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
-                                    <span class="text-[10px] text-gray-400 font-serif tracking-widest">VOICE</span>
-                                    <audio preload="none" id="vec-audio-13" controls class="h-6 w-32 md:w-48 opacity-70" src="audio/vector_13.m4a"></audio>
-                                    <select onchange="document.getElementById('vec-audio-13').playbackRate = this.value" class="text-xs bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
-                                        <option value="1.0">1.0x</option>
-                                        <option value="1.25">1.25x</option>
-                                        <option value="1.5">1.5x</option>
-                                        <option value="2.0">2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-
+                                    </li>
+                                `);
+                            });
+                        </script>
                     </ul>
                 </div>
             </section>
@@ -479,21 +139,6 @@
                     </h3>
                     
                     <ul class="space-y-4">
-                        <li>
-                            <a href="sub_materials/vector_text.pdf" target="_blank" class="block group bg-gray-50 hover:bg-gray-800 hover:text-white border border-gray-200 p-4 transition duration-300 rounded-sm">
-                                <div class="flex items-start gap-3">
-                                    <div class="text-2xl text-gray-400 group-hover:text-white transition">
-                                        <i class="fa-solid fa-location-arrow"></i>
-                                    </div>
-                                    <div>
-                                        <div class="font-serif text-lg leading-tight mb-1">平面ベクトル</div>
-                                        <div class="text-xs text-gray-500 group-hover:text-gray-300 tracking-wider">The Art of Arrows</div>
-                                        <div class="mt-2 text-xs border border-gray-300 group-hover:border-gray-500 rounded px-2 py-0.5 inline-block">PDFを見る</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-
                         <li class="opacity-60">
                             <div class="block bg-gray-50 border border-gray-200 p-4 rounded-sm cursor-not-allowed">
                                 <div class="flex items-start gap-3">
@@ -501,7 +146,7 @@
                                         <i class="fa-brands fa-youtube"></i>
                                     </div>
                                     <div>
-                                        <div class="font-serif text-lg leading-tight mb-1 text-gray-400">解説動画プレイリスト</div>
+                                        <div class="font-serif text-lg leading-tight mb-1 text-gray-400">解説動画</div>
                                         <div class="text-xs text-gray-400 tracking-wider">Coming Soon...</div>
                                     </div>
                                 </div>
@@ -512,7 +157,7 @@
                     <div class="mt-8 pt-6 border-t border-gray-100">
                         <h4 class="text-xs font-bold text-gray-400 mb-2">NOTE</h4>
                         <p class="text-xs text-gray-500 leading-relaxed">
-                            ベクトルは「図形」と「計算」の架け橋です。視覚的なイメージと数式の操作を常に行き来できるようにしましょう。
+                            物理学でも必須となるベクトル。向きと大きさを図示する習慣をつけることが、理解への最短ルートです。
                         </p>
                     </div>
                 </div>
@@ -524,6 +169,7 @@
             &copy; 2025 Kyosuke Shibuya Mathematics.
         </div>
     </main>
+
     <script src="js/game.js"></script>
 </body>
 </html>
