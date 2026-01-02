@@ -63,7 +63,6 @@
                 title: "数学 I：数と式・集合と論証",
                 icon: "fa-calculator",
                 prefix: "numb",
-                link: "math1_numb.html",
                 items: [
                     {id:"01", t:"単項式と多項式・展開の視点"}, {id:"02", t:"因数分解 (1) 基本とたすき掛け"},
                     {id:"03", t:"因数分解 (2) 複雑な式"}, {id:"04", t:"因数分解 (3) 対称式・交代式"},
@@ -83,7 +82,6 @@
                 title: "数学 I：二次関数",
                 icon: "fa-bezier-curve",
                 prefix: "quadra", 
-                link: "math1_quadra.html",
                 items: [
                     {id:"01", t:"関数と変域"}, {id:"02", t:"基本形と平行移動"}, {id:"03", t:"平方完成"}, 
                     {id:"04", t:"対称移動"}, {id:"05", t:"絶対値とグラフ"}, {id:"06", t:"最大・最小(基礎)"},
@@ -99,7 +97,6 @@
                 title: "数学 A：場合の数と確率",
                 icon: "fa-dice",
                 prefix: "prob",
-                link: "matha_prob.html",
                 items: [
                     {id:"01", t:"数え上げの原理"}, {id:"02", t:"順列(基本)"}, {id:"03", t:"順列(条件付)"},
                     {id:"04", t:"円・重複順列"}, {id:"05", t:"組合せ(基本)"}, {id:"06", t:"図形と組合せ"},
@@ -114,7 +111,6 @@
                 title: "数学 II：式と証明・複素数",
                 icon: "fa-scale-balanced",
                 prefix: "equation",
-                link: "math2_equation_comp.html",
                 items: [
                     {id:"01", t:"3次式の展開・因数分解"}, {id:"02", t:"二項定理"}, {id:"03", t:"整式の割り算"},
                     {id:"04", t:"恒等式"}, {id:"05", t:"等式の証明"}, {id:"06", t:"不等式の証明"},
@@ -127,7 +123,6 @@
                 title: "数学 II：微分積分",
                 icon: "fa-chart-area",
                 prefix: "calculus",
-                link: "math2_calculus.html",
                 items: [
                     {id:"01", t:"微分の考え方"}, {id:"02", t:"導関数の計算"}, {id:"03", t:"接線の方程式"},
                     {id:"04", t:"関数の増減"}, {id:"05", t:"極大・極小"}, {id:"06", t:"最大・最小"},
@@ -142,7 +137,6 @@
                 title: "数学 B：数列",
                 icon: "fa-arrow-down-1-9",
                 prefix: "sequence",
-                link: "mathb_sequence.html",
                 items: [
                     {id:"01", t:"等差数列"}, {id:"02", t:"等比数列"}, {id:"03", t:"和の記号Σ"},
                     {id:"04", t:"Σの計算性質"}, {id:"05", t:"階差数列"}, {id:"06", t:"和と一般項の関係"},
@@ -157,7 +151,6 @@
                 title: "数学 C：平面ベクトル",
                 icon: "fa-location-arrow",
                 prefix: "vector",
-                link: "mathc_vector.html",
                 items: [
                     {id:"01", t:"ベクトルの定義"}, {id:"02", t:"ベクトルの演算"}, {id:"03", t:"成分表示"},
                     {id:"04", t:"内積の定義"}, {id:"05", t:"内積と成分"}, {id:"06", t:"垂直と平行"},
@@ -171,7 +164,6 @@
                 title: "数学 C：空間ベクトル",
                 icon: "fa-cube",
                 prefix: "vector3d",
-                link: "mathc_vector3d.html",
                 items: [
                     {id:"01", t:"空間座標"}, {id:"02", t:"空間ベクトルの成分"}, {id:"03", t:"空間の内積"},
                     {id:"04", t:"位置ベクトル"}, {id:"05", t:"同一平面上の点"}, {id:"06", t:"一直線上の点"},
@@ -188,12 +180,9 @@
             const itemsHTML = unit.items.map(item => `
                 <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 hover:border-yellow-600 transition group flex flex-col h-full shadow-lg">
                     
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <span class="text-[10px] text-yellow-600 font-bold tracking-widest block mb-1">NO.${item.id}</span>
-                            <h4 class="text-xs font-medium text-gray-200 group-hover:text-white transition leading-relaxed">${item.t}</h4>
-                        </div>
-                        <a href="${unit.link}" class="text-gray-600 hover:text-white text-xs p-1 ml-2"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <div class="mb-3">
+                        <span class="text-[10px] text-yellow-600 font-bold tracking-widest block mb-1">NO.${item.id}</span>
+                        <h4 class="text-xs font-medium text-gray-200 group-hover:text-white transition leading-relaxed">${item.t}</h4>
                     </div>
 
                     <div class="bg-gray-900 rounded p-2 border border-gray-800 mt-auto">
