@@ -43,7 +43,7 @@ const subjectData = {
             { 
                 title: "数と式・集合と論証", 
                 subtitle: "Numbers, Sets & Logic", 
-                url: "#", 
+                url: "math1_numb.html", 
                 icon: "fa-solid fa-calculator" 
             },
             { 
