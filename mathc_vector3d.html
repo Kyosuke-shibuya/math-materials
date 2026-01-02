@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math C - Space Vectors | Kyosuke Shibuya</title>
+    <title>Math C - Spatial Vectors | Kyosuke Shibuya</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231f2937'/%3E%3Ctext x='50' y='50' font-family='serif' font-weight='bold' font-size='65' fill='white' text-anchor='middle' dy='.35em'%3ES%3C/text%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -42,12 +43,11 @@
         ::-webkit-scrollbar-thumb:hover { background: #555; }
     </style>
     <link rel="manifest" href="manifest.json">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      }
+    </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
 
@@ -64,7 +64,7 @@
     <main class="flex-grow pt-16 flex flex-col fade-in">
         
         <div class="py-10 text-center bg-gray-50 border-b border-gray-200">
-            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Space Vectors</h2>
+            <h2 class="text-3xl font-serif text-gray-800 tracking-widest mb-2">Spatial Vectors</h2>
             <p class="text-xs text-gray-400 tracking-[0.3em] uppercase">Mathematics C</p>
         </div>
 
@@ -77,267 +77,57 @@
                     </h3>
                     
                     <ul class="divide-y divide-gray-50 text-sm text-gray-700 flex-grow">
-                        
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_01.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">01</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">空間の座標とベクトル</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Spatial Coordinates</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                $z$軸が加わっても基本は同じです。直方体を描いて座標を読み取る練習から始めましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
+                        <script>
+                            const unitData = [
+                                { id: "01", title: "空間座標", sub: "Spatial Coordinates", note: "空間も3つの座標(x,y,z)で表せます。各平面への垂線の足の座標を言えるように。" },
+                                { id: "02", title: "空間ベクトルの成分", sub: "Components in Space", note: "平面と同じく、縦・横・高さの成分で計算します。項が1つ増えるだけです。" },
+                                { id: "03", title: "空間の内積", sub: "Dot Product in Space", note: "成分計算は x1x2+y1y2+z1z2。定義も平面と全く同じです。" },
+                                { id: "04", title: "位置ベクトル", sub: "Position Vector", note: "始点を原点Oにそろえるのが基本。内分点・外分点の公式もそのまま使えます。" },
+                                { id: "05", title: "同一平面上の点", sub: "Points on the Same Plane", note: "「点Pが平面ABC上にある ⇔ CP = sCA + tCB」。係数の和が1の条件も重要です。" },
+                                { id: "06", title: "一直線上の点", sub: "Collinear Points", note: "「点Pが直線AB上にある ⇔ AP = kAB」。3点が一直線上にある条件はこれです。" },
+                                { id: "07", title: "空間図形への応用", sub: "Applications to Space Figures", note: "正四面体や立方体の問題も、基底ベクトルを設定すれば計算で解けます。" },
+                                { id: "08", title: "四面体の体積", sub: "Volume of Tetrahedron", note: "ベクトルを用いて高さや底面積を求め、体積を計算します。" },
+                                { id: "09", title: "球面の方程式", sub: "Equation of a Sphere", note: "「中心からの距離が一定」という定義から立式。平方完成すれば中心と半径がわかります。" },
+                                { id: "10", title: "平面の方程式", sub: "Equation of a Plane", note: "空間における直線ではなく「平面」の方程式。「法線ベクトル」が鍵を握ります。" },
+                                { id: "11", title: "法線ベクトル", sub: "Normal Vector", note: "平面に垂直なベクトル。これさえ分かれば平面の方程式は一瞬で決まります。" },
+                                { id: "12", title: "座標空間の図形", sub: "Figures in Coordinate Space", note: "球と平面の交わり（円）や、接平面などを扱います。空間把握力が試されます。" },
+                                { id: "13", title: "総合演習", sub: "Comprehensive Exercises", note: "空間ベクトルの総仕上げ。入試問題レベルの融合問題に挑戦しましょう。" }
+                            ];
 
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_02.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">02</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">成分計算と大きさ</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Components & Magnitude</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                三平方の定理の拡張です。距離の公式は2点間の距離として頻出なので確実に暗記を。
-                                            </span>
+                            unitData.forEach(item => {
+                                document.write(`
+                                    <li class="group">
+                                        <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
+                                            <a href="vector3d/vector3d_${item.id}.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
+                                                <span class="font-serif text-gray-300 text-xl w-8 pt-1">${item.id}</span>
+                                                <div class="flex flex-col">
+                                                    <span class="font-medium text-base text-gray-800">${item.title}</span>
+                                                    <span class="text-xs text-gray-400 font-light mt-0.5">${item.sub}</span>
+                                                    <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg shadow-sm">
+                                                        <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
+                                                        <span>
+                                                            <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
+                                                            ${item.note}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
+                                            </a>
+                                            <div class="flex items-center gap-2 bg-white border border-gray-100 rounded-full px-3 py-1 shadow-sm self-start md:self-center">
+                                                <span class="text-[10px] text-gray-400 font-serif tracking-widest uppercase">Voice</span>
+                                                <audio preload="none" id="vector3d-audio-${item.id}" controls class="h-6 w-32 md:w-40 opacity-70" src="audio/vector3d_${item.id}.m4a"></audio>
+                                                <select onchange="document.getElementById('vector3d-audio-${item.id}').playbackRate = this.value" class="text-[10px] bg-transparent text-gray-500 font-mono focus:outline-none cursor-pointer hover:text-gray-800">
+                                                    <option value="1.0">1.0x</option>
+                                                    <option value="1.25">1.25x</option>
+                                                    <option value="1.5">1.5x</option>
+                                                    <option value="2.0">2.0x</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_03.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">03</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">空間ベクトルの内積</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Dot Product in 3D</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                定義は平面と同じです。成分計算では $x_1x_2 + y_1y_2 + z_1z_2$ と項が一つ増えるだけです。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_04.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">04</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">内積の利用（なす角・垂直）</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Applications of Dot Product</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                空間でも「垂直 $\iff$ 内積0」は最強の武器です。計算ミスに注意して使いこなしましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_05.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">05</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">位置ベクトルと分点</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Position Vectors</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                内分点・外分点の公式、重心の公式も、平面の式に $z$ 成分が加わるだけでそのまま使えます。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_06.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">06</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">共線条件と共面条件</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Collinearity & Coplanarity</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                【重要】空間特有の「同一平面上にある条件」が登場します。係数の和に注目するか、一次独立な2つのベクトルで表すか。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_07.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">07</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">座標空間における図形</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Shapes in Space</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                球面の方程式 $(x-a)^2+(y-b)^2+(z-c)^2=r^2$ は、平面での「円」の自然な拡張です。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_08.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">08</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">空間図形への応用</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Applications to Figures</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                正四面体の問題などが典型です。始点を一つに定めて（例えば $\vec{OA}, \vec{OB}, \vec{OC}$）、すべてをその3つで表します。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_09.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">09</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">直線のベクトル方程式</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Vector Equation of Lines</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「通る点」+ $t$倍の「方向ベクトル」。媒介変数表示された形から、直線のイメージを持てるように。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_10.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">10</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">平面の方程式</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Equation of Planes</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「法線ベクトル（垂直なベクトル）」が鍵です。平面上にある任意のベクトルと法線ベクトルは垂直になることを利用します。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_11.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">11</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">球面のベクトル方程式</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Vector Equation of Spheres</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                中心からの距離が一定なら球面。直径の両端が与えられた形も、平面での円の式と同じ考え方が通用します。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_12.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">12</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">点の存在範囲（空間）</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Existence Range of Points</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                係数の和が1なら平面上、1以下なら四面体の内部。係数を調整して「1」を作るテクニックを習得しましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
-                        <li class="group border-b border-gray-50 last:border-0">
-                            <div class="flex flex-col md:flex-row md:items-start justify-between p-4 hover:bg-gray-50 rounded transition duration-200 gap-4">
-                                <a href="vector3d/vector3d_13.pdf" target="_blank" class="flex items-start gap-6 flex-1 group-hover:opacity-80 transition">
-                                    <span class="font-serif text-gray-300 text-xl w-8 pt-1">13</span>
-                                    <div class="flex flex-col">
-                                        <span class="font-medium text-base text-gray-800">総仕上げ：法線とパラメータ</span>
-                                        <span class="text-xs text-gray-400 font-light mt-0.5">Final Review</span>
-                                        <div class="mt-3 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 flex items-start gap-2 max-w-lg">
-                                            <i class="fa-regular fa-comment-dots mt-0.5 text-gray-400"></i>
-                                            <span>
-                                                <span class="font-bold text-gray-500 text-[10px] block mb-0.5 tracking-wider">TEACHER'S NOTE</span>
-                                                「平面上を歩く」パラメータ表示と、「平面を貫く」法線ベクトル。この2つの武器を状況に応じて使い分けましょう。
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <i class="fa-solid fa-file-pdf text-xl text-gray-200 group-hover:text-gray-500 transition ml-auto md:ml-0 pt-1"></i>
-                                </a>
-                            </div>
-                        </li>
-
+                                    </li>
+                                `);
+                            });
+                        </script>
                     </ul>
                 </div>
             </section>
@@ -349,20 +139,6 @@
                     </h3>
                     
                     <ul class="space-y-4">
-                        <li>
-                            <a href="materials_list.html" class="block group bg-gray-50 hover:bg-gray-800 hover:text-white border border-gray-200 p-4 transition duration-300 rounded-sm">
-                                <div class="flex items-start gap-3">
-                                    <div class="text-2xl text-gray-400 group-hover:text-white transition">
-                                        <i class="fa-solid fa-cube"></i>
-                                    </div>
-                                    <div>
-                                        <div class="font-serif text-lg leading-tight mb-1">空間ベクトル</div>
-                                        <div class="text-xs text-gray-500 group-hover:text-gray-300 tracking-wider">3D Vectors</div>
-                                        <div class="mt-2 text-xs border border-gray-300 group-hover:border-gray-500 rounded px-2 py-0.5 inline-block">リストを見る</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
                         <li class="opacity-60">
                             <div class="block bg-gray-50 border border-gray-200 p-4 rounded-sm cursor-not-allowed">
                                 <div class="flex items-start gap-3">
@@ -381,7 +157,7 @@
                     <div class="mt-8 pt-6 border-t border-gray-100">
                         <h4 class="text-xs font-bold text-gray-400 mb-2">NOTE</h4>
                         <p class="text-xs text-gray-500 leading-relaxed">
-                            空間図形は「ある平面で切る」ことで平面図形の問題に帰着できます。立体を頭の中で回せるようになるまで演習しましょう。
+                            空間図形は「平面」を取り出すことが第一歩です。切断、射影、展開。次元を一つ落として考えましょう。
                         </p>
                     </div>
                 </div>
@@ -393,6 +169,7 @@
             &copy; 2025 Kyosuke Shibuya Mathematics.
         </div>
     </main>
+
     <script src="js/game.js"></script>
 </body>
 </html>
