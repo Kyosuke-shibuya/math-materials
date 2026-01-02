@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -21,7 +19,6 @@
         }
     </script>
     <style>
-        /* アコーディオンの開閉アニメーション */
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
         details[open] summary ~ * { animation: sweep .3s ease-in-out; }
@@ -29,8 +26,10 @@
             0%    { opacity: 0; transform: translateY(-10px); }
             100%  { opacity: 1; transform: translateY(0); }
         }
-        /* 矢印の回転 */
         details[open] summary .arrow-icon { transform: rotate(180deg); }
+        
+        audio { height: 32px; }
+        audio::-webkit-media-controls-overflow-menu-button { display: none !important; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 font-sans min-h-screen flex flex-col">
@@ -58,9 +57,6 @@
     </main>
 
     <script>
-        // ▼▼ 全単元のデータ設定 ▼▼
-        // prefix: 音声ファイル名の接頭辞 (例: prefix:"quadra" -> audio/quadra_01.m4a)
-        // link: 元のプリントページへのリンク
         const units = [
             {
                 id: "math1_numb",
@@ -79,7 +75,7 @@
                     {id:"15", t:"補集合とド・モルガンの法則"}, {id:"16", t:"命題と条件・反例"},
                     {id:"17", t:"必要条件と十分条件①"}, {id:"18", t:"必要条件と十分条件② (集合)"},
                     {id:"19", t:"逆・裏・対偶"}, {id:"20", t:"背理法① (論理と否定)"},
-                    {id:"21", t:"背理法② (√2は無理数)"}, {id:"22", t:"すべてとある (すべての否定はある)"}
+                    {id:"21", t:"背理法② (√2は無理数)"}, {id:"22", t:"背理法③ (√3・√5と応用)"}
                 ]
             },
             {
@@ -117,7 +113,7 @@
                 id: "math2_equation_comp",
                 title: "数学 II：式と証明・複素数",
                 icon: "fa-scale-balanced",
-                prefix: "equation", /* ファイル名が equation_01.m4a と想定 */
+                prefix: "equation",
                 link: "math2_equation_comp.html",
                 items: [
                     {id:"01", t:"3次式の展開・因数分解"}, {id:"02", t:"二項定理"}, {id:"03", t:"整式の割り算"},
@@ -186,28 +182,45 @@
             }
         ];
 
-        // HTML生成処理
         const container = document.getElementById('audio-container');
 
         units.forEach(unit => {
-            // リストアイテムのHTML生成
             const itemsHTML = unit.items.map(item => `
-                <div class="bg-gray-800 rounded p-4 border border-gray-700 hover:border-yellow-600 transition group flex flex-col justify-between h-full">
+                <div class="bg-gray-800 rounded-lg p-3 border border-gray-700 hover:border-yellow-600 transition group flex flex-col h-full shadow-lg">
+                    
                     <div class="flex justify-between items-start mb-3">
                         <div>
                             <span class="text-[10px] text-yellow-600 font-bold tracking-widest block mb-1">NO.${item.id}</span>
                             <h4 class="text-xs font-medium text-gray-200 group-hover:text-white transition leading-relaxed">${item.t}</h4>
                         </div>
-                        <a href="${unit.link}" class="text-gray-600 hover:text-white text-xs p-1"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        <a href="${unit.link}" class="text-gray-600 hover:text-white text-xs p-1 ml-2"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                     </div>
-                    <div class="bg-gray-900 rounded-full px-3 py-1 flex items-center gap-2 border border-gray-800 mt-auto">
-                        <i class="fa-solid fa-play text-gray-500 text-[10px]"></i>
-                        <audio controls preload="none" class="w-full h-6 opacity-80 filter invert" src="audio/${unit.prefix}_${item.id}.m4a"></audio>
+
+                    <div class="bg-gray-900 rounded p-2 border border-gray-800 mt-auto">
+                        <audio id="ac-audio-${unit.prefix}-${item.id}" controls controlsList="nodownload noplaybackrate" preload="none" class="w-full h-8 opacity-90 filter invert mb-2" src="audio/${unit.prefix}_${item.id}.m4a"></audio>
+                        
+                        <div class="flex justify-between items-center px-1 border-t border-gray-800 pt-2">
+                            
+                            <div class="flex items-center gap-2">
+                                <span class="text-[9px] text-gray-500 font-bold tracking-widest"><i class="fa-solid fa-gauge-high mr-1"></i>SPEED</span>
+                                <select onchange="document.getElementById('ac-audio-${unit.prefix}-${item.id}').playbackRate = this.value" class="bg-transparent text-[10px] text-yellow-500 font-mono font-bold focus:outline-none cursor-pointer hover:text-yellow-400">
+                                    <option value="1.0">1.0x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2.0">2.0x</option>
+                                </select>
+                            </div>
+
+                            <a href="audio/${unit.prefix}_${item.id}.m4a" download="${unit.prefix}_${item.id}.m4a" target="_blank" class="text-[10px] text-gray-400 hover:text-green-400 transition flex items-center gap-1 group/dl" title="右クリックで保存">
+                                <span class="hidden md:inline font-bold tracking-widest group-hover/dl:text-white transition">DOWNLOAD</span>
+                                <i class="fa-solid fa-file-arrow-down text-sm"></i>
+                            </a>
+
+                        </div>
                     </div>
                 </div>
             `).join('');
 
-            // アコーディオン全体のHTML生成
             const detailsHTML = `
                 <details class="group bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-sm open:bg-gray-800/50 open:border-gray-700 transition-colors duration-300">
                     <summary class="flex items-center justify-between p-5 cursor-pointer select-none hover:bg-gray-800 transition">
