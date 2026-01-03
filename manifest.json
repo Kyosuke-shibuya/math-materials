@@ -3,6 +3,7 @@
   "short_name": "MathRoom",
   "description": "数学学習ポートフォリオ",
   "start_url": "index.html",
+  "scope": "./", 
   "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#111827",
