@@ -2,15 +2,15 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#111827">
-    <meta name="description" content="高校数学の学習・授業プリント配布サイト。思考のプロセスを重視した解説と、自学自習をサポートする学習ログシステム。">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kyosuke Shibuya | High School Mathematics</title>
+    <meta name="description" content="高校数学の学習・授業プリント配布サイト。思考のプロセスを重視した解説と、自学自習をサポートする学習ログシステム。">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -27,8 +27,14 @@
                     colors: {
                         gray: {
                             50: '#f9fafb',
+                            100: '#f3f4f6',
                             800: '#1f2937',
                             900: '#111827',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
                         }
                     }
                 }
@@ -41,7 +47,7 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* スクロールバーのカスタマイズ */
+        /* 美しいスクロールバー */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
@@ -49,249 +55,209 @@
         
         html { scroll-behavior: smooth; }
     </style>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="MathRoom">
-
-<link rel="apple-touch-icon" href="icon.png">
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased">
 
-    <header class="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm text-white flex items-center justify-between px-6 z-50 border-b border-gray-800 transition-all duration-300 shadow-md pt-[env(safe-area-inset-top)] py-4">
-    <div class="flex items-center gap-2 group cursor-pointer" onclick="window.scrollTo(0,0)">
-        <div class="w-8 h-8 bg-white text-gray-900 rounded flex items-center justify-center font-serif font-bold text-lg group-hover:rotate-12 transition">S</div>
-        <span class="font-serif text-lg tracking-wider group-hover:text-gray-300 transition">Kyosuke Shibuya</span>
-    </div>
-    <nav class="hidden md:flex gap-6 text-sm font-medium text-gray-400">
-        <a href="#about" class="hover:text-white transition">About</a>
-        <a href="#curriculum" class="hover:text-white transition">Curriculum</a>
-        <a href="my_stats.html" class="hover:text-white transition">My Stats</a>
-    </nav>
-</header>
+    <header class="fixed top-0 w-full h-16 bg-gray-900/95 backdrop-blur-sm text-white flex items-center justify-between px-6 z-50 border-b border-gray-800 shadow-md">
+        <div class="flex items-center gap-3 group cursor-pointer" onclick="window.scrollTo(0,0)">
+            <div class="w-9 h-9 bg-white text-gray-900 rounded flex items-center justify-center font-serif font-bold text-lg group-hover:rotate-12 transition shadow-lg">S</div>
+            <span class="font-serif text-lg tracking-wider group-hover:text-gray-300 transition">Kyosuke Shibuya</span>
+        </div>
+        <nav class="hidden md:flex gap-8 text-sm font-medium text-gray-400">
+            <a href="#about" class="hover:text-white transition">About</a>
+            <a href="#curriculum" class="hover:text-white transition">Curriculum</a>
+            <a href="#" onclick="confirmAccess('my_stats.html')" class="hover:text-white transition flex items-center gap-1">
+                My Stats <i class="fa-solid fa-lock text-[10px]"></i>
+            </a>
+        </nav>
+    </header>
 
-    <section class="relative pt-32 pb-20 px-6 md:pt-48 md:pb-32 bg-gray-900 text-white overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none">
+    <section class="relative pt-32 pb-24 px-6 md:pt-48 md:pb-36 bg-gray-900 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none select-none">
             <div class="absolute top-10 left-10 text-9xl font-serif transform -rotate-12">∫</div>
             <div class="absolute bottom-20 right-20 text-9xl font-serif transform rotate-12">Σ</div>
             <div class="absolute top-1/2 left-1/2 text-[20rem] font-serif transform -translate-x-1/2 -translate-y-1/2 opacity-5">π</div>
         </div>
 
         <div class="max-w-4xl mx-auto text-center relative z-10 fade-in">
-            <p class="text-yellow-500 font-bold tracking-[0.2em] mb-4 text-xs md:text-sm uppercase">High School Mathematics</p>
-            <h1 class="text-4xl md:text-6xl font-serif font-bold mb-8 leading-tight">
+            <p class="text-gold-500 font-bold tracking-[0.3em] mb-6 text-xs md:text-sm uppercase">High School Mathematics</p>
+            <h1 class="text-4xl md:text-6xl font-serif font-bold mb-8 leading-tight tracking-tight">
                 思考のプロセスを、<br class="md:hidden">美しく刻む。
             </h1>
-            <p class="text-gray-400 text-sm md:text-base leading-relaxed max-w-2xl mx-auto mb-10">
+            <p class="text-gray-400 text-sm md:text-base leading-loose max-w-2xl mx-auto mb-12">
                 公式の暗記ではなく、導出の必然性を。<br>
                 解法の羅列ではなく、発想の原点を。<br>
-                授業プリントと連動した音声解説で、数学の本質へ。
+                数学という、「言語」の学習を。
             </p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="#curriculum" class="bg-white text-gray-900 px-8 py-3 rounded font-bold hover:bg-gray-200 transition shadow-lg flex items-center justify-center gap-2">
-                    Start Learning <i class="fa-solid fa-arrow-down"></i>
+            <div class="flex justify-center">
+                <a href="#curriculum" class="bg-white text-gray-900 px-10 py-3 rounded-full font-bold hover:bg-gray-100 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] flex items-center justify-center gap-3 group">
+                    Start Learning <i class="fa-solid fa-arrow-down group-hover:translate-y-1 transition"></i>
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="about" class="py-20 px-6 max-w-6xl mx-auto">
-        <div class="text-center mb-16">
-            <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-3">How to Use</h2>
-            <p class="text-xs text-gray-500 tracking-widest uppercase">このサイトの活用法</p>
+    <section id="about" class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-20">
+            <h2 class="text-3xl font-serif font-bold text-gray-800 mb-3">How to Use</h2>
+            <p class="text-xs text-gray-500 tracking-[0.2em] uppercase">このサイトの活用法</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="flex flex-col items-center text-center group cursor-pointer" onclick="confirmAccess('audio_center.html')">
-                <div class="w-14 h-14 bg-gray-900 text-yellow-500 rounded-full flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:bg-yellow-500 group-hover:text-gray-900 transition-all duration-300 relative">
-                    <i class="fa-solid fa-headphones-simple text-xl"></i>
-                    <i class="fa-solid fa-lock text-[10px] absolute bottom-0 right-0 bg-gray-800 text-yellow-500 rounded-full p-1 border border-gray-700"></i>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center group cursor-pointer hover:shadow-md transition duration-300 relative overflow-hidden" onclick="confirmAccess('audio_center.html')">
+                <div class="absolute top-0 right-0 bg-gray-900 text-white text-[10px] px-2 py-1 rounded-bl-lg"><i class="fa-solid fa-lock"></i></div>
+                <div class="w-16 h-16 bg-gray-50 text-gray-800 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gold-500 group-hover:text-white transition duration-300">
+                    <i class="fa-solid fa-headphones-simple text-2xl"></i>
                 </div>
-                <h3 class="text-sm font-bold text-gray-800 mb-2 font-serif">1. 思考を「聴く」解説</h3>
-                <p class="text-[11px] text-gray-500 leading-relaxed px-4">
-                    PDFの解答を眺めるだけでなく、<span class="underline decoration-yellow-400 hover:text-yellow-600 font-bold">Audio Center</span> で思考のプロセスをインストールしましょう。
+                <h3 class="text-base font-bold text-gray-800 mb-3 font-serif">1. Audio Center</h3>
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    授業プリントの解説を音声で。<br>通学時間や寝る前の「耳学習」に。
                 </p>
             </div>
 
-            <div class="flex flex-col items-center text-center group cursor-pointer">
-                <a href="log_history.html" class="w-14 h-14 bg-gray-900 text-yellow-500 rounded-full flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:bg-yellow-500 group-hover:text-gray-900 transition-all duration-300">
-                    <i class="fa-solid fa-pen-fancy text-xl"></i>
-                </a>
-                <h3 class="text-sm font-bold text-gray-800 mb-2 font-serif">2. 学びを「残す」Log</h3>
-                <p class="text-[11px] text-gray-500 leading-relaxed px-4">
-                    各単元の <a href="log_history.html" class="underline decoration-yellow-400 hover:text-yellow-600">Learning Log</a> に思考の跡を記録。言語化することで、曖昧な知識が確かな実力に変わります。
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center group cursor-pointer hover:shadow-md transition duration-300 relative overflow-hidden" onclick="confirmAccess('log_history.html')">
+                <div class="absolute top-0 right-0 bg-gray-900 text-white text-[10px] px-2 py-1 rounded-bl-lg"><i class="fa-solid fa-lock"></i></div>
+                <div class="w-16 h-16 bg-gray-50 text-gray-800 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gold-500 group-hover:text-white transition duration-300">
+                    <i class="fa-solid fa-pen-fancy text-2xl"></i>
+                </div>
+                <h3 class="text-base font-bold text-gray-800 mb-3 font-serif">2. Learning Log</h3>
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    気づきや疑問を言語化して記録。<br>思考の整理が定着への近道です。
                 </p>
             </div>
 
-            <div class="flex flex-col items-center text-center group cursor-pointer">
-                <a href="my_stats.html" class="w-14 h-14 bg-gray-900 text-yellow-500 rounded-full flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:bg-yellow-500 group-hover:text-gray-900 transition-all duration-300">
-                    <i class="fa-solid fa-chart-pie text-xl"></i>
-                </a>
-                <h3 class="text-sm font-bold text-gray-800 mb-2 font-serif">3. 成長を「可視化」する</h3>
-                <p class="text-[11px] text-gray-500 leading-relaxed px-4">
-                    <a href="my_stats.html" class="underline decoration-yellow-400 hover:text-yellow-600">My Stats</a> で全科目の進捗を一元管理。修了証の発行や、全記録のCSV出力が可能です。
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center group cursor-pointer hover:shadow-md transition duration-300 relative overflow-hidden" onclick="confirmAccess('my_stats.html')">
+                <div class="absolute top-0 right-0 bg-gray-900 text-white text-[10px] px-2 py-1 rounded-bl-lg"><i class="fa-solid fa-lock"></i></div>
+                <div class="w-16 h-16 bg-gray-50 text-gray-800 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-gold-500 group-hover:text-white transition duration-300">
+                    <i class="fa-solid fa-chart-pie text-2xl"></i>
+                </div>
+                <h3 class="text-base font-bold text-gray-800 mb-3 font-serif">3. My Stats</h3>
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    学習進捗をグラフで可視化。<br>CSV出力でポートフォリオ作成も。
                 </p>
             </div>
         </div>
     </section>
 
-    <section id="curriculum" class="bg-gray-100 py-20 px-6">
-        <div class="max-w-5xl mx-auto">
+    <section id="curriculum" class="bg-gray-100 py-24 px-6">
+        <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
-                <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-800 mb-3">Curriculum</h2>
-                <p class="text-xs text-gray-500 tracking-widest uppercase">学習カリキュラム一覧</p>
-                <p class="text-[10px] text-red-500 mt-2"><i class="fa-solid fa-lock mr-1"></i>アクセスにはパスワードが必要です</p>
+                <h2 class="text-3xl font-serif font-bold text-gray-800 mb-3">Curriculum</h2>
+                <p class="text-xs text-gray-500 tracking-[0.2em] uppercase mb-4">学習カリキュラム一覧</p>
+                <span class="inline-flex items-center gap-2 bg-white px-4 py-1 rounded-full shadow-sm text-[10px] text-gray-500 border border-gray-200">
+                    <i class="fa-solid fa-lock text-red-400"></i> Protected Content
+                </span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <div class="bg-white p-6 rounded shadow-sm border-t-4 border-gray-800">
-                    <h3 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
-                        <span class="text-yellow-600">I</span> Mathematics I
-                    </h3>
-                    <div class="space-y-4">
-                        <div onclick="confirmAccess('math1_numb.html')" class="cursor-pointer bg-gray-50 border-l-4 border-gray-200 hover:border-yellow-500 hover:shadow-md transition p-3 group">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:bg-yellow-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-calculator text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-gray-700 group-hover:text-gray-900">数と式・集合</h4>
-                                        <p class="text-[10px] text-gray-400">Numbers & Logic</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-lock text-xs text-gray-300 group-hover:text-yellow-500 transition"></i>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition">
+                    <div class="bg-gray-800 p-4 flex justify-between items-center">
+                        <h3 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+                            <span class="text-gold-500 text-2xl italic mr-1">I</span> Mathematics I
+                        </h3>
+                        <i class="fa-solid fa-calculator text-gray-600"></i>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div onclick="confirmAccess('math1_numb.html')" class="cursor-pointer border border-gray-200 rounded p-3 hover:bg-gray-50 hover:border-gold-400 transition flex items-center justify-between group/item">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700">数と式・集合</h4>
+                                <p class="text-[10px] text-gray-400">Numbers & Logic</p>
                             </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover/item:text-gold-500 transition text-xs"></i>
                         </div>
-                        <div onclick="confirmAccess('math1_quadra.html')" class="cursor-pointer bg-gray-50 border-l-4 border-gray-200 hover:border-yellow-500 hover:shadow-md transition p-3 group">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:bg-yellow-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-bezier-curve text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-gray-700 group-hover:text-gray-900">二次関数</h4>
-                                        <p class="text-[10px] text-gray-400">Quadratic Functions</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-lock text-xs text-gray-300 group-hover:text-yellow-500 transition"></i>
+                        <div onclick="confirmAccess('math1_quadra.html')" class="cursor-pointer border border-gray-200 rounded p-3 hover:bg-gray-50 hover:border-gold-400 transition flex items-center justify-between group/item">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700">二次関数</h4>
+                                <p class="text-[10px] text-gray-400">Quadratic Functions</p>
                             </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover/item:text-gold-500 transition text-xs"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded shadow-sm border-t-4 border-gray-800">
-                    <h3 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
-                        <span class="text-yellow-600">A</span> Mathematics A
-                    </h3>
-                    <div class="space-y-4">
-                        <div onclick="confirmAccess('matha_prob.html')" class="cursor-pointer bg-gray-50 border-l-4 border-gray-200 hover:border-yellow-500 hover:shadow-md transition p-3 group">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:bg-yellow-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-dice text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-gray-700 group-hover:text-gray-900">場合の数と確率</h4>
-                                        <p class="text-[10px] text-gray-400">Cases & Probability</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-lock text-xs text-gray-300 group-hover:text-yellow-500 transition"></i>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition">
+                    <div class="bg-gray-800 p-4 flex justify-between items-center">
+                        <h3 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+                            <span class="text-gold-500 text-2xl italic mr-1">A</span> Mathematics A
+                        </h3>
+                        <i class="fa-solid fa-dice text-gray-600"></i>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div onclick="confirmAccess('matha_prob.html')" class="cursor-pointer border border-gray-200 rounded p-3 hover:bg-gray-50 hover:border-gold-400 transition flex items-center justify-between group/item">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700">場合の数と確率</h4>
+                                <p class="text-[10px] text-gray-400">Cases & Probability</p>
                             </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover/item:text-gold-500 transition text-xs"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded shadow-sm border-t-4 border-gray-800">
-                    <h3 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
-                        <span class="text-yellow-600">II</span> Mathematics II
-                    </h3>
-                    <div class="space-y-4">
-                        <div onclick="confirmAccess('math2_equation_comp.html')" class="cursor-pointer bg-gray-50 border-l-4 border-gray-200 hover:border-yellow-500 hover:shadow-md transition p-3 group">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:bg-yellow-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-scale-balanced text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-gray-700 group-hover:text-gray-900">式と証明・複素数</h4>
-                                        <p class="text-[10px] text-gray-400">Eq & Proofs</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-lock text-xs text-gray-300 group-hover:text-yellow-500 transition"></i>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition">
+                    <div class="bg-gray-800 p-4 flex justify-between items-center">
+                        <h3 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+                            <span class="text-gold-500 text-2xl italic mr-1">II</span> Mathematics II
+                        </h3>
+                        <i class="fa-solid fa-scale-balanced text-gray-600"></i>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div onclick="confirmAccess('math2_equation_comp.html')" class="cursor-pointer border border-gray-200 rounded p-3 hover:bg-gray-50 hover:border-gold-400 transition flex items-center justify-between group/item">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700">式と証明・複素数</h4>
+                                <p class="text-[10px] text-gray-400">Eq & Proofs</p>
                             </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover/item:text-gold-500 transition text-xs"></i>
                         </div>
-                        <div onclick="confirmAccess('math2_calculus.html')" class="cursor-pointer bg-gray-50 border-l-4 border-gray-200 hover:border-yellow-500 hover:shadow-md transition p-3 group">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:bg-yellow-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-chart-area text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-gray-700 group-hover:text-gray-900">微分・積分法</h4>
-                                        <p class="text-[10px] text-gray-400">Calculus</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-lock text-xs text-gray-300 group-hover:text-yellow-500 transition"></i>
+                        <div onclick="confirmAccess('math2_calculus.html')" class="cursor-pointer border border-gray-200 rounded p-3 hover:bg-gray-50 hover:border-gold-400 transition flex items-center justify-between group/item">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700">微分・積分法</h4>
+                                <p class="text-[10px] text-gray-400">Calculus</p>
                             </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover/item:text-gold-500 transition text-xs"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded shadow-sm border-t-4 border-gray-800">
-                    <h3 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
-                        <span class="text-yellow-600">B</span> Mathematics B
-                    </h3>
-                    <div class="space-y-4">
-                        <div onclick="confirmAccess('mathb_sequence.html')" class="cursor-pointer bg-gray-50 border-l-4 border-gray-200 hover:border-yellow-500 hover:shadow-md transition p-3 group">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:bg-yellow-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-arrow-down-1-9 text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-gray-700 group-hover:text-gray-900">数列</h4>
-                                        <p class="text-[10px] text-gray-400">Sequence</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-lock text-xs text-gray-300 group-hover:text-yellow-500 transition"></i>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition">
+                    <div class="bg-gray-800 p-4 flex justify-between items-center">
+                        <h3 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+                            <span class="text-gold-500 text-2xl italic mr-1">B</span> Mathematics B
+                        </h3>
+                        <i class="fa-solid fa-arrow-down-1-9 text-gray-600"></i>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div onclick="confirmAccess('mathb_sequence.html')" class="cursor-pointer border border-gray-200 rounded p-3 hover:bg-gray-50 hover:border-gold-400 transition flex items-center justify-between group/item">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700">数列</h4>
+                                <p class="text-[10px] text-gray-400">Sequence</p>
                             </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover/item:text-gold-500 transition text-xs"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded shadow-sm border-t-4 border-gray-800">
-                    <h3 class="font-serif text-xl font-bold mb-4 flex items-center gap-2">
-                        <span class="text-yellow-600">C</span> Mathematics C
-                    </h3>
-                    <div class="space-y-4">
-                        <div onclick="confirmAccess('mathc_vector.html')" class="cursor-pointer bg-gray-50 border-l-4 border-gray-200 hover:border-yellow-500 hover:shadow-md transition p-3 group">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:bg-yellow-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-location-arrow text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-gray-700 group-hover:text-gray-900">平面ベクトル</h4>
-                                        <p class="text-[10px] text-gray-400">Vectors (Plane)</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-lock text-xs text-gray-300 group-hover:text-yellow-500 transition"></i>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition">
+                    <div class="bg-gray-800 p-4 flex justify-between items-center">
+                        <h3 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+                            <span class="text-gold-500 text-2xl italic mr-1">C</span> Mathematics C
+                        </h3>
+                        <i class="fa-solid fa-cube text-gray-600"></i>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <div onclick="confirmAccess('mathc_vector.html')" class="cursor-pointer border border-gray-200 rounded p-3 hover:bg-gray-50 hover:border-gold-400 transition flex items-center justify-between group/item">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700">平面ベクトル</h4>
+                                <p class="text-[10px] text-gray-400">Vectors (Plane)</p>
                             </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover/item:text-gold-500 transition text-xs"></i>
                         </div>
-                        <div onclick="confirmAccess('mathc_vector3d.html')" class="cursor-pointer bg-gray-50 border-l-4 border-gray-200 hover:border-yellow-500 hover:shadow-md transition p-3 group">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:bg-yellow-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-cube text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-gray-700 group-hover:text-gray-900">空間ベクトル</h4>
-                                        <p class="text-[10px] text-gray-400">Vectors (Space)</p>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-lock text-xs text-gray-300 group-hover:text-yellow-500 transition"></i>
+                        <div onclick="confirmAccess('mathc_vector3d.html')" class="cursor-pointer border border-gray-200 rounded p-3 hover:bg-gray-50 hover:border-gold-400 transition flex items-center justify-between group/item">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-700">空間ベクトル</h4>
+                                <p class="text-[10px] text-gray-400">Vectors (Space)</p>
                             </div>
+                            <i class="fa-solid fa-chevron-right text-gray-300 group-hover/item:text-gold-500 transition text-xs"></i>
                         </div>
                     </div>
                 </div>
@@ -300,47 +266,38 @@
         </div>
     </section>
 
-    <footer class="bg-gray-900 text-gray-400 py-8 px-6 text-center text-xs">
-        <p class="font-serif tracking-wider">&copy; 2025 Kyosuke Shibuya Mathematics. All rights reserved.</p>
+    <footer class="bg-gray-900 text-gray-400 py-10 px-6 text-center text-xs border-t border-gray-800">
+        <p class="font-serif tracking-wider mb-2">&copy; 2025 Kyosuke Shibuya Mathematics.</p>
+        <p class="text-[10px] text-gray-600">All rights reserved.</p>
     </footer>
 
-    <div id="password-modal" class="fixed inset-0 bg-gray-900/95 flex items-center justify-center z-[100] opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="bg-white rounded-lg p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-600">
+    <div id="password-modal" class="fixed inset-0 bg-gray-900/95 flex items-center justify-center z-[100] opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-sm">
+        <div class="bg-white rounded-xl p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
+            <div class="text-center mb-8">
+                <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 border border-gray-100">
                     <i class="fa-solid fa-lock text-xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800">Protected Content</h3>
-                <p class="text-xs text-gray-500 mt-2">このコンテンツにアクセスするにはパスワードが必要です。</p>
+                <h3 class="text-xl font-bold text-gray-800 font-serif">Protected Access</h3>
+                <p class="text-xs text-gray-400 mt-2 tracking-wide">パスワードを入力してください</p>
             </div>
             
             <div class="space-y-4">
-                <input type="password" id="password-input" placeholder="Password" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition font-mono text-center tracking-widest">
-                <div id="error-msg" class="text-red-500 text-xs text-center hidden">パスワードが間違っています</div>
+                <input type="password" id="password-input" placeholder="Password" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition font-mono text-center tracking-[0.5em] text-lg text-gray-700">
+                <div id="error-msg" class="text-red-500 text-xs text-center hidden font-bold animate-pulse">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> パスワードが間違っています
+                </div>
                 
-                <button onclick="checkPassword()" class="w-full bg-gray-900 text-white py-3 rounded font-bold hover:bg-gray-700 transition">
-                    ENTER
+                <button onclick="checkPassword()" class="w-full bg-gray-900 text-white py-3.5 rounded-lg font-bold hover:bg-gray-800 transition shadow-lg tracking-wider text-sm">
+                    UNLOCK
                 </button>
-                <button onclick="closeModal()" class="w-full text-xs text-gray-400 hover:text-gray-600 transition">
+                <button onclick="closeModal()" class="w-full text-xs text-gray-400 hover:text-gray-600 transition py-2">
                     Cancel
                 </button>
             </div>
         </div>
     </div>
- <link rel="manifest" href="manifest.json">
+
     <script src="js/game.js"></script>
-    <script>
-    // Service Workerの登録
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('sw.js').then(function(registration) {
-                console.log('ServiceWorker registration successful');
-            }, function(err) {
-                console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-    }
-</script>
     <script>
         // パスワード設定 (ここで変更可能)
         const CORRECT_PASSWORD = "1110";
@@ -374,9 +331,12 @@
             if (input.value === CORRECT_PASSWORD) {
                 // 正解のアニメーション
                 modalContent.innerHTML = `
-                    <div class="text-center py-8">
-                        <i class="fa-solid fa-check-circle text-5xl text-green-500 mb-4 animate-bounce"></i>
-                        <h3 class="text-xl font-bold text-gray-800">Access Granted</h3>
+                    <div class="text-center py-10">
+                        <div class="w-16 h-16 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                            <i class="fa-solid fa-check text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Access Granted</h3>
+                        <p class="text-xs text-gray-400">Redirecting...</p>
                     </div>
                 `;
                 setTimeout(() => {
@@ -386,7 +346,7 @@
                 // 不正解
                 errorMsg.classList.remove('hidden');
                 input.classList.add('border-red-500', 'bg-red-50');
-                modalContent.classList.add('animate-pulse');
+                modalContent.classList.add('animate-pulse'); // モーダル全体を揺らす
                 setTimeout(() => {
                     input.classList.remove('border-red-500', 'bg-red-50');
                     modalContent.classList.remove('animate-pulse');
@@ -401,33 +361,5 @@
             }
         });
     </script>
-
-    <script>
-    // PWAとして起動している場合、リンクをブラウザではなくアプリ内で開く処理
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-        document.addEventListener('click', function(e) {
-            // クリックされた要素がリンク(aタグ)かどうか判定
-            const anchor = e.target.closest('a');
-            
-            // リンクでない、または外部サイトへのリンク等の場合は何もしない
-            if (!anchor || !anchor.getAttribute('href')) return;
-            const href = anchor.getAttribute('href');
-            
-            // 以下は除外（通常通りブラウザや別タブで開く）
-            // 1. target="_blank" が指定されている (PDFなど)
-            // 2. 外部サイト (httpから始まる)
-            // 3. ページ内リンク (#から始まる)
-            if (anchor.getAttribute('target') === '_blank' || 
-                href.startsWith('http') || 
-                href.startsWith('#')) {
-                return;
-            }
-
-            // それ以外（内部ページへの移動）なら、ブラウザ起動をキャンセルしてアプリ内で移動
-            e.preventDefault();
-            window.location.href = href;
-        });
-    }
-</script>
 </body>
 </html>
