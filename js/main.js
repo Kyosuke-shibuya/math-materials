@@ -11,7 +11,12 @@ window.addEventListener('load', () => {
     const configMap = {
         "場合の数と確率": "matha_prob",
         "数列": "mathb_sequence",
-        "空間ベクトル": "mathc_vector3d"
+        "空間ベクトル": "mathc_vector3d", 
+        "微分法と積分法": "math2_calculus",
+        "式と証明・複素数と方程式": "math2_equation_comp",
+        "平面ベクトル": "mathc_vector",
+        "数と式・集合と論証": "math1_numb",
+        "二次関数": "math1_quadra",
     };
 
     cards.forEach(card => {
