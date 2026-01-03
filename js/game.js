@@ -39,7 +39,10 @@ class StudySystem {
     }
 
     getPageKey() {
-        return window.location.pathname.split('/').pop().replace('.html', '') || 'index';
+        // 修正: パスが '/' の場合や 'index.html' の場合の処理を明確化
+        const path = window.location.pathname;
+        if (path === '/' || path.endsWith('index.html')) return 'index';
+        return path.split('/').pop().replace('.html', '');
     }
 
     getProgress(pageKey) {
@@ -74,8 +77,9 @@ class StudySystem {
     // ▼▼▼ リセットボタンのデザイン強化 ▼▼▼
     initResetButton() {
         const pageKey = this.getPageKey();
-        const config = GAME_CONFIG.units[pageKey];
-        if (!config) return;
+        // ガード: トップページなら何もしない
+        if (pageKey === 'index') return; 
+        if (!GAME_CONFIG.units[pageKey]) return;
 
         // 点線枠で囲い、アイコンを付け、少し大きく表示
         const resetHTML = `
