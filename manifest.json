@@ -1,17 +1,27 @@
 {
-  "name": "Shibuya Math Portfolio",
-  "short_name": "MathRoom",
-  "description": "数学学習ポートフォリオ",
-  "start_url": "index.html",
-  "scope": "./", 
+  "name": "Kyosuke Shibuya Mathematics",
+  "short_name": "Math Room",
+  "description": "高校数学の学習ログ・音声解説アプリ",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "id": "/index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#111827",
   "theme_color": "#111827",
   "icons": [
     {
       "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
