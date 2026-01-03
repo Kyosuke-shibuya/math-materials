@@ -176,5 +176,32 @@
     </main>
 
     <script src="js/game.js"></script>
+    <script>
+    // PWAとして起動している場合、リンクをブラウザではなくアプリ内で開く処理
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+        document.addEventListener('click', function(e) {
+            // クリックされた要素がリンク(aタグ)かどうか判定
+            const anchor = e.target.closest('a');
+            
+            // リンクでない、または外部サイトへのリンク等の場合は何もしない
+            if (!anchor || !anchor.getAttribute('href')) return;
+            const href = anchor.getAttribute('href');
+            
+            // 以下は除外（通常通りブラウザや別タブで開く）
+            // 1. target="_blank" が指定されている (PDFなど)
+            // 2. 外部サイト (httpから始まる)
+            // 3. ページ内リンク (#から始まる)
+            if (anchor.getAttribute('target') === '_blank' || 
+                href.startsWith('http') || 
+                href.startsWith('#')) {
+                return;
+            }
+
+            // それ以外（内部ページへの移動）なら、ブラウザ起動をキャンセルしてアプリ内で移動
+            e.preventDefault();
+            window.location.href = href;
+        });
+    }
+</script>
 </body>
 </html>
