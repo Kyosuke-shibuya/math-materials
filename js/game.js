@@ -75,11 +75,15 @@ class StudySystem {
     }
 
     // ▼▼▼ リセットボタンのデザイン強化 ▼▼▼
+    // ▼▼▼ リセットボタンのデザイン強化 ▼▼▼
     initResetButton() {
         const pageKey = this.getPageKey();
         // ガード: トップページなら何もしない
         if (pageKey === 'index') return; 
-        if (!GAME_CONFIG.units[pageKey]) return;
+
+        // 【修正点】ここで config を定義する必要があります
+        const config = GAME_CONFIG.units[pageKey];
+        if (!config) return;
 
         // 点線枠で囲い、アイコンを付け、少し大きく表示
         const resetHTML = `
