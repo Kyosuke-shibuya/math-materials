@@ -8,7 +8,7 @@ const GAME_CONFIG = {
         "math1_numb": { total: 22, name: "数学I：数と式・集合と論証" },
         "math1_quadra": { total: 20, name: "数学I：二次関数" },
         "matha_prob": { total: 16, name: "数学A：場合の数と確率" },
-        "math2_equation_comp": { total: 12, name: "数学II：式と証明" },
+        "math2_equation_comp": { total: 17, name: "数学II：式と証明" },
         "math2_calculus": { total: 16, name: "数学II：微分積分" },
         "mathb_sequence": { total: 18, name: "数学B：数列" },
         "mathc_vector": { total: 13, name: "数学C：平面ベクトル" },
